@@ -1,0 +1,1609 @@
+/* Gîtes Hélène — Styles */
+
+@import url("design-system/tokens.css");
+@import url("design-system/foundations.css");
+
+/* Layout */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Typography */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 1rem;
+}
+
+.text-light {
+  color: var(--stone-light);
+}
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--cream-dark);
+  border-bottom: 1px solid var(--border-nav);
+}
+
+.page-home {
+  --header-height: 5rem;
+}
+
+.page-home .site-header {
+  background: rgba(250, 252, 254, 0.48);
+  backdrop-filter: blur(20px) saturate(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  border-bottom: 1px solid rgba(201, 221, 240, 0.45);
+  box-shadow: 0 1px 12px rgba(90, 122, 154, 0.08);
+}
+
+.page-home .nav-desktop a,
+.page-home .nav-mobile a {
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85);
+}
+
+.page-home .hero {
+  margin-top: calc(-1 * var(--header-height));
+  padding-top: var(--header-height);
+  min-height: calc(85vh + var(--header-height));
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  height: 3.25rem;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}
+
+.site-header .logo img {
+  filter: var(--logo-filter-header);
+}
+
+.page-home .site-header .logo img {
+  filter: var(--logo-filter-header-home);
+}
+
+.nav-desktop {
+  display: none;
+  gap: 2rem;
+}
+
+.nav-desktop a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+
+.nav-desktop a:hover {
+  color: var(--forest);
+}
+
+.nav-desktop a.active {
+  color: var(--terracotta);
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--forest);
+}
+
+.menu-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.nav-mobile {
+  display: none;
+  border-top: 1px solid var(--border-nav);
+  padding: 1rem 1.5rem;
+  background: var(--cream-dark);
+}
+
+.page-home .nav-mobile {
+  background: rgba(250, 252, 254, 0.72);
+  backdrop-filter: blur(20px) saturate(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  border-top: 1px solid rgba(201, 221, 240, 0.45);
+}
+
+.nav-mobile.open {
+  display: block;
+}
+
+.nav-mobile a {
+  display: block;
+  padding: 0.5rem 0;
+  font-weight: 500;
+}
+
+.nav-mobile a.active {
+  color: var(--terracotta);
+}
+
+@media (min-width: 768px) {
+  .nav-desktop {
+    display: flex;
+  }
+  .menu-toggle {
+    display: none;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--terracotta);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--terracotta-light);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--butter-yellow);
+  border: 2px solid rgba(239, 215, 128, 0.75);
+}
+
+.btn-outline:hover {
+  border-color: var(--meyer-lemon);
+  background: rgba(239, 215, 128, 0.15);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-outline-dark {
+  background: transparent;
+  color: var(--forest);
+  border: 2px solid var(--forest);
+}
+
+.btn-outline-dark:hover {
+  background: var(--forest);
+  color: var(--cream);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(90, 122, 154, 0.58) 0%,
+    rgba(239, 215, 128, 0.32) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--butter-yellow);
+  padding: 2rem 1.5rem;
+  max-width: 56rem;
+}
+
+.hero-logo {
+  height: clamp(5rem, 16vw, 9rem);
+  width: auto;
+  max-width: min(90vw, 22rem);
+  margin: 0 auto 2rem;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--white);
+}
+
+.hero p {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--butter-yellow);
+  max-width: 40rem;
+  margin: 0 auto 2.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (min-width: 480px) {
+  .hero-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .hero-logo {
+    height: 9rem;
+    max-width: 22rem;
+  }
+}
+
+/* Page banner */
+.page-banner {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    var(--peach) 0%,
+    var(--terracotta-light) 45%,
+    var(--peach-light) 100%
+  );
+  color: var(--white);
+  padding: 4rem 0;
+}
+
+.page-banner .page-title {
+  color: var(--white);
+}
+
+.page-banner p {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40rem;
+}
+
+/* Sections */
+.section {
+  position: relative;
+  padding: 5rem 0;
+  background-color: var(--cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23efd780' fill-opacity='0.08' d='M0,220 L180,160 L360,200 L540,130 L720,180 L900,110 L1080,170 L1260,120 L1440,160 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23bdd8f1' fill-opacity='0.12' d='M0,260 L240,200 L480,240 L720,170 L960,220 L1200,160 L1440,200 L1440,320 L0,320 Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% 45%;
+}
+
+.section-alt {
+  background-color: var(--rose-pale);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23efd780' fill-opacity='0.1' d='M0,220 L180,160 L360,200 L540,130 L720,180 L900,110 L1080,170 L1260,120 L1440,160 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23bdd8f1' fill-opacity='0.18' d='M0,260 L240,200 L480,240 L720,170 L960,220 L1200,160 L1440,200 L1440,320 L0,320 Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% 45%;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header p {
+  max-width: 40rem;
+  margin: 0 auto;
+  color: var(--stone-light);
+}
+
+/* Features grid */
+.features-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+/* Gite cards */
+.gites-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .gites-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .gites-grid.gites-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gite-card {
+  position: relative;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s;
+}
+
+a.gite-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.gite-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.gite-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.gite-card-image {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.gite-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.gite-card:hover .gite-card-image img {
+  transform: scale(1.05);
+}
+
+.gite-card-body {
+  padding: 1.5rem;
+}
+
+.gite-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.gite-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.badge {
+  background: rgba(247, 153, 119, 0.15);
+  color: var(--salmon-pink);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.gite-card-body p {
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+.gite-card-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.gite-card-actions .btn {
+  flex: 1;
+  min-width: 6.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.8125rem;
+}
+
+/* Section header with link */
+.section-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--terracotta);
+  transition: color 0.2s;
+}
+
+.link-arrow:hover {
+  color: var(--terracotta-light);
+}
+
+@media (max-width: 639px) {
+  .section-top .link-arrow {
+    display: none;
+  }
+}
+
+/* CTA block */
+.cta-block {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--peach) 0%,
+    var(--terracotta-light) 45%,
+    var(--peach-light) 100%
+  );
+}
+
+.cta-grid {
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  .cta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cta-text {
+  padding: 2.5rem;
+  color: var(--white);
+}
+
+@media (min-width: 768px) {
+  .cta-text {
+    padding: 3.5rem;
+  }
+}
+
+.cta-text h2 {
+  font-family: var(--font-display);
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.cta-text p {
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 2rem;
+}
+
+.cta-text .btn-primary {
+  background: var(--meyer-lemon);
+  color: var(--forest);
+}
+
+.cta-text .btn-primary:hover {
+  background: var(--butter-yellow);
+  filter: brightness(0.96);
+}
+
+.page-banner .btn-primary {
+  background: var(--white);
+  color: var(--peach-deep);
+}
+
+.page-banner .btn-primary:hover {
+  background: var(--cream);
+  color: var(--peach);
+}
+
+.cta-image {
+  position: relative;
+  min-height: 280px;
+}
+
+.cta-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Two column layout */
+.two-col {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rounded-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* Amenities */
+.amenities-box {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  .amenities-box {
+    padding: 3rem;
+  }
+}
+
+.amenities-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .amenities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .amenities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.amenity-item span {
+  color: var(--terracotta);
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--stone-light);
+}
+
+/* Contact */
+.contact-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contact-info p {
+  margin-bottom: 1rem;
+  color: var(--stone-light);
+}
+
+.contact-info strong {
+  color: var(--forest);
+}
+
+.contact-info a:not(.btn) {
+  color: var(--terracotta);
+  transition: color 0.2s;
+}
+
+.contact-info a:not(.btn):hover {
+  color: var(--terracotta-light);
+}
+
+.contact-info .btn-primary {
+  color: var(--white);
+}
+
+.map-placeholder {
+  margin-top: 2.5rem;
+  background: var(--cream-dark);
+  border-radius: var(--radius-lg);
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+.map-embed-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.map-embed {
+  display: block;
+  width: 100%;
+  height: 22rem;
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .map-embed {
+    height: 28rem;
+  }
+}
+
+.map-access-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .map-access-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.map-embed-compact .map-embed {
+  height: 14rem;
+}
+
+@media (min-width: 768px) {
+  .map-embed-compact .map-embed {
+    height: 16rem;
+  }
+}
+
+/* Home page */
+.home-gites-list {
+  max-width: 36rem;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.home-gites-list li {
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9375rem;
+  color: var(--stone-light);
+}
+
+.home-gites-list li strong {
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.home-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 1rem;
+}
+
+.contact-block {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.contact-block a {
+  color: var(--terracotta);
+}
+
+.contact-block a:hover {
+  color: var(--terracotta-light);
+}
+
+.contact-block p {
+  margin-bottom: 0.5rem;
+}
+
+/* Form */
+.contact-form {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--forest);
+  margin-bottom: 0.25rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--terracotta);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.form-success {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.form-success .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.form-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.form-success p {
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+/* Location cards */
+.location-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .location-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.location-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.location-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 1.25rem;
+}
+
+.location-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--cream-dark);
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+.location-list li span:first-child {
+  font-weight: 500;
+  color: var(--forest);
+}
+
+/* Content list */
+.content-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: var(--stone-light);
+}
+
+.content-list li {
+  margin-bottom: 0.75rem;
+}
+
+.content-list li::marker {
+  color: var(--terracotta);
+}
+
+/* Season cards */
+.seasons-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .seasons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.season-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.season-card-image {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.season-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.season-card-body {
+  padding: 1.5rem;
+}
+
+.season-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--terracotta);
+  margin-bottom: 0.5rem;
+}
+
+.season-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.season-card-body p {
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+/* Gîte detail & tarifs */
+.gite-detail {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .gite-detail {
+    padding: 2.5rem;
+  }
+}
+
+.gite-detail-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .gite-detail-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.gite-detail-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.gite-detail-meta {
+  font-size: 0.875rem;
+  color: var(--stone-light);
+  margin-bottom: 0.75rem;
+}
+
+.gite-specs {
+  margin: 1rem 0 1.5rem;
+  font-size: 0.875rem;
+  color: var(--stone-light);
+}
+
+.gite-specs li {
+  margin-bottom: 0.35rem;
+}
+
+.gite-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tarif-table-wrap {
+  overflow-x: auto;
+}
+
+.tarif-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tarif-table caption {
+  text-align: left;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.75rem;
+}
+
+.tarif-table th,
+.tarif-table td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.tarif-table th {
+  background: var(--cream-dark);
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.tarif-table td:last-child {
+  font-weight: 500;
+  color: var(--terracotta);
+  white-space: nowrap;
+}
+
+/* Pages avec fond mesh (fiches gîtes, liste gîtes, activités) */
+.main-content:has(.gite-page-intro),
+.page-gites-list .main-content,
+.page-activites .main-content {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--cream);
+}
+
+.main-content:has(.gite-page-intro)::before,
+.page-gites-list .main-content::before,
+.page-activites .main-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 42% at 50% 0%, rgba(255, 255, 255, 0.98) 0%, rgba(250, 252, 254, 0.75) 25%, transparent 50%),
+    radial-gradient(ellipse 100% 85% at 50% 66%, rgba(237, 244, 250, 0.55) 0%, transparent 62%),
+    radial-gradient(ellipse 95% 72% at 8% 58%, rgba(189, 216, 241, 0.75) 0%, transparent 56%),
+    radial-gradient(ellipse 90% 68% at 94% 62%, rgba(239, 215, 128, 0.64) 0%, transparent 54%),
+    radial-gradient(ellipse 95% 70% at 50% 82%, rgba(253, 232, 223, 0.72) 0%, transparent 58%),
+    radial-gradient(ellipse 68% 58% at 24% 78%, rgba(228, 240, 250, 0.54) 0%, transparent 52%),
+    radial-gradient(ellipse 62% 52% at 76% 88%, rgba(247, 153, 119, 0.3) 0%, transparent 48%),
+    linear-gradient(180deg, #fefefe 0%, #fafcfe 20%, #f8fafc 33%, #edf4fa 52%, #e8f0f8 70%, #fef0e8 88%, #fde8df 100%);
+}
+
+.main-content:has(.gite-page-intro)::after,
+.page-gites-list .main-content::after,
+.page-activites .main-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+}
+
+.main-content:has(.gite-page-intro) > .section,
+.page-gites-list .main-content > .section,
+.page-activites .main-content > .section {
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+  background-image: none;
+}
+
+.page-gites-list .main-content > .page-banner,
+.page-activites .main-content > .page-banner {
+  position: relative;
+  z-index: 1;
+}
+
+.gite-back {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--terracotta);
+  margin-bottom: 2rem;
+  transition: color 0.2s;
+}
+
+.gite-back:hover {
+  color: var(--terracotta-light);
+}
+
+.gite-page-hero {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.gite-page-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.gite-carousel {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-md);
+  background: var(--forest);
+  isolation: isolate;
+}
+
+.gite-carousel-viewport {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  outline: none;
+}
+
+.gite-carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+.gite-carousel-slide {
+  flex: 0 0 auto;
+  height: 100%;
+}
+
+.gite-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 16 / 9;
+  cursor: zoom-in;
+}
+
+.gite-carousel-prev,
+.gite-carousel-next {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s, transform 0.2s;
+  transform: translateY(-50%);
+}
+
+.gite-carousel-prev:hover,
+.gite-carousel-next:hover {
+  background: var(--white);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.gite-carousel-prev {
+  left: 1rem;
+}
+
+.gite-carousel-next {
+  right: 1rem;
+}
+
+.gite-carousel-counter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(90, 122, 154, 0.82);
+  color: var(--white);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.gite-carousel-zoom {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(90, 122, 154, 0.82);
+  color: var(--white);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.gite-carousel-zoom:hover {
+  background: rgba(90, 122, 154, 0.95);
+  transform: scale(1.05);
+}
+
+.gite-carousel-zoom svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.gite-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.gite-lightbox.hidden {
+  display: none;
+}
+
+.gite-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.92);
+  cursor: zoom-out;
+}
+
+.gite-lightbox-dialog {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 96vw;
+  max-height: 92vh;
+}
+
+.gite-lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.gite-lightbox-close,
+.gite-lightbox-prev,
+.gite-lightbox-next {
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.gite-lightbox-close:hover,
+.gite-lightbox-prev:hover,
+.gite-lightbox-next:hover {
+  background: var(--white);
+  transform: scale(1.05);
+}
+
+.gite-lightbox-close {
+  top: 1rem;
+  right: 1rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.gite-lightbox-prev,
+.gite-lightbox-next {
+  top: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.gite-lightbox-prev:hover,
+.gite-lightbox-next:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.gite-lightbox-prev {
+  left: 1rem;
+}
+
+.gite-lightbox-next {
+  right: 1rem;
+}
+
+.gite-lightbox-counter {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (max-width: 639px) {
+  .gite-lightbox-prev,
+  .gite-lightbox-next {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+  }
+
+  .gite-lightbox-prev {
+    left: 0.5rem;
+  }
+
+  .gite-lightbox-next {
+    right: 0.5rem;
+  }
+}
+
+.gite-page-intro {
+  max-width: 48rem;
+  margin-bottom: 2.5rem;
+}
+
+.gite-page-intro .gite-detail-meta {
+  margin-bottom: 1rem;
+}
+
+.gite-page-intro .tarif-table-wrap {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.gite-page-intro .tarif-table-wrap .gite-page-actions {
+  margin-top: 1.5rem;
+}
+
+.gite-lead {
+  font-size: 1.0625rem;
+  color: var(--forest);
+  margin-bottom: 0.5rem;
+}
+
+.gite-description {
+  margin-top: 1rem;
+  color: var(--stone-light);
+}
+
+.gite-description h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin: 1.75rem 0 0.75rem;
+}
+
+.gite-description .content-list {
+  margin-bottom: 0.5rem;
+}
+
+.gite-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* Mountain divider — hero only */
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--mountain-h);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath fill='%23fafcfe' d='M0,100 L0,52 L120,72 L240,38 L360,58 L480,28 L600,52 L720,22 L840,48 L960,32 L1080,55 L1200,26 L1320,46 L1440,36 L1440,100 Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--footer-dark);
+  color: var(--butter-yellow);
+}
+
+.footer-inner {
+  padding: 3rem 0;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-logo {
+  height: 4rem;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.footer-col h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer-col p,
+.footer-col li {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.footer-col ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-col a:hover {
+  color: var(--butter-yellow);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+}
+
+.social-links a svg {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.site-footer .social-links a {
+  color: var(--butter-yellow);
+}
+
+.site-footer .social-links a svg {
+  fill: currentColor;
+  color: var(--butter-yellow);
+}
+
+.social-links a:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.social-links-contact a svg {
+  fill: currentColor;
+  color: var(--forest);
+}
+
+.social-links-contact {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-links-contact a {
+  background: var(--cream-dark);
+  color: var(--forest);
+  border: 1px solid var(--border);
+}
+
+.social-links-contact a:hover {
+  background: var(--forest);
+  color: var(--white);
+  border-color: var(--forest);
+}

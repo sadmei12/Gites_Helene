@@ -1,0 +1,114 @@
+/* Gîtes Hélène — Design tokens */
+
+:root {
+  /* ── Typographie ── */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.25rem;
+  --text-3xl: 1.5rem;
+  --text-display-sm: clamp(1.75rem, 4vw, 2.5rem);
+  --text-display-md: clamp(2rem, 5vw, 3rem);
+  --text-display-lg: clamp(2rem, 6vw, 3.75rem);
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --tracking-nav: 0.03em;
+
+  /* ── Palette canonique (Spring test) ── */
+  --color-yellow-400: #efd780;
+  --color-coral-400: #f38081;
+  --color-salmon-400: #f79977;
+  --color-salmon-300: #f9ad90;
+  --color-blue-200: #bdd8f1;
+  --color-blue-600: #5a7a9a;
+  --color-blue-500: #6a8198;
+  --color-blue-400: #8fa3b8;
+  --color-surface-cream: #fafcfe;
+  --color-surface-cream-dark: #f3f8fc;
+  --color-surface-rose: #e4f0fa;
+  --color-surface-peach: #fde8df;
+  --color-border: #d4e5f4;
+  --color-border-nav: #c9ddf0;
+  --color-white: #ffffff;
+
+  /* ── Alias sémantiques (compatibilité) ── */
+  --meyer-lemon: var(--color-yellow-400);
+  --coral-reef: var(--color-coral-400);
+  --salmon-pink: var(--color-salmon-400);
+  --soft-baby-blue: var(--color-blue-200);
+  --soft-green: var(--color-yellow-400);
+  --blue-jeans: var(--color-blue-600);
+  --pink-skies: var(--color-coral-400);
+  --butter-yellow: var(--color-yellow-400);
+  --sun-orange: var(--color-salmon-400);
+  --cream: var(--color-surface-cream);
+  --cream-dark: var(--color-surface-cream-dark);
+  --yellow-pale: var(--color-yellow-400);
+  --rose-pale: var(--color-surface-rose);
+  --terracotta: var(--color-salmon-400);
+  --terracotta-light: var(--color-salmon-300);
+  --peach-light: var(--color-surface-peach);
+  --peach: var(--color-salmon-400);
+  --peach-deep: var(--color-coral-400);
+  --forest: var(--color-blue-600);
+  --forest-light: var(--color-yellow-400);
+  --surface-rose: var(--color-yellow-400);
+  --surface-rose-deep: var(--color-yellow-400);
+  --stone: var(--color-blue-500);
+  --stone-light: var(--color-blue-400);
+  --sand: var(--color-coral-400);
+  --border: var(--color-border);
+  --border-nav: var(--color-border-nav);
+  --footer-dark: var(--color-blue-600);
+  --white: var(--color-white);
+
+  /* ── Espacements ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --container-padding-x: 1.5rem;
+  --section-padding-y: 5rem;
+  --header-height: 5rem;
+
+  /* ── Rayons ── */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Ombres ── */
+  --shadow-sm: 0 1px 3px rgba(90, 122, 154, 0.1);
+  --shadow-md: 0 4px 14px rgba(90, 122, 154, 0.14);
+
+  /* ── Layout ── */
+  --max-width: 72rem;
+  --mountain-h: clamp(2.5rem, 7vw, 5rem);
+
+  /* ── Transitions ── */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.4s ease;
+
+  /* ── Filtres logo header ── */
+  --logo-filter-header: brightness(0) saturate(100%) invert(37%) sepia(28%) saturate(654%) hue-rotate(172deg) brightness(93%) contrast(89%);
+  --logo-filter-header-home: brightness(0) saturate(100%) invert(37%) sepia(28%) saturate(654%) hue-rotate(172deg) brightness(93%) contrast(89%) drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8));
+
+  /* ── Breakpoints (documentation — utiliser en media queries) ── */
+  /* sm: 480px | md: 639px | lg: 768px | xl: 1024px */
+}
