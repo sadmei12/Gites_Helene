@@ -107,7 +107,7 @@
 
   /* ── Filtres logo header ── */
   --logo-filter-header: brightness(0) saturate(100%) invert(37%) sepia(28%) saturate(654%) hue-rotate(172deg) brightness(93%) contrast(89%);
-  --logo-filter-header-home: brightness(0) saturate(100%) invert(37%) sepia(28%) saturate(654%) hue-rotate(172deg) brightness(93%) contrast(89%) drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8));
+  --logo-filter-header-home: var(--logo-filter-header);
 
   /* ── Breakpoints (documentation — utiliser en media queries) ── */
   /* sm: 480px | md: 639px | lg: 768px | xl: 1024px */
