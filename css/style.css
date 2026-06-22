@@ -748,11 +748,6 @@ a.gite-card {
   height: auto;
 }
 
-.gallery-intro {
-  max-width: 42rem;
-  margin-bottom: 2rem;
-}
-
 @media (min-width: 640px) {
   .gallery-masonry {
     columns: 2;
