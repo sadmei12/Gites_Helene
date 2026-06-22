@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initContactForm();
   initGiteLightbox();
   initGiteCarousels();
+  initPhotosPageGallery();
   initPhotoGalleries();
   syncPhotoMasonryHeights();
   window.addEventListener('resize', syncPhotoMasonryHeights);
@@ -330,6 +331,25 @@ function initGiteCarousels() {
   });
 }
 
+function initPhotosPageGallery() {
+  var gallery = document.getElementById('photos-gallery');
+  if (!gallery || !window.GITES_PHOTOS || !window.GITES_PHOTOS.length) return;
+
+  window.GITES_PHOTOS.forEach(function (photo) {
+    var figure = document.createElement('figure');
+    figure.className = 'gallery-masonry-item';
+
+    var img = document.createElement('img');
+    img.src = photo.src;
+    img.alt = photo.alt;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+
+    figure.appendChild(img);
+    gallery.appendChild(figure);
+  });
+}
+
 function initPhotoGalleries() {
   document.querySelectorAll('[data-photo-gallery]').forEach(function (gallery) {
     var items = Array.from(gallery.querySelectorAll('img')).map(function (img) {
@@ -341,7 +361,7 @@ function initPhotoGalleries() {
       return item.src;
     });
 
-    gallery.querySelectorAll('.photo-masonry-item').forEach(function (figure, index) {
+    gallery.querySelectorAll('.photo-masonry-item, .gallery-masonry-item').forEach(function (figure, index) {
       figure.setAttribute('role', 'button');
       figure.setAttribute('tabindex', '0');
       figure.setAttribute('aria-label', 'Agrandir la photo ' + (index + 1));
