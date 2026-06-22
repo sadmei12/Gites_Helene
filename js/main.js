@@ -335,15 +335,36 @@ function initPhotosPageGallery() {
   var gallery = document.getElementById('photos-gallery');
   if (!gallery || !window.GITES_PHOTOS || !window.GITES_PHOTOS.length) return;
 
-  window.GITES_PHOTOS.forEach(function (photo) {
+  var sizePattern = ['md', 'sm', 'lg', 'tall', 'sm', 'xl', 'md', 'wide', 'sm', 'lg'];
+
+  window.GITES_PHOTOS.forEach(function (photo, index) {
     var figure = document.createElement('figure');
-    figure.className = 'gallery-masonry-item';
+    figure.className = 'gallery-masonry-item gallery-masonry-item--' + sizePattern[index % sizePattern.length];
 
     var img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.alt;
     img.loading = 'lazy';
     img.decoding = 'async';
+
+    img.addEventListener('load', function () {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+
+      var ratio = img.naturalWidth / img.naturalHeight;
+      var size = sizePattern[index % sizePattern.length];
+
+      if (ratio >= 1.75) {
+        size = 'wide';
+      } else if (ratio <= 0.72) {
+        size = 'tall';
+      } else if (ratio >= 1.25 && (size === 'sm' || size === 'tall')) {
+        size = 'md';
+      } else if (ratio <= 0.9 && size === 'wide') {
+        size = 'lg';
+      }
+
+      figure.className = 'gallery-masonry-item gallery-masonry-item--' + size;
+    });
 
     figure.appendChild(img);
     gallery.appendChild(figure);

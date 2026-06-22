@@ -116,10 +116,6 @@ window.GITES_PHOTOS = [
     "alt": "Gîte Calin — photo 7 — location vacances Hautes-Alpes"
   },
   {
-    "src": "assets/photos/gites/calin/location-gite-calin-hautes-alpes-08.jpg",
-    "alt": "Gîte Calin — photo 8 — location vacances Hautes-Alpes"
-  },
-  {
     "src": "assets/photos/gites/calin/location-gite-calin-hautes-alpes-09.jpg",
     "alt": "Gîte Calin — photo 9 — location vacances Hautes-Alpes"
   },
@@ -142,10 +138,6 @@ window.GITES_PHOTOS = [
   {
     "src": "assets/photos/gites/calin/location-gite-calin-hautes-alpes-14.jpg",
     "alt": "Gîte Calin — photo 14 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-01.jpg",
-    "alt": "Gîte Chal'heureux — photo 1 — location vacances Hautes-Alpes"
   },
   {
     "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-02.jpg",
@@ -180,10 +172,6 @@ window.GITES_PHOTOS = [
     "alt": "Gîte Chal'heureux — photo 9 — location vacances Hautes-Alpes"
   },
   {
-    "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-10.jpg",
-    "alt": "Gîte Chal'heureux — photo 10 — location vacances Hautes-Alpes"
-  },
-  {
     "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-11.jpg",
     "alt": "Gîte Chal'heureux — photo 11 — location vacances Hautes-Alpes"
   },
@@ -198,10 +186,6 @@ window.GITES_PHOTOS = [
   {
     "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-14.jpg",
     "alt": "Gîte Chal'heureux — photo 14 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/chal-heureux/location-gite-chal-heureux-hautes-alpes-15.jpg",
-    "alt": "Gîte Chal'heureux — photo 15 — location vacances Hautes-Alpes"
   },
   {
     "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-01.jpg",
@@ -232,10 +216,6 @@ window.GITES_PHOTOS = [
     "alt": "Gîte Cocon Confort — photo 7 — location vacances Hautes-Alpes"
   },
   {
-    "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-08.jpg",
-    "alt": "Gîte Cocon Confort — photo 8 — location vacances Hautes-Alpes"
-  },
-  {
     "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-09.jpg",
     "alt": "Gîte Cocon Confort — photo 9 — location vacances Hautes-Alpes"
   },
@@ -254,14 +234,6 @@ window.GITES_PHOTOS = [
   {
     "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-13.jpg",
     "alt": "Gîte Cocon Confort — photo 13 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-14.jpg",
-    "alt": "Gîte Cocon Confort — photo 14 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-01.jpg",
-    "alt": "Gîte Coup de Cœur — photo 1 — location vacances Hautes-Alpes"
   },
   {
     "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-02.jpg",
@@ -284,14 +256,6 @@ window.GITES_PHOTOS = [
     "alt": "Gîte Coup de Cœur — photo 6 — location vacances Hautes-Alpes"
   },
   {
-    "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-07.jpg",
-    "alt": "Gîte Coup de Cœur — photo 7 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-08.jpg",
-    "alt": "Gîte Coup de Cœur — photo 8 — location vacances Hautes-Alpes"
-  },
-  {
     "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-09.jpg",
     "alt": "Gîte Coup de Cœur — photo 9 — location vacances Hautes-Alpes"
   },
@@ -306,14 +270,6 @@ window.GITES_PHOTOS = [
   {
     "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-12.jpg",
     "alt": "Gîte Coup de Cœur — photo 12 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-13.jpg",
-    "alt": "Gîte Coup de Cœur — photo 13 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-01.jpg",
-    "alt": "Gîte Valeur Sûre — photo 1 — location vacances Hautes-Alpes"
   },
   {
     "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-02.jpg",
@@ -340,10 +296,6 @@ window.GITES_PHOTOS = [
     "alt": "Gîte Valeur Sûre — photo 7 — location vacances Hautes-Alpes"
   },
   {
-    "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-08.jpg",
-    "alt": "Gîte Valeur Sûre — photo 8 — location vacances Hautes-Alpes"
-  },
-  {
     "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-09.jpg",
     "alt": "Gîte Valeur Sûre — photo 9 — location vacances Hautes-Alpes"
   },
@@ -366,9 +318,5 @@ window.GITES_PHOTOS = [
   {
     "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-14.jpg",
     "alt": "Gîte Valeur Sûre — photo 14 — location vacances Hautes-Alpes"
-  },
-  {
-    "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-15.jpg",
-    "alt": "Gîte Valeur Sûre — photo 15 — location vacances Hautes-Alpes"
   }
 ];

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -84,17 +85,31 @@ def sort_key(path_str: str) -> tuple:
     return (99, path_str)
 
 
+def file_hash(path: Path) -> str:
+    return hashlib.md5(path.read_bytes()).hexdigest()
+
+
 def collect_photos() -> list[dict[str, str]]:
-    photos: list[dict[str, str]] = []
+    candidates: list[dict[str, str]] = []
     for path in sorted(PHOTOS_ROOT.rglob("*")):
         if not path.is_file():
             continue
         if path.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"}:
             continue
         relative = path.relative_to(ROOT).as_posix()
-        photos.append({"src": relative, "alt": alt_from_path(path.relative_to(PHOTOS_ROOT))})
+        candidates.append({"src": relative, "alt": alt_from_path(path.relative_to(PHOTOS_ROOT))})
 
-    photos.sort(key=lambda item: sort_key(item["src"]))
+    candidates.sort(key=lambda item: sort_key(item["src"]))
+
+    photos: list[dict[str, str]] = []
+    seen_hashes: set[str] = set()
+    for photo in candidates:
+        digest = file_hash(ROOT / photo["src"])
+        if digest in seen_hashes:
+            continue
+        seen_hashes.add(digest)
+        photos.append(photo)
+
     return photos
 
 
