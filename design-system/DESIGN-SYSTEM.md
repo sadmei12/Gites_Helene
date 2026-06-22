@@ -134,7 +134,7 @@ Les anciens noms (`--forest`, `--terracotta`, `--cream`, etc.) restent disponibl
 | Fichier | Chemin | Usage |
 |---------|--------|-------|
 | Logo principal | `assets/brand/logo-gites-helene.png` | Header, hero, footer, favicon |
-| Archive | `assets/brand/archive/logo-gite-helene.png` | Ancien logo (non utilisé) |
+| Archive | `assets/brand/archive/logo-gites-helene-ancien.png` | Ancien logo (non utilisé) |
 
 ### Traitements CSS
 
@@ -190,13 +190,13 @@ Classes : `.icon` (1.25rem), `.icon-lg` (2.5rem). Menu hamburger : SVG inline (h
 ### Hero
 | Fichier | Page |
 |---------|------|
-| `assets/photos/hero/hero-vue-lac-serre-poncon.png` | `index.html` |
+| `assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png` | `index.html` |
 
 ### Éditorial
 | Fichier | Pages |
 |---------|-------|
-| `assets/photos/editorial/P1130388.JPG` | index, activites |
-| `assets/photos/editorial/gite-lac-serre-poncon.jpg` | index, activites |
+| `assets/photos/editorial/randonnee-hautes-alpes-gaillards.jpg` | index, activites |
+| `assets/photos/editorial/lac-serre-poncon-panorama-embrun.jpg` | index, activites |
 
 ### Vignettes cartes (5 gîtes)
 `assets/photos/cards/gite-{slug}.jpg` — slugs : `valeur-sure`, `coup-de-coeur`, `cocon-confort`, `calin`, `chal-heureux`

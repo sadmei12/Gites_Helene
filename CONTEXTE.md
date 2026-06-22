@@ -164,7 +164,7 @@ Ancienne palette de référence (crème / terracotta / vert forêt) remplacée t
 
 ### Hero (accueil)
 
-- Photo plein écran : `assets/photos/hero/hero-vue-lac-serre-poncon.png`
+- Photo plein écran : `assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png`
 - Overlay bleu/vert semi-transparent
 - Logo, titre, accroche, boutons « Réserver » et « Gîtes / tarifs »
 - **Crête montagne SVG** en bas du hero uniquement (`.hero::after`, variable `--mountain-h`)
