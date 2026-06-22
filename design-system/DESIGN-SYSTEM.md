@@ -14,7 +14,7 @@ gites-helene/
 │   ├── photos/
 │   │   ├── hero/           Image plein écran accueil
 │   │   ├── editorial/      Photos éditoriales (activités, accueil)
-│   │   ├── cards/          Vignettes des 6 gîtes (listes)
+│   │   ├── cards/          Vignettes des 5 gîtes (listes)
 │   │   └── gites/          Galeries carrousel par gîte
 │   └── documents/
 │       └── tarifs/         PDF tarifs par gîte
@@ -28,7 +28,7 @@ gites-helene/
 ├── js/
 │   └── main.js             Menu, sprite SVG, carrousel, lightbox, formulaire
 ├── partials/               Fragments HTML de référence (head, etc.)
-└── *.html                  10 pages publiques
+└── *.html                  9 pages publiques
 ```
 
 ---
@@ -198,8 +198,8 @@ Classes : `.icon` (1.25rem), `.icon-lg` (2.5rem). Menu hamburger : SVG inline (h
 | `assets/photos/editorial/P1130388.JPG` | index, activites |
 | `assets/photos/editorial/gite-lac-serre-poncon.jpg` | index, activites |
 
-### Vignettes cartes (6 gîtes)
-`assets/photos/cards/gite-{slug}.jpg` — slugs : `valeur-sure`, `coup-de-coeur`, `cocon-confort`, `calin`, `chal-heureux`, `nid-douillet`
+### Vignettes cartes (5 gîtes)
+`assets/photos/cards/gite-{slug}.jpg` — slugs : `valeur-sure`, `coup-de-coeur`, `cocon-confort`, `calin`, `chal-heureux`
 
 ### Galeries carrousel
 `assets/photos/gites/{slug}/` — une dizaine à une vingtaine de photos par gîte.

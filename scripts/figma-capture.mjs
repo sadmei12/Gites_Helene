@@ -10,7 +10,6 @@ const pages = [
   { name: 'Gîte Cocon Confort', path: '/gite-cocon-confort.html', captureId: '9958a48a-0479-4383-b874-82997ace8afc' },
   { name: 'Gîte Câlin', path: '/gite-calin.html', captureId: 'b874f864-a8a8-428b-8f96-2ee5ca7ce93e' },
   { name: "Gîte Chal'heureux", path: '/gite-chal-heureux.html', captureId: 'b19e7b65-7a72-4072-b564-077df15c6cfe' },
-  { name: 'Gîte Nid Douillet', path: '/gite-nid-douillet.html', captureId: '7af09ad1-1183-498f-a3f4-884fc7829869' },
   { name: 'Les activités', path: '/activites.html', captureId: 'aee4c804-cd87-4d8e-90cc-e7c96dade0a8' },
   { name: 'Contact', path: '/contact.html', captureId: '93c827c0-0d11-4209-9307-15cfdee3875d' },
 ];

@@ -38,13 +38,12 @@ Ton éditorial : chaleureux, authentique, accueillant — comme un séjour chez 
 ```
 gites-helene/
 ├── index.html              # Accueil
-├── gites.html              # Gîtes / tarifs (liste des 6 gîtes)
+├── gites.html              # Gîtes / tarifs (liste des 5 gîtes)
 ├── gite-valeur-sure.html   # Fiche gîte
 ├── gite-coup-de-coeur.html
 ├── gite-cocon-confort.html
 ├── gite-calin.html
 ├── gite-chal-heureux.html
-├── gite-nid-douillet.html
 ├── activites.html          # Les activités
 ├── contact.html            # Contact + formulaire
 ├── css/
@@ -59,7 +58,7 @@ gites-helene/
 │   ├── photos/
 │   │   ├── hero/             # Hero accueil
 │   │   ├── editorial/        # Photos éditoriales
-│   │   ├── cards/            # Vignettes 6 gîtes
+│   │   ├── cards/            # Vignettes 5 gîtes
 │   │   └── gites/            # Galeries carrousel par gîte
 │   └── documents/tarifs/     # PDF tarifs par gîte
 ├── design-system/
@@ -71,7 +70,7 @@ gites-helene/
 └── README.md
 ```
 
-**10 pages HTML** au total. Les pages `region.html` et `temps-forts.html` ont été supprimées.
+**9 pages HTML** au total. Les pages `region.html`, `temps-forts.html` et `gite-nid-douillet.html` ont été supprimées.
 
 ---
 
@@ -88,7 +87,7 @@ Header sticky avec logo, navigation desktop, menu hamburger mobile (`js/main.js`
 
 ---
 
-## Les 6 gîtes
+## Les 5 gîtes
 
 | Gîte | Fichier | Capacité (indicatif) | Emplacement |
 |------|---------|----------------------|-------------|
@@ -97,7 +96,8 @@ Header sticky avec logo, navigation desktop, menu hamburger mobile (`js/main.js`
 | Cocon Confort | `gite-cocon-confort.html` | — | Les Gaillards |
 | Câlin | `gite-calin.html` | — | Les Gaillards |
 | Chal'heureux | `gite-chal-heureux.html` | — | Les Gaillards |
-| Nid Douillet | `gite-nid-douillet.html` | 2–3 personnes | Plan d'eau d'Embrun |
+
+*Tous les gîtes sont aux Gaillards (St-Sauveur). Le Gîte Nid Douillet (plan d'eau d'Embrun) n'est plus proposé à la location.*
 
 Chaque fiche gîte contient : photo hero, métadonnées, description, specs, boutons PDF tarifs + réserver, tableau tarifs 2026, conditions.
 
@@ -211,15 +211,15 @@ Moderniser **ne signifie pas** :
 
 - Hero avec photo lac + CTA réservation
 - Section « Aux Gaillards, entre montagne et lac »
-- Section « Gîte Le Nid Douillet »
+- Section « Lac de Serre-Ponçon & Embrun » (activités régionales)
 - Section « Gîtes et accueil de groupes » (3 feature cards avec icônes)
-- Grille des 6 gîtes avec liens vers fiches
-- Section localisation (Gaillards + Nid Douillet)
+- Grille des 5 gîtes avec liens vers fiches
+- Section localisation (Les Gaillards)
 - CTA final contact
 
 ### Gîtes / tarifs (`gites.html`)
 
-- Grille 3 colonnes des 6 gîtes
+- Grille 3 colonnes des 5 gîtes
 - Boutons « Plus d'info » + « Réserver » par gîte
 
 ### Fiches gîtes (`gite-*.html`)
@@ -287,7 +287,6 @@ Puis ouvrir [http://127.0.0.1:8000](http://127.0.0.1:8000).
 - [ ] **Photos gîtes** — ajouter une photo dédiée par gîte
 - [ ] **Carte Google Maps** — intégrer sur la page contact (remplacer le placeholder)
 - [ ] **Formulaire contact** — connecter via PHP ou service externe compatible o2switch
-- [ ] **PDF Nid Douillet** — vérifier / mettre à jour si une nouvelle version est disponible
 - [ ] **Maquettes Figma** — recapturer après changements visuels majeurs (palette, réseaux sociaux, etc.)
 
 ---

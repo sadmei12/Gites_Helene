@@ -9,7 +9,7 @@ Compatible avec l'hébergement **o2switch** — aucune compilation nécessaire.
 ```
 gites-helene/
 ├── index.html, gites.html, activites.html, contact.html
-├── gite-*.html             # 6 fiches gîtes
+├── gite-*.html             # 5 fiches gîtes
 ├── css/
 │   ├── design-system/      # tokens.css, foundations.css
 │   └── style.css           # Composants
@@ -28,14 +28,19 @@ Voir **`design-system/DESIGN-SYSTEM.md`** pour tokens, composants et conventions
 
 ## Prévisualisation en local
 
-Ouvrez `index.html` directement dans votre navigateur, ou lancez un serveur local :
+**Option 1 — double-clic (macOS)**  
+Ouvrez `Lancer le site.command` dans le Finder.
+
+**Option 2 — terminal**
 
 ```bash
-cd /Users/lil/Documents/gites-helene
-python3 -m http.server 8000
+cd "/Users/lil/Documents/Gîte Hélène/gites-helene"
+./lancer.sh
 ```
 
-Puis ouvrez [http://localhost:8000](http://localhost:8000).
+Le site s'ouvre sur [http://127.0.0.1:8000](http://127.0.0.1:8000). Un serveur HTTP local est nécessaire pour le sprite SVG, le carrousel et les icônes.
+
+Port personnalisé : `PORT=3000 ./lancer.sh`
 
 ## Déploiement sur o2switch
 
@@ -52,7 +57,6 @@ Aucune installation Node.js ou build n'est requise.
 ## Prochaines étapes
 
 - Récupérer le contenu du site existant (textes, coordonnées)
-- Compléter les fiches de chaque gîte (photos)
-- Mettre à jour le PDF tarifs Nid Douillet quand disponible
+- Compléter les fiches de chaque gîte (photos, descriptions)
 - Connecter le formulaire de contact (PHP ou service externe compatible o2switch)
 - Intégrer une carte Google Maps
