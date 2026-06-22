@@ -400,6 +400,12 @@
   justify-content: center;
   color: var(--terracotta);
   margin-bottom: 1rem;
+  overflow: visible;
+}
+
+.feature-icon svg {
+  display: block;
+  overflow: visible;
 }
 
 .feature-card h3 {
