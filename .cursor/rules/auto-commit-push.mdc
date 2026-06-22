@@ -1,0 +1,22 @@
+---
+description: Commit et push automatiques après chaque modification du projet
+alwaysApply: true
+---
+
+# Commit et push automatiques
+
+Après **chaque modification** de fichiers du projet (code, assets, docs), terminer la tâche par un **commit et un push** sur `origin/main`, sauf si l'utilisateur demande explicitement de ne pas le faire.
+
+## Procédure
+
+1. Vérifier `git status` et `git diff`
+2. Ne pas committer de secrets (`.env`, credentials)
+3. Message de commit concis (1–2 phrases, focus sur le pourquoi), via HEREDOC
+4. `git push origin main`
+5. Confirmer brièvement le hash du commit et le push réussi
+
+## Exceptions
+
+- Pas de commit si aucun changement
+- Pas de push force
+- Pas de commit si l'utilisateur dit « sans commit », « ne push pas », etc.
