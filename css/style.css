@@ -718,14 +718,12 @@ a.gite-card {
 
 /* Page galerie photos */
 .gallery-masonry {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 130px;
-  grid-auto-flow: dense;
-  gap: 0.75rem;
+  position: relative;
+  width: 100%;
 }
 
 .gallery-masonry-item {
+  position: absolute;
   margin: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -749,128 +747,6 @@ a.gite-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.gallery-masonry-item--sm {
-  grid-column: span 1;
-  grid-row: span 2;
-}
-
-.gallery-masonry-item--md {
-  grid-column: span 1;
-  grid-row: span 3;
-}
-
-.gallery-masonry-item--lg {
-  grid-column: span 2;
-  grid-row: span 3;
-}
-
-.gallery-masonry-item--xl {
-  grid-column: span 2;
-  grid-row: span 4;
-}
-
-.gallery-masonry-item--wide {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.gallery-masonry-item--tall {
-  grid-column: span 1;
-  grid-row: span 4;
-}
-
-@media (min-width: 640px) {
-  .gallery-masonry {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 120px;
-    gap: 1rem;
-  }
-
-  .gallery-masonry-item--sm {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--md {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--lg {
-    grid-column: span 2;
-    grid-row: span 3;
-  }
-
-  .gallery-masonry-item--xl {
-    grid-column: span 3;
-    grid-row: span 3;
-  }
-
-  .gallery-masonry-item--wide {
-    grid-column: span 4;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--tall {
-    grid-column: span 1;
-    grid-row: span 4;
-  }
-}
-
-@media (min-width: 1024px) {
-  .gallery-masonry {
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 110px;
-    gap: 1.25rem;
-  }
-
-  .gallery-masonry-item--sm {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--md {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--lg {
-    grid-column: span 2;
-    grid-row: span 3;
-  }
-
-  .gallery-masonry-item--xl {
-    grid-column: span 3;
-    grid-row: span 4;
-  }
-
-  .gallery-masonry-item--wide {
-    grid-column: span 4;
-    grid-row: span 2;
-  }
-
-  .gallery-masonry-item--tall {
-    grid-column: span 2;
-    grid-row: span 4;
-  }
-}
-
-@media (min-width: 1280px) {
-  .gallery-masonry {
-    grid-auto-rows: 105px;
-  }
-
-  .gallery-masonry-item--xl {
-    grid-column: span 3;
-    grid-row: span 5;
-  }
-
-  .gallery-masonry-item--wide {
-    grid-column: span 5;
-    grid-row: span 3;
-  }
 }
 
 /* Amenities */
