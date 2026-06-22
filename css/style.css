@@ -648,6 +648,10 @@ a.gite-card {
   .two-col {
     grid-template-columns: 1fr 1fr;
   }
+
+  .two-col-match {
+    align-items: start;
+  }
 }
 
 .rounded-image {
@@ -659,8 +663,9 @@ a.gite-card {
 .photo-masonry {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 0.75rem;
-  align-content: start;
+  min-height: 0;
 }
 
 .photo-masonry-item {
@@ -668,6 +673,19 @@ a.gite-card {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
+  min-height: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-masonry-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.photo-masonry-item:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 3px;
 }
 
 .photo-masonry-item img {
@@ -678,18 +696,23 @@ a.gite-card {
 }
 
 .photo-masonry-item-tall {
-  grid-row: span 2;
-}
-
-@media (min-width: 768px) {
-  .photo-masonry-item-tall img {
-    min-height: 100%;
-  }
+  grid-row: 1 / -1;
 }
 
 @media (max-width: 767px) {
+  .photo-masonry {
+    height: auto !important;
+    grid-template-rows: auto auto;
+    margin-bottom: 2rem;
+  }
+
   .photo-masonry-item-tall {
     grid-row: span 1;
+    min-height: 12rem;
+  }
+
+  .photo-masonry-item:not(.photo-masonry-item-tall) {
+    min-height: 9rem;
   }
 }
 
