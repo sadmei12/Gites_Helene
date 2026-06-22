@@ -336,6 +336,7 @@ var galleryMasonryState = {
   items: [],
   colHeights: [0, 0, 0],
   laidOutCount: 0,
+  wideImageCount: 0,
   resizeTimer: null
 };
 
@@ -351,6 +352,7 @@ function galleryColumnSpan(ratio, index) {
 function resetGalleryMasonryLayout() {
   galleryMasonryState.colHeights = [0, 0, 0];
   galleryMasonryState.laidOutCount = 0;
+  galleryMasonryState.wideImageCount = 0;
 }
 
 function placeGalleryMasonryItem(entry) {
@@ -373,16 +375,10 @@ function placeGalleryMasonryItem(entry) {
   var startCol;
 
   if (colSpan === 2) {
-    var topLeft = Math.max(colHeights[0], colHeights[1]);
-    var topRight = Math.max(colHeights[1], colHeights[2]);
-
-    if (topLeft <= topRight) {
-      startCol = 0;
-      top = topLeft;
-    } else {
-      startCol = 1;
-      top = topRight;
-    }
+    var preferLeft = galleryMasonryState.wideImageCount % 2 === 0;
+    startCol = preferLeft ? 0 : 1;
+    top = Math.max(colHeights[startCol], colHeights[startCol + 1]);
+    galleryMasonryState.wideImageCount += 1;
 
     var rowBottom = top + itemHeight + gap;
     colHeights[startCol] = rowBottom;
