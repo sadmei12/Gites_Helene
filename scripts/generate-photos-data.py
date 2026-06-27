@@ -44,9 +44,11 @@ FOLDER_ORDER = {
     "gallery": 0,
     "editorial": 1,
     "hero": 2,
-    "cards": 3,
-    "gites": 4,
 }
+
+# La page galerie n'inclut pas les carrousels des fiches gîtes (intérieurs)
+# ni les vignettes de liste (souvent des doublons).
+GALLERY_EXCLUDED_FOLDERS = {"gites", "cards"}
 
 
 def alt_from_path(relative: Path) -> str:
@@ -89,6 +91,13 @@ def file_hash(path: Path) -> str:
     return hashlib.md5(path.read_bytes()).hexdigest()
 
 
+def is_gallery_photo(relative: Path) -> bool:
+    parts = relative.parts
+    if not parts:
+        return False
+    return parts[0] not in GALLERY_EXCLUDED_FOLDERS
+
+
 def collect_photos() -> list[dict[str, str]]:
     candidates: list[dict[str, str]] = []
     for path in sorted(PHOTOS_ROOT.rglob("*")):
@@ -96,8 +105,11 @@ def collect_photos() -> list[dict[str, str]]:
             continue
         if path.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"}:
             continue
+        relative_to_photos = path.relative_to(PHOTOS_ROOT)
+        if not is_gallery_photo(relative_to_photos):
+            continue
         relative = path.relative_to(ROOT).as_posix()
-        candidates.append({"src": relative, "alt": alt_from_path(path.relative_to(PHOTOS_ROOT))})
+        candidates.append({"src": relative, "alt": alt_from_path(relative_to_photos)})
 
     candidates.sort(key=lambda item: sort_key(item["src"]))
 
