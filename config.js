@@ -17,10 +17,10 @@ export const cloudinaryConfig = {
   uploadPreset: "VOTRE_UPLOAD_PRESET",
 };
 
-// 🔧 Mot de passe de chaque utilisatrice (à garder secret)
-export const users = {
+// 🔧 Mot de passe par défaut de chaque utilisatrice (modifiable depuis l'admin)
+export const defaultPasswords = {
   Hélène: "MOT_DE_PASSE_HELENE",
-  Lily: "MOT_DE_PASSE_LILY",
+  Lily: "Willow2005*",
 };
 
 // Liste des gîtes gérés (identifiants Firestore = id)
@@ -53,4 +53,5 @@ export const GITES = [
 ];
 
 export const STORAGE_KEY = "gitesHeleneCurrentUser";
+export const PASSWORDS_STORAGE_KEY = "gitesHelenePasswords";
 export const FIRESTORE_COLLECTION = "gites";

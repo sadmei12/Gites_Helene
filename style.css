@@ -227,6 +227,44 @@ body.admin-page {
   font-size: var(--text-base);
 }
 
+.profile-settings {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.profile-settings__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--forest);
+}
+
+.profile-settings__form .field-input {
+  margin-bottom: 0.85rem;
+}
+
+.profile-settings__form .btn {
+  margin-top: 0.25rem;
+}
+
+.profile-settings__feedback {
+  margin: 0.75rem 0 0;
+  font-size: var(--text-sm);
+}
+
+.profile-settings__feedback.is-success {
+  color: #3d8b5a;
+}
+
+.profile-settings__feedback.is-error {
+  color: var(--peach-deep);
+}
+
 /* ── Cartes gîte (admin + public) ── */
 .gite-pricing-list {
   display: grid;

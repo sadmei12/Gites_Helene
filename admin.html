@@ -16,8 +16,8 @@
   <div id="login-screen" class="login-panel">
     <h1 class="login-title">Bienvenue ! Qui êtes-vous ?</h1>
     <div class="user-buttons">
-      <button type="button" class="user-btn" data-user="Hélène">👵 Hélène</button>
-      <button type="button" class="user-btn" data-user="Lily">💻 Lily</button>
+      <button type="button" class="user-btn" data-user="Hélène">Hélène</button>
+      <button type="button" class="user-btn" data-user="Lily">Lily</button>
     </div>
     <form id="login-form" class="login-form hidden" novalidate>
       <label class="field-label" for="password">Mot de passe</label>
@@ -44,6 +44,23 @@
         <p>Modifiez les prix affichés sur le site et mettez à jour les grilles tarifaires PDF.</p>
       </header>
 
+      <section class="profile-settings" aria-labelledby="profile-settings-title">
+        <h2 id="profile-settings-title" class="profile-settings__title">Paramètres du profil</h2>
+        <form id="password-form" class="profile-settings__form" novalidate>
+          <label class="field-label" for="current-password">Mot de passe actuel</label>
+          <input id="current-password" class="field-input" type="password" autocomplete="current-password" required>
+
+          <label class="field-label" for="new-password">Nouveau mot de passe</label>
+          <input id="new-password" class="field-input" type="password" autocomplete="new-password" required>
+
+          <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
+          <input id="confirm-password" class="field-input" type="password" autocomplete="new-password" required>
+
+          <button type="submit" class="btn btn-outline">Modifier mon mot de passe</button>
+          <p id="password-feedback" class="profile-settings__feedback hidden" role="status"></p>
+        </form>
+      </section>
+
       <div id="gites-list" class="gite-pricing-list" aria-live="polite"></div>
 
       <button type="button" id="save-btn" class="btn btn-success">Enregistrer les modifications</button>
@@ -63,9 +80,10 @@
     import {
       firebaseConfig,
       cloudinaryConfig,
-      users,
+      defaultPasswords,
       GITES,
       STORAGE_KEY,
+      PASSWORDS_STORAGE_KEY,
       FIRESTORE_COLLECTION,
     } from "./config.js";
 
@@ -77,6 +95,11 @@
     const rememberCheckbox = document.getElementById("remember-me");
     const currentUserLabel = document.getElementById("current-user-label");
     const logoutBtn = document.getElementById("logout-btn");
+    const passwordForm = document.getElementById("password-form");
+    const currentPasswordInput = document.getElementById("current-password");
+    const newPasswordInput = document.getElementById("new-password");
+    const confirmPasswordInput = document.getElementById("confirm-password");
+    const passwordFeedback = document.getElementById("password-feedback");
     const gitesList = document.getElementById("gites-list");
     const saveBtn = document.getElementById("save-btn");
     const saveFeedback = document.getElementById("save-feedback");
@@ -87,6 +110,37 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    function loadPasswords() {
+      const passwords = Object.assign({}, defaultPasswords);
+
+      try {
+        const stored = localStorage.getItem(PASSWORDS_STORAGE_KEY);
+        if (stored) {
+          Object.assign(passwords, JSON.parse(stored));
+        }
+      } catch (error) {
+        console.error("Password storage read error:", error);
+      }
+
+      return passwords;
+    }
+
+    function savePasswordForUser(userName, newPassword) {
+      const passwords = loadPasswords();
+      passwords[userName] = newPassword;
+      localStorage.setItem(
+        PASSWORDS_STORAGE_KEY,
+        JSON.stringify({
+          Hélène: passwords.Hélène,
+          Lily: passwords.Lily,
+        })
+      );
+    }
+
+    function getPassword(userName) {
+      return loadPasswords()[userName];
+    }
 
     function formatFrenchDate(date) {
       return date.toLocaleDateString("fr-FR", {
@@ -107,6 +161,8 @@
       currentUserLabel.textContent = userName;
       loginScreen.classList.add("hidden");
       adminApp.classList.remove("hidden");
+      passwordForm.reset();
+      hidePasswordFeedback();
       loadGites();
     }
 
@@ -139,7 +195,7 @@
       if (!selectedUser) return;
 
       const password = passwordInput.value;
-      if (users[selectedUser] !== password) {
+      if (getPassword(selectedUser) !== password) {
         showLoginError(true);
         return;
       }
@@ -160,9 +216,49 @@
     });
 
     const savedUser = localStorage.getItem(STORAGE_KEY);
-    if (savedUser && users[savedUser]) {
+    if (savedUser && defaultPasswords[savedUser]) {
       showAdmin(savedUser);
     }
+
+    function hidePasswordFeedback() {
+      passwordFeedback.classList.add("hidden");
+      passwordFeedback.textContent = "";
+      passwordFeedback.classList.remove("is-success", "is-error");
+    }
+
+    function showPasswordFeedback(message, type) {
+      passwordFeedback.textContent = message;
+      passwordFeedback.className = "profile-settings__feedback " + type;
+      passwordFeedback.classList.remove("hidden");
+    }
+
+    passwordForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      hidePasswordFeedback();
+
+      const currentPassword = currentPasswordInput.value;
+      const newPassword = newPasswordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (getPassword(currentUser) !== currentPassword) {
+        showPasswordFeedback("Mot de passe actuel incorrect.", "is-error");
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        showPasswordFeedback("Le nouveau mot de passe doit contenir au moins 6 caractères.", "is-error");
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showPasswordFeedback("Les deux mots de passe ne correspondent pas.", "is-error");
+        return;
+      }
+
+      savePasswordForUser(currentUser, newPassword);
+      passwordForm.reset();
+      showPasswordFeedback("Mot de passe mis à jour avec succès.", "is-success");
+    });
 
     async function loadGites() {
       giteState = [];
