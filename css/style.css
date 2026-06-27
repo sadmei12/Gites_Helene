@@ -1350,6 +1350,10 @@ a.gite-card {
   background-image: none;
 }
 
+.main-content:has(.gite-page-intro) > .section {
+  padding-top: 60px;
+}
+
 .page-gites-list .main-content > .page-banner,
 .page-activites .main-content > .page-banner,
 .page-photos .main-content > .page-banner {
