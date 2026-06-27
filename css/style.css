@@ -719,20 +719,28 @@ a.gite-card {
 /* Page galerie photos */
 .gallery-masonry {
   columns: 2;
-  column-gap: 0;
+  column-gap: var(--space-3);
   width: 100%;
 }
 
 .gallery-masonry-item {
   break-inside: avoid;
-  margin: 0;
-  padding: 0;
+  margin: 0 0 var(--space-3);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
   cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.gallery-masonry-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .gallery-masonry-item:focus-visible {
   outline: 2px solid var(--terracotta);
-  outline-offset: -2px;
+  outline-offset: 3px;
 }
 
 .gallery-masonry-item img {
