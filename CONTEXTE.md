@@ -110,6 +110,7 @@ Chaque fiche gîte contient : photo hero, métadonnées, description, specs, bou
 | Élément | Valeur |
 |---------|--------|
 | Adresse (Gaillards) | 541 Route des Gaillards, 05200 St-Sauveur, Hautes-Alpes |
+| SIRET | 387 140 924 00045 |
 | Email | [helenemarseille@orange.fr](mailto:helenemarseille@orange.fr) |
 | Téléphone | [06 82 21 29 00](tel:+33682212900) |
 | Réservation en ligne | [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx) |
