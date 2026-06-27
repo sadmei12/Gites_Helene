@@ -255,7 +255,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  color: var(--butter-yellow);
+  color: var(--white);
   padding: 2rem 1.5rem;
   max-width: 56rem;
 }
@@ -280,9 +280,20 @@
 
 .hero p {
   font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--butter-yellow);
+  color: var(--white);
   max-width: 40rem;
   margin: 0 auto 2.5rem;
+}
+
+.hero .btn-outline {
+  background: var(--terracotta);
+  color: var(--white);
+  border: 2px solid var(--terracotta);
+}
+
+.hero .btn-outline:hover {
+  background: var(--terracotta-light);
+  border-color: var(--terracotta-light);
 }
 
 .hero-actions {
