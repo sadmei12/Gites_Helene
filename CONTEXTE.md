@@ -109,7 +109,7 @@ Chaque fiche gîte contient : photo hero, métadonnées, description, specs, bou
 
 | Élément | Valeur |
 |---------|--------|
-| Adresse (Gaillards) | Les Gaillards, 05200 St-Sauveur, Hautes-Alpes |
+| Adresse (Gaillards) | 541 Route des Gaillards, 05200 St-Sauveur, Hautes-Alpes |
 | Email | [helenemarseille@orange.fr](mailto:helenemarseille@orange.fr) |
 | Téléphone | [06 82 21 29 00](tel:+33682212900) |
 | Réservation en ligne | [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx) |
