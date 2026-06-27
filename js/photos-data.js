@@ -1,5 +1,17 @@
 window.GITES_PHOTOS = [
   {
+    "src": "assets/photos/gallery/terrasse-bancs-vue-lac-serre-poncon-gites-helene.jpg",
+    "alt": "Terrasse avec bancs et vue sur le lac de Serre-Ponçon"
+  },
+  {
+    "src": "assets/photos/gallery/gites-helene-panneau-entree-route-gaillards.jpg",
+    "alt": "Panneau Gîtes Hélène à l'entrée de la propriété aux Gaillards"
+  },
+  {
+    "src": "assets/photos/gallery/gites-helene-facade-balcons-coeurs-gaillards.jpg",
+    "alt": "Façade des Gîtes Hélène avec balcons fleuris et décorations"
+  },
+  {
     "src": "assets/photos/gallery/coucher-soleil-lac-serre-poncon-hautes-alpes.jpg",
     "alt": "Coucher de soleil sur le lac de Serre-Ponçon"
   },

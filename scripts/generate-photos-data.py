@@ -38,7 +38,17 @@ ALT_OVERRIDES = {
     "vue-printemps-village-lac-serre-poncon-gaillards": "Vue printanière sur le village et le lac de Serre-Ponçon",
     "jardin-fleuri-vue-lac-serre-poncon-gites-helene": "Jardin fleuri avec vue sur le lac de Serre-Ponçon",
     "entree-gites-helene-les-risquetout-gaillards": "Entrée des Gîtes Hélène et Les Risquetout aux Gaillards",
+    "terrasse-bancs-vue-lac-serre-poncon-gites-helene": "Terrasse avec bancs et vue sur le lac de Serre-Ponçon",
+    "gites-helene-panneau-entree-route-gaillards": "Panneau Gîtes Hélène à l'entrée de la propriété aux Gaillards",
+    "gites-helene-facade-balcons-coeurs-gaillards": "Façade des Gîtes Hélène avec balcons fleuris et décorations",
 }
+
+# Photos affichées en tête de la galerie (ordre fixe)
+GALLERY_FIRST = [
+    "terrasse-bancs-vue-lac-serre-poncon-gites-helene.jpg",
+    "gites-helene-panneau-entree-route-gaillards.jpg",
+    "gites-helene-facade-balcons-coeurs-gaillards.jpg",
+]
 
 FOLDER_ORDER = {
     "gallery": 0,
@@ -79,6 +89,11 @@ def sort_key(path_str: str) -> tuple:
     parts = Path(path_str).parts
     if len(parts) >= 3 and parts[0] == "assets" and parts[1] == "photos":
         folder = parts[2]
+        if folder == "gallery":
+            filename = Path(path_str).name
+            if filename in GALLERY_FIRST:
+                return (FOLDER_ORDER.get("gallery", 0), GALLERY_FIRST.index(filename), path_str)
+            return (FOLDER_ORDER.get("gallery", 0), len(GALLERY_FIRST), path_str)
         if folder == "gites" and len(parts) >= 4:
             slug = parts[3]
             slug_order = list(GITE_NAMES).index(slug) if slug in GITE_NAMES else 99
