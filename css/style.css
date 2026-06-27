@@ -1379,12 +1379,15 @@ a.gite-card {
 
 .gite-page-hero img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1000 / 621;
   object-fit: cover;
 }
 
 .gite-carousel {
   position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin-inline: auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 2.5rem;
@@ -1395,7 +1398,7 @@ a.gite-card {
 
 .gite-carousel-viewport {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1000 / 621;
   overflow: hidden;
   outline: none;
 }
@@ -1417,7 +1420,6 @@ a.gite-card {
   height: 100%;
   object-fit: cover;
   display: block;
-  aspect-ratio: 16 / 9;
   cursor: zoom-in;
 }
 
