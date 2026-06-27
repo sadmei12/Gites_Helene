@@ -1236,6 +1236,12 @@ a.gite-card {
   margin-bottom: 0.75rem;
 }
 
+.gite-registration {
+  font-size: 0.8125rem;
+  color: var(--stone-light);
+  margin: -0.35rem 0 0.65rem;
+}
+
 .gite-specs {
   margin: 1rem 0 1.5rem;
   font-size: 0.875rem;
