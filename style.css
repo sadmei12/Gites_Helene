@@ -1,0 +1,414 @@
+/* Styles — gestion & affichage des tarifs (admin + page publique) */
+
+@import url("css/design-system/tokens.css");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.pricing-page {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--forest);
+  background: linear-gradient(180deg, var(--cream) 0%, var(--rose-pale) 100%);
+  min-height: 100vh;
+}
+
+body.admin-page {
+  background:
+    radial-gradient(ellipse 90% 68% at 94% 62%, rgba(239, 215, 128, 0.35) 0%, transparent 54%),
+    radial-gradient(ellipse 95% 72% at 8% 58%, rgba(189, 216, 241, 0.55) 0%, transparent 56%),
+    linear-gradient(180deg, #fefefe 0%, #edf4fa 55%, #fde8df 100%);
+}
+
+.pricing-container {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.pricing-container--wide {
+  width: min(100%, var(--max-width));
+}
+
+/* ── Admin : connexion ── */
+.login-panel {
+  max-width: 28rem;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: var(--text-display-sm);
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: var(--forest);
+}
+
+.user-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.user-btn {
+  padding: 1rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--forest);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.user-btn:hover,
+.user-btn.is-selected {
+  border-color: var(--terracotta);
+  background: var(--rose-pale);
+}
+
+.login-form {
+  margin-top: 1.25rem;
+  text-align: left;
+}
+
+.login-form.hidden,
+.hidden {
+  display: none !important;
+}
+
+.field-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  color: var(--stone);
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: var(--text-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+}
+
+.field-input:focus {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 1px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1rem;
+  font-size: var(--text-sm);
+  color: var(--stone);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.75rem 1.25rem;
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--terracotta);
+  color: var(--white);
+}
+
+.btn-success {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: var(--text-lg);
+  background: #3d8b5a;
+  color: var(--white);
+  margin-top: 1.5rem;
+}
+
+.btn-outline {
+  background: var(--white);
+  color: var(--forest);
+  border: 1px solid var(--border);
+}
+
+.login-error {
+  margin-top: 0.75rem;
+  font-size: var(--text-sm);
+  color: var(--peach-deep);
+}
+
+/* ── Admin : barre supérieure ── */
+.admin-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-bar-text {
+  font-size: var(--text-sm);
+  color: var(--stone);
+}
+
+.admin-bar-text strong {
+  color: var(--forest);
+}
+
+.admin-logout {
+  font-size: var(--text-sm);
+  color: var(--stone-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.admin-logout:hover {
+  color: var(--terracotta);
+}
+
+.admin-header {
+  margin: 2rem 0 1.5rem;
+  text-align: center;
+}
+
+.admin-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display-sm);
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+}
+
+.admin-header p {
+  margin: 0;
+  color: var(--stone-light);
+  font-size: var(--text-base);
+}
+
+/* ── Cartes gîte (admin + public) ── */
+.gite-pricing-list {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.gite-pricing-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  border: 1px solid rgba(212, 229, 244, 0.8);
+}
+
+.gite-pricing-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+  color: var(--forest);
+}
+
+.gite-pricing-card__price-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--stone);
+  margin-bottom: 0.35rem;
+}
+
+.gite-pricing-card__price-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+  color: var(--terracotta);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+}
+
+.gite-pricing-card__price-display {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.5vw, 2rem);
+  font-weight: 600;
+  color: var(--terracotta);
+  margin: 0 0 1.25rem;
+}
+
+.pdf-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pdf-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  background: var(--rose-pale);
+  color: var(--forest);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px dashed var(--border);
+}
+
+.pdf-upload-label input {
+  display: none;
+}
+
+.pdf-current-link {
+  font-size: var(--text-sm);
+  color: var(--forest);
+}
+
+.pdf-status {
+  width: 100%;
+  font-size: var(--text-sm);
+  color: var(--stone);
+  margin: 0.35rem 0 0;
+}
+
+.pdf-status.is-success {
+  color: #3d8b5a;
+}
+
+.pdf-status.is-error {
+  color: var(--peach-deep);
+}
+
+.feedback {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  text-align: center;
+}
+
+.feedback.is-success {
+  background: rgba(61, 139, 90, 0.12);
+  color: #2d6a44;
+}
+
+.feedback.is-error {
+  background: rgba(243, 128, 129, 0.12);
+  color: var(--peach-deep);
+}
+
+/* ── Page publique tarifs ── */
+.tarifs-banner {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+}
+
+.tarifs-banner h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: var(--forest);
+}
+
+.tarifs-banner p {
+  max-width: 36rem;
+  margin: 0 auto;
+  color: var(--stone-light);
+}
+
+.tarifs-loading {
+  text-align: center;
+  color: var(--stone-light);
+  font-size: var(--text-base);
+  padding: 2rem 0;
+}
+
+.tarifs-grid {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+  .tarifs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tarifs-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tarifs-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tarifs-card .btn-outline {
+  margin-top: auto;
+  width: 100%;
+  text-decoration: none;
+}
+
+.tarifs-card .btn-outline.hidden {
+  display: none;
+}
+
+.tarifs-back {
+  display: inline-block;
+  margin: 1rem 0 0;
+  font-size: var(--text-sm);
+  color: var(--terracotta);
+  text-decoration: none;
+}
+
+.tarifs-back:hover {
+  text-decoration: underline;
+}

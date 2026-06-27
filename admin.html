@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/brand/logo-gites-helene.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Administration tarifs — Gîtes Hélène</title>
+</head>
+<body class="pricing-page admin-page">
+  <!-- Écran de connexion -->
+  <div id="login-screen" class="login-panel">
+    <h1 class="login-title">Bienvenue ! Qui êtes-vous ?</h1>
+    <div class="user-buttons">
+      <button type="button" class="user-btn" data-user="Hélène">👵 Hélène</button>
+      <button type="button" class="user-btn" data-user="Lily">💻 Lily</button>
+    </div>
+    <form id="login-form" class="login-form hidden" novalidate>
+      <label class="field-label" for="password">Mot de passe</label>
+      <input id="password" class="field-input" type="password" autocomplete="current-password" required>
+      <label class="checkbox-row">
+        <input id="remember-me" type="checkbox">
+        Se souvenir de moi
+      </label>
+      <button type="submit" class="btn btn-primary" style="width:100%">Se connecter</button>
+      <p id="login-error" class="login-error hidden" role="alert">❌ Mot de passe incorrect. Réessayez.</p>
+    </form>
+  </div>
+
+  <!-- Interface admin -->
+  <div id="admin-app" class="hidden">
+    <div class="admin-bar">
+      <p class="admin-bar-text">Connectée en tant que <strong id="current-user-label"></strong></p>
+      <button type="button" id="logout-btn" class="admin-logout">Se déconnecter</button>
+    </div>
+
+    <div class="pricing-container">
+      <header class="admin-header">
+        <h1>Gestion des tarifs</h1>
+        <p>Modifiez les prix affichés sur le site et mettez à jour les grilles tarifaires PDF.</p>
+      </header>
+
+      <div id="gites-list" class="gite-pricing-list" aria-live="polite"></div>
+
+      <button type="button" id="save-btn" class="btn btn-success">Enregistrer les modifications</button>
+      <div id="save-feedback" class="feedback hidden" role="status"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      serverTimestamp,
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    import {
+      firebaseConfig,
+      cloudinaryConfig,
+      users,
+      GITES,
+      STORAGE_KEY,
+      FIRESTORE_COLLECTION,
+    } from "./config.js";
+
+    const loginScreen = document.getElementById("login-screen");
+    const adminApp = document.getElementById("admin-app");
+    const loginForm = document.getElementById("login-form");
+    const loginError = document.getElementById("login-error");
+    const passwordInput = document.getElementById("password");
+    const rememberCheckbox = document.getElementById("remember-me");
+    const currentUserLabel = document.getElementById("current-user-label");
+    const logoutBtn = document.getElementById("logout-btn");
+    const gitesList = document.getElementById("gites-list");
+    const saveBtn = document.getElementById("save-btn");
+    const saveFeedback = document.getElementById("save-feedback");
+
+    let selectedUser = null;
+    let currentUser = null;
+    let giteState = [];
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function formatFrenchDate(date) {
+      return date.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function showLoginError(show) {
+      loginError.classList.toggle("hidden", !show);
+    }
+
+    function showAdmin(userName) {
+      currentUser = userName;
+      currentUserLabel.textContent = userName;
+      loginScreen.classList.add("hidden");
+      adminApp.classList.remove("hidden");
+      loadGites();
+    }
+
+    function showLogin() {
+      currentUser = null;
+      adminApp.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+      passwordInput.value = "";
+      showLoginError(false);
+    }
+
+    function selectUser(userName) {
+      selectedUser = userName;
+      document.querySelectorAll(".user-btn").forEach(function (btn) {
+        btn.classList.toggle("is-selected", btn.dataset.user === userName);
+      });
+      loginForm.classList.remove("hidden");
+      passwordInput.focus();
+      showLoginError(false);
+    }
+
+    document.querySelectorAll(".user-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        selectUser(btn.dataset.user);
+      });
+    });
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!selectedUser) return;
+
+      const password = passwordInput.value;
+      if (users[selectedUser] !== password) {
+        showLoginError(true);
+        return;
+      }
+
+      if (rememberCheckbox.checked) {
+        localStorage.setItem(STORAGE_KEY, selectedUser);
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+
+      showAdmin(selectedUser);
+    });
+
+    logoutBtn.addEventListener("click", function () {
+      localStorage.removeItem(STORAGE_KEY);
+      selectedUser = null;
+      showLogin();
+    });
+
+    const savedUser = localStorage.getItem(STORAGE_KEY);
+    if (savedUser && users[savedUser]) {
+      showAdmin(savedUser);
+    }
+
+    async function loadGites() {
+      giteState = [];
+
+      for (const gite of GITES) {
+        let data = {
+          price: gite.defaultPrice,
+          pdfUrl: "",
+        };
+
+        try {
+          const snap = await getDoc(doc(db, FIRESTORE_COLLECTION, gite.id));
+          if (snap.exists()) {
+            const remote = snap.data();
+            data.price = remote.price || gite.defaultPrice;
+            data.pdfUrl = remote.pdfUrl || "";
+          }
+        } catch (error) {
+          console.error("Firestore read error:", error);
+        }
+
+        giteState.push({
+          id: gite.id,
+          name: gite.name,
+          price: data.price,
+          pdfUrl: data.pdfUrl,
+          pendingPdfUrl: null,
+          uploadStatus: "",
+        });
+      }
+
+      renderGites();
+    }
+
+    function renderGites() {
+      gitesList.innerHTML = "";
+
+      giteState.forEach(function (gite, index) {
+        const card = document.createElement("article");
+        card.className = "gite-pricing-card";
+        card.dataset.index = String(index);
+
+        const pdfUrl = gite.pendingPdfUrl || gite.pdfUrl;
+        const pdfLinkHtml = pdfUrl
+          ? '<a class="pdf-current-link" href="' + pdfUrl + '" target="_blank" rel="noopener noreferrer">📄 Voir le PDF actuel</a>'
+          : "";
+
+        card.innerHTML =
+          '<h2 class="gite-pricing-card__title">' + gite.name + '</h2>' +
+          '<label class="gite-pricing-card__price-label" for="price-' + gite.id + '">Prix affiché sur le site</label>' +
+          '<input id="price-' + gite.id + '" class="gite-pricing-card__price-input" type="text" value="' + escapeAttr(gite.price) + '">' +
+          '<div class="pdf-section">' +
+          '<label class="pdf-upload-label">Mettre à jour le PDF des tarifs<input type="file" accept="application/pdf,.pdf" data-index="' + index + '"></label>' +
+          pdfLinkHtml +
+          '</div>' +
+          '<p class="pdf-status" data-status="' + index + '">' + gite.uploadStatus + '</p>';
+
+        gitesList.appendChild(card);
+
+        const priceInput = card.querySelector(".gite-pricing-card__price-input");
+        priceInput.addEventListener("input", function () {
+          giteState[index].price = priceInput.value;
+        });
+
+        const fileInput = card.querySelector('input[type="file"]');
+        fileInput.addEventListener("change", function () {
+          if (fileInput.files && fileInput.files[0]) {
+            uploadPdf(index, fileInput.files[0]);
+          }
+        });
+      });
+    }
+
+    function escapeAttr(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;");
+    }
+
+    function setUploadStatus(index, message, type) {
+      giteState[index].uploadStatus = message;
+      const statusEl = document.querySelector('[data-status="' + index + '"]');
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.classList.remove("is-success", "is-error");
+      if (type) statusEl.classList.add(type);
+    }
+
+    async function uploadPdf(index, file) {
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        setUploadStatus(index, "❌ Veuillez sélectionner un fichier PDF.", "is-error");
+        return;
+      }
+
+      setUploadStatus(index, "📤 Envoi du PDF en cours…", "");
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", cloudinaryConfig.uploadPreset);
+
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
+          { method: "POST", body: formData }
+        );
+
+        if (!response.ok) {
+          throw new Error("Cloudinary upload failed");
+        }
+
+        const result = await response.json();
+        giteState[index].pendingPdfUrl = result.secure_url;
+        setUploadStatus(index, "✅ PDF prêt !", "is-success");
+        renderGites();
+      } catch (error) {
+        console.error("Cloudinary upload error:", error);
+        setUploadStatus(index, "❌ Échec de l'envoi du PDF. Réessayez.", "is-error");
+      }
+    }
+
+    saveBtn.addEventListener("click", async function () {
+      saveFeedback.classList.add("hidden");
+      saveBtn.disabled = true;
+
+      try {
+        const now = new Date();
+
+        for (const gite of giteState) {
+          const payload = {
+            name: gite.name,
+            price: gite.price.trim() || gite.name,
+            dernierEditeur: currentUser,
+            dateModification: serverTimestamp(),
+          };
+
+          const pdfUrl = gite.pendingPdfUrl || gite.pdfUrl;
+          if (pdfUrl) {
+            payload.pdfUrl = pdfUrl;
+          }
+
+          await setDoc(doc(db, FIRESTORE_COLLECTION, gite.id), payload, { merge: true });
+
+          if (gite.pendingPdfUrl) {
+            gite.pdfUrl = gite.pendingPdfUrl;
+            gite.pendingPdfUrl = null;
+          }
+        }
+
+        saveFeedback.textContent =
+          "✅ Tarifs mis à jour avec succès ! Modifié par " +
+          currentUser +
+          " — " +
+          formatFrenchDate(now);
+        saveFeedback.className = "feedback is-success";
+        saveFeedback.classList.remove("hidden");
+        renderGites();
+      } catch (error) {
+        console.error("Firestore save error:", error);
+        saveFeedback.textContent =
+          "❌ Une erreur est survenue. Vérifiez votre connexion et réessayez.";
+        saveFeedback.className = "feedback is-error";
+        saveFeedback.classList.remove("hidden");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
