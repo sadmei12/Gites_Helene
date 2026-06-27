@@ -23,6 +23,12 @@ export const defaultPasswords = {
   Lily: "Willow2005*",
 };
 
+// 🔧 Adresse e-mail par défaut de chaque utilisatrice (modifiable depuis l'admin)
+export const defaultEmails = {
+  Hélène: "helenemarseille@orange.fr",
+  Lily: "fauconlily05@gmail.com",
+};
+
 // Liste des gîtes gérés (identifiants Firestore = id)
 export const GITES = [
   {
@@ -54,4 +60,5 @@ export const GITES = [
 
 export const STORAGE_KEY = "gitesHeleneCurrentUser";
 export const PASSWORDS_STORAGE_KEY = "gitesHelenePasswords";
+export const EMAILS_STORAGE_KEY = "gitesHeleneEmails";
 export const FIRESTORE_COLLECTION = "gites";

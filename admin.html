@@ -34,7 +34,7 @@
   <!-- Interface admin -->
   <div id="admin-app" class="hidden">
     <div class="admin-bar">
-      <p class="admin-bar-text">Connectée en tant que <strong id="current-user-label"></strong></p>
+      <p class="admin-bar-text">Connectée en tant que <strong id="current-user-label"></strong> — <span id="current-user-email"></span></p>
       <button type="button" id="logout-btn" class="admin-logout">Se déconnecter</button>
     </div>
 
@@ -46,6 +46,16 @@
 
       <section class="profile-settings" aria-labelledby="profile-settings-title">
         <h2 id="profile-settings-title" class="profile-settings__title">Paramètres du profil</h2>
+
+        <form id="email-form" class="profile-settings__form" novalidate>
+          <label class="field-label" for="profile-email">Adresse e-mail du profil</label>
+          <input id="profile-email" class="field-input" type="email" autocomplete="email" required>
+          <button type="submit" class="btn btn-outline">Modifier mon adresse e-mail</button>
+          <p id="email-feedback" class="profile-settings__feedback hidden" role="status"></p>
+        </form>
+
+        <hr class="profile-settings__divider">
+
         <form id="password-form" class="profile-settings__form" novalidate>
           <label class="field-label" for="current-password">Mot de passe actuel</label>
           <input id="current-password" class="field-input" type="password" autocomplete="current-password" required>
@@ -81,9 +91,11 @@
       firebaseConfig,
       cloudinaryConfig,
       defaultPasswords,
+      defaultEmails,
       GITES,
       STORAGE_KEY,
       PASSWORDS_STORAGE_KEY,
+      EMAILS_STORAGE_KEY,
       FIRESTORE_COLLECTION,
     } from "./config.js";
 
@@ -94,7 +106,11 @@
     const passwordInput = document.getElementById("password");
     const rememberCheckbox = document.getElementById("remember-me");
     const currentUserLabel = document.getElementById("current-user-label");
+    const currentUserEmail = document.getElementById("current-user-email");
     const logoutBtn = document.getElementById("logout-btn");
+    const emailForm = document.getElementById("email-form");
+    const profileEmailInput = document.getElementById("profile-email");
+    const emailFeedback = document.getElementById("email-feedback");
     const passwordForm = document.getElementById("password-form");
     const currentPasswordInput = document.getElementById("current-password");
     const newPasswordInput = document.getElementById("new-password");
@@ -142,6 +158,48 @@
       return loadPasswords()[userName];
     }
 
+    function loadEmails() {
+      const emails = Object.assign({}, defaultEmails);
+
+      try {
+        const stored = localStorage.getItem(EMAILS_STORAGE_KEY);
+        if (stored) {
+          Object.assign(emails, JSON.parse(stored));
+        }
+      } catch (error) {
+        console.error("Email storage read error:", error);
+      }
+
+      return emails;
+    }
+
+    function saveEmailForUser(userName, newEmail) {
+      const emails = loadEmails();
+      emails[userName] = newEmail;
+      localStorage.setItem(
+        EMAILS_STORAGE_KEY,
+        JSON.stringify({
+          Hélène: emails.Hélène,
+          Lily: emails.Lily,
+        })
+      );
+    }
+
+    function getEmail(userName) {
+      return loadEmails()[userName];
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function updateProfileDisplay() {
+      if (!currentUser) return;
+      currentUserLabel.textContent = currentUser;
+      currentUserEmail.textContent = getEmail(currentUser);
+      profileEmailInput.value = getEmail(currentUser);
+    }
+
     function formatFrenchDate(date) {
       return date.toLocaleDateString("fr-FR", {
         day: "numeric",
@@ -158,11 +216,14 @@
 
     function showAdmin(userName) {
       currentUser = userName;
-      currentUserLabel.textContent = userName;
       loginScreen.classList.add("hidden");
       adminApp.classList.remove("hidden");
+      updateProfileDisplay();
+      emailForm.reset();
+      profileEmailInput.value = getEmail(userName);
       passwordForm.reset();
       hidePasswordFeedback();
+      hideEmailFeedback();
       loadGites();
     }
 
@@ -219,6 +280,34 @@
     if (savedUser && defaultPasswords[savedUser]) {
       showAdmin(savedUser);
     }
+
+    function hideEmailFeedback() {
+      emailFeedback.classList.add("hidden");
+      emailFeedback.textContent = "";
+      emailFeedback.classList.remove("is-success", "is-error");
+    }
+
+    function showEmailFeedback(message, type) {
+      emailFeedback.textContent = message;
+      emailFeedback.className = "profile-settings__feedback " + type;
+      emailFeedback.classList.remove("hidden");
+    }
+
+    emailForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      hideEmailFeedback();
+
+      const newEmail = profileEmailInput.value.trim();
+
+      if (!isValidEmail(newEmail)) {
+        showEmailFeedback("Veuillez saisir une adresse e-mail valide.", "is-error");
+        return;
+      }
+
+      saveEmailForUser(currentUser, newEmail);
+      updateProfileDisplay();
+      showEmailFeedback("Adresse e-mail mise à jour avec succès.", "is-success");
+    });
 
     function hidePasswordFeedback() {
       passwordFeedback.classList.add("hidden");

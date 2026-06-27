@@ -252,6 +252,17 @@ body.admin-page {
   margin-top: 0.25rem;
 }
 
+.profile-settings__divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.25rem 0;
+}
+
+#current-user-email {
+  color: var(--stone);
+  font-weight: 400;
+}
+
 .profile-settings__feedback {
   margin: 0.75rem 0 0;
   font-size: var(--text-sm);
