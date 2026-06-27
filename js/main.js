@@ -331,146 +331,11 @@ function initGiteCarousels() {
   });
 }
 
-var galleryMasonryState = {
-  gallery: null,
-  items: [],
-  colHeights: [0, 0, 0],
-  laidOutCount: 0,
-  wideImageCount: 0,
-  resizeTimer: null
-};
-
-var GALLERY_COLUMN_COUNT = 3;
-var GALLERY_GAP_PX = 12;
-
-function galleryColumnSpan(ratio, index) {
-  if (ratio >= 1.35) return 2;
-  if (ratio <= 0.95) return 1;
-  return index % 2 === 0 ? 2 : 1;
-}
-
-function resetGalleryMasonryLayout() {
-  galleryMasonryState.colHeights = [0, 0, 0];
-  galleryMasonryState.laidOutCount = 0;
-  galleryMasonryState.wideImageCount = 0;
-}
-
-function placeGalleryMasonryItem(entry) {
-  var img = entry.img;
-  var figure = entry.figure;
-  var gallery = galleryMasonryState.gallery;
-  if (!gallery || !img.naturalWidth || !img.naturalHeight) return false;
-
-  var width = gallery.clientWidth;
-  if (!width) return false;
-
-  var gap = GALLERY_GAP_PX;
-  var colWidth = (width - gap * (GALLERY_COLUMN_COUNT - 1)) / GALLERY_COLUMN_COUNT;
-  var colHeights = galleryMasonryState.colHeights;
-  var ratio = img.naturalWidth / img.naturalHeight;
-  var colSpan = galleryColumnSpan(ratio, entry.index);
-  var itemWidth = colWidth * colSpan + gap * (colSpan - 1);
-  var itemHeight = itemWidth / ratio;
-  var top;
-  var startCol;
-
-  if (colSpan === 2) {
-    var preferLeft = galleryMasonryState.wideImageCount % 2 === 0;
-    startCol = preferLeft ? 0 : 1;
-    top = Math.max(colHeights[startCol], colHeights[startCol + 1]);
-    galleryMasonryState.wideImageCount += 1;
-
-    var rowBottom = top + itemHeight + gap;
-    colHeights[startCol] = rowBottom;
-    colHeights[startCol + 1] = rowBottom;
-  } else {
-    startCol = 0;
-    if (colHeights[1] < colHeights[startCol]) startCol = 1;
-    if (colHeights[2] < colHeights[startCol]) startCol = 2;
-
-    top = colHeights[startCol];
-    colHeights[startCol] = top + itemHeight + gap;
-  }
-
-  figure.style.width = itemWidth + 'px';
-  figure.style.height = itemHeight + 'px';
-  figure.style.left = startCol * (colWidth + gap) + 'px';
-  figure.style.top = top + 'px';
-
-  return true;
-}
-
-function updateGalleryMasonryHeight() {
-  var gallery = galleryMasonryState.gallery;
-  if (!gallery) return;
-
-  var maxHeight = Math.max.apply(null, galleryMasonryState.colHeights);
-  gallery.style.height = Math.max(0, maxHeight - GALLERY_GAP_PX) + 'px';
-}
-
-function layoutGalleryMasonryFrom(startIndex) {
-  var items = galleryMasonryState.items;
-  if (!items.length) return;
-
-  if (startIndex === 0) {
-    resetGalleryMasonryLayout();
-  }
-
-  for (var i = startIndex; i < items.length; i++) {
-    var entry = items[i];
-    if (!entry.img.naturalWidth || !entry.img.naturalHeight) break;
-    if (!placeGalleryMasonryItem(entry)) break;
-    galleryMasonryState.laidOutCount = i + 1;
-  }
-
-  updateGalleryMasonryHeight();
-}
-
-function continueGalleryMasonryLayout() {
-  layoutGalleryMasonryFrom(galleryMasonryState.laidOutCount);
-}
-
-function relayoutGalleryMasonry() {
-  layoutGalleryMasonryFrom(0);
-}
-
-function scheduleGalleryMasonryLayout() {
-  if (!galleryMasonryState.gallery) return;
-
-  if (galleryMasonryState.resizeTimer) {
-    window.clearTimeout(galleryMasonryState.resizeTimer);
-  }
-
-  galleryMasonryState.resizeTimer = window.setTimeout(function () {
-    relayoutGalleryMasonry();
-  }, 80);
-}
-
-function registerGalleryMasonryItem(figure, img, index) {
-  var entry = { figure: figure, img: img, index: index };
-  galleryMasonryState.items.push(entry);
-
-  function onReady() {
-    if (!img.naturalWidth || !img.naturalHeight) return;
-    continueGalleryMasonryLayout();
-  }
-
-  img.addEventListener('load', onReady);
-
-  if (img.complete) {
-    onReady();
-  }
-}
-
 function initPhotosPageGallery() {
   var gallery = document.getElementById('photos-gallery');
   if (!gallery || !window.GITES_PHOTOS || !window.GITES_PHOTOS.length) return;
 
-  galleryMasonryState.gallery = gallery;
-  galleryMasonryState.items = [];
-  resetGalleryMasonryLayout();
-
-  window.GITES_PHOTOS.forEach(function (photo, index) {
+  window.GITES_PHOTOS.forEach(function (photo) {
     var figure = document.createElement('figure');
     figure.className = 'gallery-masonry-item';
 
@@ -482,11 +347,7 @@ function initPhotosPageGallery() {
 
     figure.appendChild(img);
     gallery.appendChild(figure);
-    registerGalleryMasonryItem(figure, img, index);
   });
-
-  window.addEventListener('resize', scheduleGalleryMasonryLayout);
-  window.addEventListener('load', relayoutGalleryMasonry);
 }
 
 function initPhotoGalleries() {

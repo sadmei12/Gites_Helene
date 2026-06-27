@@ -718,35 +718,39 @@ a.gite-card {
 
 /* Page galerie photos */
 .gallery-masonry {
-  position: relative;
+  columns: 2;
+  column-gap: 0;
   width: 100%;
 }
 
 .gallery-masonry-item {
-  position: absolute;
+  break-inside: avoid;
   margin: 0;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
+  padding: 0;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.gallery-masonry-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
 }
 
 .gallery-masonry-item:focus-visible {
   outline: 2px solid var(--terracotta);
-  outline-offset: 3px;
+  outline-offset: -2px;
 }
 
 .gallery-masonry-item img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  .gallery-masonry {
+    columns: 3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-masonry {
+    columns: 4;
+  }
 }
 
 /* Amenities */
