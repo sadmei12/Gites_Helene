@@ -1351,7 +1351,7 @@ a.gite-card {
 }
 
 .main-content:has(.gite-page-intro) > .section {
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .page-gites-list .main-content > .page-banner,
