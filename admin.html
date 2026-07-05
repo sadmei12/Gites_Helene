@@ -12,7 +12,7 @@
   <title>Administration tarifs — Gîtes Hélène</title>
 </head>
 <body class="pricing-page admin-page">
-  <!-- Écran de connexion -->
+  <!-- Connexion -->
   <div id="login-screen" class="login-panel">
     <h1 class="login-title">Bienvenue ! Qui êtes-vous ?</h1>
     <div class="user-buttons">
@@ -27,494 +27,96 @@
         Se souvenir de moi
       </label>
       <button type="submit" class="btn btn-primary" style="width:100%">Se connecter</button>
-      <p id="login-error" class="login-error hidden" role="alert">❌ Mot de passe incorrect. Réessayez.</p>
+      <p id="login-error" class="login-error hidden" role="alert">Mot de passe incorrect. Réessayez.</p>
     </form>
   </div>
 
-  <!-- Interface admin -->
-  <div id="admin-app" class="hidden">
-    <div class="admin-bar">
-      <p class="admin-bar-text">Connectée en tant que <strong id="current-user-label"></strong> — <span id="current-user-email"></span></p>
-      <button type="button" id="logout-btn" class="admin-logout">Se déconnecter</button>
-    </div>
+  <!-- Application admin -->
+  <div id="admin-app" class="admin-shell hidden">
+    <button type="button" id="sidebar-toggle" class="admin-menu-btn" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
 
-    <div class="pricing-container">
-      <header class="admin-header">
-        <h1>Gestion des tarifs</h1>
-        <p>Modifiez les prix affichés sur le site et mettez à jour les grilles tarifaires PDF.</p>
-      </header>
+    <aside id="admin-sidebar" class="admin-sidebar">
+      <button type="button" id="sidebar-close" class="admin-sidebar__close" aria-label="Fermer le menu">&times;</button>
+      <nav class="admin-nav" aria-label="Administration">
+        <button type="button" class="admin-nav__link is-active" data-admin-view="tarifs" aria-current="page">Tarifs</button>
+        <button type="button" class="admin-nav__link" data-admin-view="parametres">Paramètres</button>
+        <button type="button" class="admin-nav__link" data-admin-view="historique">Historique</button>
+        <button type="button" id="logout-btn" class="admin-nav__link admin-nav__link--logout">Déconnexion</button>
+      </nav>
+    </aside>
 
-      <section class="profile-settings" aria-labelledby="profile-settings-title">
-        <h2 id="profile-settings-title" class="profile-settings__title">Paramètres du profil</h2>
-
-        <form id="email-form" class="profile-settings__form" novalidate>
-          <label class="field-label" for="profile-email">Adresse e-mail du profil</label>
-          <input id="profile-email" class="field-input" type="email" autocomplete="email" required>
-          <button type="submit" class="btn btn-outline">Modifier mon adresse e-mail</button>
-          <p id="email-feedback" class="profile-settings__feedback hidden" role="status"></p>
-        </form>
-
-        <hr class="profile-settings__divider">
-
-        <form id="password-form" class="profile-settings__form" novalidate>
-          <label class="field-label" for="current-password">Mot de passe actuel</label>
-          <input id="current-password" class="field-input" type="password" autocomplete="current-password" required>
-
-          <label class="field-label" for="new-password">Nouveau mot de passe</label>
-          <input id="new-password" class="field-input" type="password" autocomplete="new-password" required>
-
-          <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
-          <input id="confirm-password" class="field-input" type="password" autocomplete="new-password" required>
-
-          <button type="submit" class="btn btn-outline">Modifier mon mot de passe</button>
-          <p id="password-feedback" class="profile-settings__feedback hidden" role="status"></p>
-        </form>
+    <main class="admin-main">
+      <!-- Tarifs -->
+      <section class="admin-view" data-admin-view="tarifs">
+        <header class="admin-page-header">
+          <h1 class="admin-page-title">Tarifs par période</h1>
+        </header>
+        <div id="gites-accordion" class="admin-gites-list" aria-live="polite"></div>
+        <button type="button" id="save-btn" class="btn btn-success admin-save-btn">Enregistrer les modifications</button>
+        <p id="save-feedback" class="admin-save-feedback hidden" role="status"></p>
       </section>
 
-      <div id="gites-list" class="gite-pricing-list" aria-live="polite"></div>
+      <!-- Paramètres -->
+      <section class="admin-view hidden" data-admin-view="parametres">
+        <header class="admin-page-header">
+          <h1 class="admin-page-title">Paramètres</h1>
+        </header>
 
-      <button type="button" id="save-btn" class="btn btn-success">Enregistrer les modifications</button>
-      <div id="save-feedback" class="feedback hidden" role="status"></div>
-    </div>
+        <div class="admin-settings-row">
+          <label class="admin-settings-label" for="settings-email">Adresse email</label>
+          <div class="admin-settings-field">
+            <input id="settings-email" class="admin-settings-input" type="email" autocomplete="email">
+            <button type="button" id="settings-email-btn" class="btn btn-primary admin-settings-btn">Modifier</button>
+          </div>
+          <p id="settings-email-feedback" class="admin-inline-feedback hidden" role="status"></p>
+        </div>
+
+        <hr class="admin-settings-divider">
+
+        <div class="admin-settings-row">
+          <span class="admin-settings-label">Mot de passe</span>
+          <div class="admin-settings-field admin-settings-field--end">
+            <button type="button" id="password-toggle-btn" class="btn btn-primary admin-settings-btn">Modifier</button>
+          </div>
+        </div>
+
+        <div id="password-panel" class="admin-password-panel hidden">
+          <form id="password-form" class="admin-password-form" novalidate>
+            <label class="field-label" for="current-password">Mot de passe actuel</label>
+            <input id="current-password" class="field-input" type="password" autocomplete="current-password" required>
+            <label class="field-label" for="new-password">Nouveau mot de passe</label>
+            <input id="new-password" class="field-input" type="password" autocomplete="new-password" required>
+            <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
+            <input id="confirm-password" class="field-input" type="password" autocomplete="new-password" required>
+            <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
+          </form>
+          <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
+        </div>
+      </section>
+
+      <!-- Historique -->
+      <section class="admin-view hidden" data-admin-view="historique">
+        <header class="admin-page-header">
+          <h1 class="admin-page-title">Historique</h1>
+        </header>
+        <div class="admin-history-wrap">
+          <table class="admin-history-table">
+            <thead>
+              <tr>
+                <th>Modification</th>
+                <th>Utilisateur</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      setDoc,
-      serverTimestamp,
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-    import {
-      firebaseConfig,
-      cloudinaryConfig,
-      defaultPasswords,
-      defaultEmails,
-      GITES,
-      STORAGE_KEY,
-      PASSWORDS_STORAGE_KEY,
-      EMAILS_STORAGE_KEY,
-      FIRESTORE_COLLECTION,
-    } from "./config.js";
-
-    const loginScreen = document.getElementById("login-screen");
-    const adminApp = document.getElementById("admin-app");
-    const loginForm = document.getElementById("login-form");
-    const loginError = document.getElementById("login-error");
-    const passwordInput = document.getElementById("password");
-    const rememberCheckbox = document.getElementById("remember-me");
-    const currentUserLabel = document.getElementById("current-user-label");
-    const currentUserEmail = document.getElementById("current-user-email");
-    const logoutBtn = document.getElementById("logout-btn");
-    const emailForm = document.getElementById("email-form");
-    const profileEmailInput = document.getElementById("profile-email");
-    const emailFeedback = document.getElementById("email-feedback");
-    const passwordForm = document.getElementById("password-form");
-    const currentPasswordInput = document.getElementById("current-password");
-    const newPasswordInput = document.getElementById("new-password");
-    const confirmPasswordInput = document.getElementById("confirm-password");
-    const passwordFeedback = document.getElementById("password-feedback");
-    const gitesList = document.getElementById("gites-list");
-    const saveBtn = document.getElementById("save-btn");
-    const saveFeedback = document.getElementById("save-feedback");
-
-    let selectedUser = null;
-    let currentUser = null;
-    let giteState = [];
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    function loadPasswords() {
-      const passwords = Object.assign({}, defaultPasswords);
-
-      try {
-        const stored = localStorage.getItem(PASSWORDS_STORAGE_KEY);
-        if (stored) {
-          Object.assign(passwords, JSON.parse(stored));
-        }
-      } catch (error) {
-        console.error("Password storage read error:", error);
-      }
-
-      return passwords;
-    }
-
-    function savePasswordForUser(userName, newPassword) {
-      const passwords = loadPasswords();
-      passwords[userName] = newPassword;
-      localStorage.setItem(
-        PASSWORDS_STORAGE_KEY,
-        JSON.stringify({
-          Hélène: passwords.Hélène,
-          Lily: passwords.Lily,
-        })
-      );
-    }
-
-    function getPassword(userName) {
-      return loadPasswords()[userName];
-    }
-
-    function loadEmails() {
-      const emails = Object.assign({}, defaultEmails);
-
-      try {
-        const stored = localStorage.getItem(EMAILS_STORAGE_KEY);
-        if (stored) {
-          Object.assign(emails, JSON.parse(stored));
-        }
-      } catch (error) {
-        console.error("Email storage read error:", error);
-      }
-
-      return emails;
-    }
-
-    function saveEmailForUser(userName, newEmail) {
-      const emails = loadEmails();
-      emails[userName] = newEmail;
-      localStorage.setItem(
-        EMAILS_STORAGE_KEY,
-        JSON.stringify({
-          Hélène: emails.Hélène,
-          Lily: emails.Lily,
-        })
-      );
-    }
-
-    function getEmail(userName) {
-      return loadEmails()[userName];
-    }
-
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function updateProfileDisplay() {
-      if (!currentUser) return;
-      currentUserLabel.textContent = currentUser;
-      currentUserEmail.textContent = getEmail(currentUser);
-      profileEmailInput.value = getEmail(currentUser);
-    }
-
-    function formatFrenchDate(date) {
-      return date.toLocaleDateString("fr-FR", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    }
-
-    function showLoginError(show) {
-      loginError.classList.toggle("hidden", !show);
-    }
-
-    function showAdmin(userName) {
-      currentUser = userName;
-      loginScreen.classList.add("hidden");
-      adminApp.classList.remove("hidden");
-      updateProfileDisplay();
-      emailForm.reset();
-      profileEmailInput.value = getEmail(userName);
-      passwordForm.reset();
-      hidePasswordFeedback();
-      hideEmailFeedback();
-      loadGites();
-    }
-
-    function showLogin() {
-      currentUser = null;
-      adminApp.classList.add("hidden");
-      loginScreen.classList.remove("hidden");
-      passwordInput.value = "";
-      showLoginError(false);
-    }
-
-    function selectUser(userName) {
-      selectedUser = userName;
-      document.querySelectorAll(".user-btn").forEach(function (btn) {
-        btn.classList.toggle("is-selected", btn.dataset.user === userName);
-      });
-      loginForm.classList.remove("hidden");
-      passwordInput.focus();
-      showLoginError(false);
-    }
-
-    document.querySelectorAll(".user-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        selectUser(btn.dataset.user);
-      });
-    });
-
-    loginForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      if (!selectedUser) return;
-
-      const password = passwordInput.value;
-      if (getPassword(selectedUser) !== password) {
-        showLoginError(true);
-        return;
-      }
-
-      if (rememberCheckbox.checked) {
-        localStorage.setItem(STORAGE_KEY, selectedUser);
-      } else {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-
-      showAdmin(selectedUser);
-    });
-
-    logoutBtn.addEventListener("click", function () {
-      localStorage.removeItem(STORAGE_KEY);
-      selectedUser = null;
-      showLogin();
-    });
-
-    const savedUser = localStorage.getItem(STORAGE_KEY);
-    if (savedUser && defaultPasswords[savedUser]) {
-      showAdmin(savedUser);
-    }
-
-    function hideEmailFeedback() {
-      emailFeedback.classList.add("hidden");
-      emailFeedback.textContent = "";
-      emailFeedback.classList.remove("is-success", "is-error");
-    }
-
-    function showEmailFeedback(message, type) {
-      emailFeedback.textContent = message;
-      emailFeedback.className = "profile-settings__feedback " + type;
-      emailFeedback.classList.remove("hidden");
-    }
-
-    emailForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      hideEmailFeedback();
-
-      const newEmail = profileEmailInput.value.trim();
-
-      if (!isValidEmail(newEmail)) {
-        showEmailFeedback("Veuillez saisir une adresse e-mail valide.", "is-error");
-        return;
-      }
-
-      saveEmailForUser(currentUser, newEmail);
-      updateProfileDisplay();
-      showEmailFeedback("Adresse e-mail mise à jour avec succès.", "is-success");
-    });
-
-    function hidePasswordFeedback() {
-      passwordFeedback.classList.add("hidden");
-      passwordFeedback.textContent = "";
-      passwordFeedback.classList.remove("is-success", "is-error");
-    }
-
-    function showPasswordFeedback(message, type) {
-      passwordFeedback.textContent = message;
-      passwordFeedback.className = "profile-settings__feedback " + type;
-      passwordFeedback.classList.remove("hidden");
-    }
-
-    passwordForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      hidePasswordFeedback();
-
-      const currentPassword = currentPasswordInput.value;
-      const newPassword = newPasswordInput.value;
-      const confirmPassword = confirmPasswordInput.value;
-
-      if (getPassword(currentUser) !== currentPassword) {
-        showPasswordFeedback("Mot de passe actuel incorrect.", "is-error");
-        return;
-      }
-
-      if (newPassword.length < 6) {
-        showPasswordFeedback("Le nouveau mot de passe doit contenir au moins 6 caractères.", "is-error");
-        return;
-      }
-
-      if (newPassword !== confirmPassword) {
-        showPasswordFeedback("Les deux mots de passe ne correspondent pas.", "is-error");
-        return;
-      }
-
-      savePasswordForUser(currentUser, newPassword);
-      passwordForm.reset();
-      showPasswordFeedback("Mot de passe mis à jour avec succès.", "is-success");
-    });
-
-    async function loadGites() {
-      giteState = [];
-
-      for (const gite of GITES) {
-        let data = {
-          price: gite.defaultPrice,
-          pdfUrl: "",
-        };
-
-        try {
-          const snap = await getDoc(doc(db, FIRESTORE_COLLECTION, gite.id));
-          if (snap.exists()) {
-            const remote = snap.data();
-            data.price = remote.price || gite.defaultPrice;
-            data.pdfUrl = remote.pdfUrl || "";
-          }
-        } catch (error) {
-          console.error("Firestore read error:", error);
-        }
-
-        giteState.push({
-          id: gite.id,
-          name: gite.name,
-          price: data.price,
-          pdfUrl: data.pdfUrl,
-          pendingPdfUrl: null,
-          uploadStatus: "",
-        });
-      }
-
-      renderGites();
-    }
-
-    function renderGites() {
-      gitesList.innerHTML = "";
-
-      giteState.forEach(function (gite, index) {
-        const card = document.createElement("article");
-        card.className = "gite-pricing-card";
-        card.dataset.index = String(index);
-
-        const pdfUrl = gite.pendingPdfUrl || gite.pdfUrl;
-        const pdfLinkHtml = pdfUrl
-          ? '<a class="pdf-current-link" href="' + pdfUrl + '" target="_blank" rel="noopener noreferrer">📄 Voir le PDF actuel</a>'
-          : "";
-
-        card.innerHTML =
-          '<h2 class="gite-pricing-card__title">' + gite.name + '</h2>' +
-          '<label class="gite-pricing-card__price-label" for="price-' + gite.id + '">Prix affiché sur le site</label>' +
-          '<input id="price-' + gite.id + '" class="gite-pricing-card__price-input" type="text" value="' + escapeAttr(gite.price) + '">' +
-          '<div class="pdf-section">' +
-          '<label class="pdf-upload-label">Mettre à jour le PDF des tarifs<input type="file" accept="application/pdf,.pdf" data-index="' + index + '"></label>' +
-          pdfLinkHtml +
-          '</div>' +
-          '<p class="pdf-status" data-status="' + index + '">' + gite.uploadStatus + '</p>';
-
-        gitesList.appendChild(card);
-
-        const priceInput = card.querySelector(".gite-pricing-card__price-input");
-        priceInput.addEventListener("input", function () {
-          giteState[index].price = priceInput.value;
-        });
-
-        const fileInput = card.querySelector('input[type="file"]');
-        fileInput.addEventListener("change", function () {
-          if (fileInput.files && fileInput.files[0]) {
-            uploadPdf(index, fileInput.files[0]);
-          }
-        });
-      });
-    }
-
-    function escapeAttr(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/"/g, "&quot;")
-        .replace(/</g, "&lt;");
-    }
-
-    function setUploadStatus(index, message, type) {
-      giteState[index].uploadStatus = message;
-      const statusEl = document.querySelector('[data-status="' + index + '"]');
-      if (!statusEl) return;
-      statusEl.textContent = message;
-      statusEl.classList.remove("is-success", "is-error");
-      if (type) statusEl.classList.add(type);
-    }
-
-    async function uploadPdf(index, file) {
-      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
-        setUploadStatus(index, "❌ Veuillez sélectionner un fichier PDF.", "is-error");
-        return;
-      }
-
-      setUploadStatus(index, "📤 Envoi du PDF en cours…", "");
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", cloudinaryConfig.uploadPreset);
-
-      try {
-        const response = await fetch(
-          "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
-          { method: "POST", body: formData }
-        );
-
-        if (!response.ok) {
-          throw new Error("Cloudinary upload failed");
-        }
-
-        const result = await response.json();
-        giteState[index].pendingPdfUrl = result.secure_url;
-        setUploadStatus(index, "✅ PDF prêt !", "is-success");
-        renderGites();
-      } catch (error) {
-        console.error("Cloudinary upload error:", error);
-        setUploadStatus(index, "❌ Échec de l'envoi du PDF. Réessayez.", "is-error");
-      }
-    }
-
-    saveBtn.addEventListener("click", async function () {
-      saveFeedback.classList.add("hidden");
-      saveBtn.disabled = true;
-
-      try {
-        const now = new Date();
-
-        for (const gite of giteState) {
-          const payload = {
-            name: gite.name,
-            price: gite.price.trim() || gite.name,
-            dernierEditeur: currentUser,
-            dateModification: serverTimestamp(),
-          };
-
-          const pdfUrl = gite.pendingPdfUrl || gite.pdfUrl;
-          if (pdfUrl) {
-            payload.pdfUrl = pdfUrl;
-          }
-
-          await setDoc(doc(db, FIRESTORE_COLLECTION, gite.id), payload, { merge: true });
-
-          if (gite.pendingPdfUrl) {
-            gite.pdfUrl = gite.pendingPdfUrl;
-            gite.pendingPdfUrl = null;
-          }
-        }
-
-        saveFeedback.textContent =
-          "✅ Tarifs mis à jour avec succès ! Modifié par " +
-          currentUser +
-          " — " +
-          formatFrenchDate(now);
-        saveFeedback.className = "feedback is-success";
-        saveFeedback.classList.remove("hidden");
-        renderGites();
-      } catch (error) {
-        console.error("Firestore save error:", error);
-        saveFeedback.textContent =
-          "❌ Une erreur est survenue. Vérifiez votre connexion et réessayez.";
-        saveFeedback.className = "feedback is-error";
-        saveFeedback.classList.remove("hidden");
-      } finally {
-        saveBtn.disabled = false;
-      }
-    });
-  </script>
+  <script type="module" src="js/admin.js"></script>
 </body>
 </html>
