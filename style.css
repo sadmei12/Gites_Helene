@@ -629,8 +629,12 @@ body.admin-page {
   border: 1px solid var(--border);
 }
 
-.admin-password-panel.hidden {
-  display: none;
+.admin-password-panel[hidden] {
+  display: none !important;
+}
+
+.admin-password-panel:not([hidden]) {
+  display: block;
 }
 
 .admin-inline-feedback {

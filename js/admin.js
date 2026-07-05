@@ -45,7 +45,6 @@ const settingsEmail = document.getElementById("settings-email");
 const settingsEmailBtn = document.getElementById("settings-email-btn");
 const settingsEmailSaveBtn = document.getElementById("settings-email-save-btn");
 const settingsEmailFeedback = document.getElementById("settings-email-feedback");
-const passwordPanel = document.getElementById("password-panel");
 const passwordToggleBtn = document.getElementById("password-toggle-btn");
 const passwordForm = document.getElementById("password-form");
 const currentPasswordInput = document.getElementById("current-password");
@@ -397,11 +396,28 @@ function closeSidebar() {
 }
 
 function closePasswordPanel() {
-  if (!passwordPanel) return;
-  passwordPanel.classList.add("hidden");
-  passwordForm.reset();
+  const panel = document.getElementById("password-panel");
+  if (!panel) return;
+  panel.hidden = true;
+  if (passwordForm) passwordForm.reset();
   resetPasswordVisibility();
   hidePasswordFeedback();
+}
+
+function openPasswordPanel() {
+  const panel = document.getElementById("password-panel");
+  if (!panel) return;
+  panel.hidden = false;
+  hidePasswordFeedback();
+  panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  if (currentPasswordInput) currentPasswordInput.focus();
+}
+
+function togglePasswordPanel() {
+  const panel = document.getElementById("password-panel");
+  if (!panel) return;
+  if (panel.hidden) openPasswordPanel();
+  else closePasswordPanel();
 }
 
 function setActiveView(viewName) {
@@ -486,9 +502,11 @@ function showEmailFeedback(message, type) {
 }
 
 function hidePasswordFeedback() {
-  passwordFeedback.classList.add("hidden");
-  passwordFeedback.textContent = "";
-  passwordFeedback.classList.remove("is-success", "is-error");
+  if (passwordFeedback) {
+    passwordFeedback.classList.add("hidden");
+    passwordFeedback.textContent = "";
+    passwordFeedback.classList.remove("is-success", "is-error");
+  }
   if (passwordSettingsFeedback) {
     passwordSettingsFeedback.classList.add("hidden");
     passwordSettingsFeedback.textContent = "";
@@ -497,6 +515,7 @@ function hidePasswordFeedback() {
 }
 
 function showPasswordFeedback(message, type) {
+  if (!passwordFeedback) return;
   passwordFeedback.textContent = message;
   passwordFeedback.className = "admin-inline-feedback " + type;
   passwordFeedback.classList.remove("hidden");
@@ -1126,15 +1145,12 @@ settingsEmailSaveBtn.addEventListener("click", async function () {
   showEmailFeedback("Adresse e-mail mise à jour.", "is-success");
 });
 
-passwordToggleBtn.addEventListener("click", function () {
-  passwordPanel.classList.toggle("hidden");
-  hidePasswordFeedback();
-  if (!passwordPanel.classList.contains("hidden")) {
-    currentPasswordInput.focus();
-  }
-});
+if (passwordToggleBtn) {
+  passwordToggleBtn.addEventListener("click", togglePasswordPanel);
+}
 
-passwordForm.addEventListener("submit", async function (event) {
+if (passwordForm) {
+  passwordForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   hidePasswordFeedback();
 
@@ -1173,7 +1189,8 @@ passwordForm.addEventListener("submit", async function (event) {
   closePasswordPanel();
   await logHistory("Mot de passe modifié");
   showPasswordSettingsFeedback("Mot de passe mis à jour.", "is-success");
-});
+  });
+}
 
 async function boot() {
   await initFirebase();
