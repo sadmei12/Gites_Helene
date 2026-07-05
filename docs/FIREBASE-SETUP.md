@@ -139,3 +139,9 @@ Les règles (`firestore.rules`) autorisent :
 |------------|---------|
 | `gites` | Un document par gîte (`calin`, `valeur-sure`, …) avec `periods`, `pdfUrl`, etc. |
 | `historique` | Journal des modifications admin |
+
+---
+
+## Import PDF (Firebase Storage)
+
+Voir le guide dédié : [`docs/PDF-IMPORT.md`](PDF-IMPORT.md)

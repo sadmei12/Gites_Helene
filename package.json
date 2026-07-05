@@ -4,7 +4,7 @@
   "scripts": {
     "build": "node scripts/generate-config.js",
     "firebase:login": "firebase login",
-    "firebase:deploy-rules": "firebase deploy --only firestore:rules"
+    "firebase:deploy-rules": "firebase deploy --only firestore:rules,storage"
   },
   "devDependencies": {
     "firebase-tools": "^14.0.0"

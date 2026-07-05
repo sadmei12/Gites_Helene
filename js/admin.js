@@ -62,6 +62,7 @@ let giteState = [];
 let expandedGiteId = null;
 let db = null;
 let auth = null;
+let storage = null;
 let doc;
 let getDoc;
 let setDoc;
@@ -78,6 +79,9 @@ let onAuthStateChanged;
 let updatePassword;
 let reauthenticateWithCredential;
 let EmailAuthProvider;
+let storageRefFn;
+let uploadBytes;
+let getDownloadURL;
 
 let labelEditTarget = null;
 
@@ -107,9 +111,15 @@ async function initFirebase() {
     const authModule = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"
     );
-    const app = appModule.initializeApp(firebaseConfig);
+    const storageModule = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
+    );
+    const app = appModule.getApps().length
+      ? appModule.getApp()
+      : appModule.initializeApp(firebaseConfig);
     db = firestoreModule.getFirestore(app);
     auth = authModule.getAuth(app);
+    storage = storageModule.getStorage(app);
     ({
       doc,
       getDoc,
@@ -130,6 +140,7 @@ async function initFirebase() {
       reauthenticateWithCredential,
       EmailAuthProvider,
     } = authModule);
+    ({ ref: storageRefFn, uploadBytes, getDownloadURL } = storageModule);
   } catch (error) {
     console.error("Firebase init error:", error);
   }
@@ -137,6 +148,17 @@ async function initFirebase() {
 
 function firebaseAuthActive() {
   return Boolean(isFirebaseConfigured() && auth && signInWithEmailAndPassword);
+}
+
+function firebaseStorageActive() {
+  return Boolean(
+    firebaseAuthActive() &&
+      storage &&
+      storageRefFn &&
+      uploadBytes &&
+      getDownloadURL &&
+      auth.currentUser
+  );
 }
 
 function resolveAdminUserName(firebaseUser) {
@@ -781,6 +803,32 @@ function setUploadStatus(index, message, type) {
   if (type) statusEl.classList.add(type);
 }
 
+async function uploadPdfToFirebaseStorage(giteId, file) {
+  const ref = storageRefFn(storage, "tarifs/" + giteId + ".pdf");
+  await uploadBytes(ref, file, { contentType: "application/pdf" });
+  return getDownloadURL(ref);
+}
+
+async function uploadPdfToCloudinary(giteId, file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", cloudinaryConfig.uploadPreset);
+  formData.append("public_id", "gites-helene/tarifs/" + giteId);
+  formData.append("overwrite", "true");
+
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
+    { method: "POST", body: formData }
+  );
+  const result = await response.json().catch(function () {
+    return {};
+  });
+  if (!response.ok) {
+    throw new Error(result.error && result.error.message ? result.error.message : "Cloudinary upload failed");
+  }
+  return result.secure_url;
+}
+
 async function uploadPdf(index, file, fileInput) {
   if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
     setUploadStatus(index, "Veuillez sélectionner un fichier PDF.", "is-error");
@@ -791,12 +839,13 @@ async function uploadPdf(index, file, fileInput) {
   const giteId = giteState[index].id;
   const sitePdfPath = defaultPdfUrl(giteId);
 
-  if (!isCloudinaryConfigured()) {
+  if (!firebaseStorageActive() && !isCloudinaryConfigured()) {
     setUploadStatus(
       index,
-      "Import en ligne non configuré. Collez l'URL du nouveau PDF ci-dessous, ou remplacez le fichier « " +
+      "Connectez-vous à l'admin pour importer un PDF, ou collez l'URL ci-dessous. " +
+        "Sinon, remplacez le fichier « " +
         sitePdfPath +
-        " » sur le site (même nom), puis cliquez Enregistrer.",
+        " » sur le site (même nom), puis Enregistrer.",
       "is-error"
     );
     if (fileInput) fileInput.value = "";
@@ -805,20 +854,15 @@ async function uploadPdf(index, file, fileInput) {
 
   setUploadStatus(index, "Envoi du PDF en cours…", "");
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", cloudinaryConfig.uploadPreset);
-  formData.append("public_id", "gites-helene/tarifs/" + giteId);
-  formData.append("overwrite", "true");
-
   try {
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
-      { method: "POST", body: formData }
-    );
-    if (!response.ok) throw new Error("Cloudinary upload failed");
-    const result = await response.json();
-    giteState[index].pendingPdfUrl = result.secure_url;
+    let url;
+    if (firebaseStorageActive()) {
+      url = await uploadPdfToFirebaseStorage(giteId, file);
+    } else {
+      url = await uploadPdfToCloudinary(giteId, file);
+    }
+
+    giteState[index].pendingPdfUrl = url;
     setUploadStatus(
       index,
       "Nouveau PDF prêt — cliquez « Enregistrer » pour remplacer l'ancien.",
@@ -826,8 +870,20 @@ async function uploadPdf(index, file, fileInput) {
     );
     renderGites();
   } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    setUploadStatus(index, "Échec de l'envoi du PDF. Réessayez.", "is-error");
+    console.error("PDF upload error:", error);
+    if (error && error.code === "storage/unauthorized") {
+      setUploadStatus(
+        index,
+        "Accès refusé. Reconnectez-vous à l'admin ou déployez les règles Storage.",
+        "is-error"
+      );
+    } else {
+      setUploadStatus(
+        index,
+        "Échec de l'envoi du PDF. " + (error.message || "Réessayez."),
+        "is-error"
+      );
+    }
   } finally {
     if (fileInput) fileInput.value = "";
   }
