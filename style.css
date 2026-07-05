@@ -160,12 +160,19 @@ body.admin-page {
   line-height: 1.2;
 }
 
+.admin-tarifs-panel {
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
 /* ── Admin : accordéon tarifs ── */
 .admin-gites-list {
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-width: 62rem;
+  width: 100%;
 }
 
 .admin-gite {
@@ -536,7 +543,11 @@ body.admin-page {
 @media (max-width: 899px) {
   .admin-main {
     margin-left: 0;
-    padding: 4.5rem 1.5rem 3rem 4.5rem;
+    padding: 4.5rem 0 3rem;
+  }
+
+  .admin-tarifs-panel {
+    padding-inline: 1.5rem;
   }
 }
 
