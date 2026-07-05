@@ -305,17 +305,6 @@ function clonePeriods(periods, giteId) {
   });
 }
 
-function isPriceModified(period) {
-  if (period.defaultPrice !== null && period.defaultPrice !== undefined) {
-    return period.price !== period.defaultPrice;
-  }
-  return period.price !== "";
-}
-
-function updatePriceFieldAppearance(input, period) {
-  input.classList.toggle("is-modified", isPriceModified(period));
-}
-
 function defaultPdfUrl(giteId) {
   return DEFAULT_PDF_URLS[giteId] || "";
 }
@@ -609,10 +598,10 @@ function renderGites() {
       '<div class="admin-tarif-table__body" data-periods="' +
       index +
       '"></div>' +
-      "</div>" +
       '<button type="button" class="admin-add-period" data-add-period="' +
       index +
       '">+ Ajouter une période</button>' +
+      "</div>" +
       '<div class="admin-pdf-section">' +
       '<div class="admin-pdf-top">' +
       '<div class="admin-pdf-url-wrap">' +
@@ -650,7 +639,6 @@ function renderGites() {
       '">' +
       escapeHtml(gite.uploadStatus) +
       "</p>" +
-      "</div>" +
       '<div class="admin-gite__save-row">' +
       (gite.saveFeedback
         ? '<p class="admin-gite__save-feedback ' +
@@ -661,7 +649,10 @@ function renderGites() {
         : '<p class="admin-gite__save-feedback hidden" role="status"></p>') +
       '<button type="button" class="btn admin-save-btn" data-save-gite="' +
       index +
+      '" data-gite-id="' +
+      escapeAttr(gite.id) +
       '">Enregistrer</button>' +
+      "</div>" +
       "</div>" +
       "</div>";
 
@@ -792,15 +783,12 @@ function createPeriodRow(giteIndex, periodIndex, period) {
 
   priceInput.addEventListener("input", function (event) {
     giteState[giteIndex].periods[periodIndex].price = event.target.value;
-    updatePriceFieldAppearance(priceInput, giteState[giteIndex].periods[periodIndex]);
   });
 
   deleteBtn.addEventListener("click", function () {
     giteState[giteIndex].periods.splice(periodIndex, 1);
     renderGites();
   });
-
-  updatePriceFieldAppearance(priceInput, period);
 
   if (
     labelEditTarget &&
