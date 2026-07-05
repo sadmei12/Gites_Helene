@@ -44,6 +44,7 @@ const saveFeedback = document.getElementById("save-feedback");
 const historyBody = document.getElementById("history-body");
 const settingsEmail = document.getElementById("settings-email");
 const settingsEmailBtn = document.getElementById("settings-email-btn");
+const settingsEmailSaveBtn = document.getElementById("settings-email-save-btn");
 const settingsEmailFeedback = document.getElementById("settings-email-feedback");
 const passwordPanel = document.getElementById("password-panel");
 const passwordToggleBtn = document.getElementById("password-toggle-btn");
@@ -264,6 +265,9 @@ function closeSidebar() {
 }
 
 function setActiveView(viewName) {
+  if (viewName !== "parametres" && currentUser) {
+    resetEmailField(currentUser);
+  }
   navLinks.forEach(function (link) {
     const isActive = link.dataset.adminView === viewName;
     link.classList.toggle("is-active", isActive);
@@ -281,12 +285,11 @@ function showAdmin(userName) {
   loginScreen.classList.add("hidden");
   adminApp.classList.remove("hidden");
   closeSidebar();
-  settingsEmail.value = getEmail(userName);
+  resetEmailField(userName);
   passwordPanel.classList.add("hidden");
   passwordForm.reset();
   resetPasswordVisibility();
   hidePasswordFeedback();
-  hideEmailFeedback();
   setActiveView("tarifs");
   loadGites();
   loadHistory();
@@ -300,6 +303,30 @@ function showLogin() {
   passwordInput.value = "";
   resetPasswordVisibility();
   showLoginError(false);
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function lockEmailField() {
+  settingsEmail.readOnly = true;
+  settingsEmailBtn.classList.remove("hidden");
+  settingsEmailSaveBtn.classList.add("hidden");
+}
+
+function unlockEmailField() {
+  settingsEmail.readOnly = false;
+  settingsEmailBtn.classList.add("hidden");
+  settingsEmailSaveBtn.classList.remove("hidden");
+  settingsEmail.focus();
+  settingsEmail.select();
+}
+
+function resetEmailField(userName) {
+  settingsEmail.value = getEmail(userName || currentUser);
+  lockEmailField();
+  hideEmailFeedback();
 }
 
 function hideEmailFeedback() {
@@ -717,15 +744,22 @@ document.addEventListener("keydown", function (event) {
 
 initPasswordToggles();
 
-settingsEmailBtn.addEventListener("click", async function () {
+settingsEmailBtn.addEventListener("click", function () {
+  hideEmailFeedback();
+  unlockEmailField();
+});
+
+settingsEmailSaveBtn.addEventListener("click", async function () {
   hideEmailFeedback();
   const newEmail = settingsEmail.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+  if (!newEmail || !isValidEmail(newEmail) || !settingsEmail.checkValidity()) {
     showEmailFeedback("Adresse e-mail invalide.", "is-error");
+    settingsEmail.focus();
     return;
   }
   saveEmailForUser(currentUser, newEmail);
   await logHistory("Adresse e-mail modifiée");
+  lockEmailField();
   showEmailFeedback("Adresse e-mail mise à jour.", "is-success");
 });
 

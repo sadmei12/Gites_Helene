@@ -431,6 +431,16 @@ body.admin-page {
   color: var(--forest);
 }
 
+.admin-settings-input:read-only {
+  cursor: default;
+  color: rgba(26, 46, 35, 0.75);
+}
+
+.admin-settings-input:not(:read-only):focus {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 1px;
+}
+
 .admin-settings-btn {
   min-width: 6.25rem;
   height: 32px;
