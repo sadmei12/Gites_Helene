@@ -492,35 +492,28 @@ body.admin-page {
   color: var(--peach-deep);
 }
 
-.admin-view--tarifs {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 4.5rem);
-}
-
-.admin-view--tarifs .admin-content-panel {
-  flex: 1;
-  padding-bottom: 5rem;
-}
-
-.admin-save-row {
-  position: sticky;
-  bottom: 1.25rem;
-  z-index: 15;
+.admin-gite__save-row {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
-  width: 100%;
-  max-width: var(--admin-content-width);
-  margin-inline: auto;
-  margin-top: auto;
-  padding-top: 1rem;
-  pointer-events: none;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
 }
 
-.admin-save-row > * {
-  pointer-events: auto;
+.admin-gite__save-feedback {
+  margin: 0;
+  font-size: 0.875rem;
+  text-align: right;
+  max-width: 100%;
+}
+
+.admin-gite__save-feedback.is-success {
+  color: #3d8b5a;
+}
+
+.admin-gite__save-feedback.is-error {
+  color: var(--peach-deep);
 }
 
 .admin-save-btn {
@@ -546,20 +539,6 @@ body.admin-page {
 
 .admin-save-btn:disabled {
   opacity: 0.55;
-}
-
-.admin-save-feedback {
-  margin: 0;
-  font-size: 0.9375rem;
-  text-align: right;
-}
-
-.admin-save-feedback.is-success {
-  color: #3d8b5a;
-}
-
-.admin-save-feedback.is-error {
-  color: var(--peach-deep);
 }
 
 /* ── Admin : paramètres ── */

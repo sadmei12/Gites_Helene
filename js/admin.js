@@ -40,8 +40,6 @@ const sidebarBackdrop = document.getElementById("sidebar-backdrop");
 const navLinks = document.querySelectorAll("[data-admin-view]");
 const adminViews = document.querySelectorAll(".admin-view");
 const gitesAccordion = document.getElementById("gites-accordion");
-const saveBtn = document.getElementById("save-btn");
-const saveFeedback = document.getElementById("save-feedback");
 const historyBody = document.getElementById("history-body");
 const settingsEmail = document.getElementById("settings-email");
 const settingsEmailBtn = document.getElementById("settings-email-btn");
@@ -653,6 +651,18 @@ function renderGites() {
       escapeHtml(gite.uploadStatus) +
       "</p>" +
       "</div>" +
+      '<div class="admin-gite__save-row">' +
+      (gite.saveFeedback
+        ? '<p class="admin-gite__save-feedback ' +
+          escapeAttr(gite.saveFeedbackType || "") +
+          '" role="status">' +
+          escapeHtml(gite.saveFeedback) +
+          "</p>"
+        : '<p class="admin-gite__save-feedback hidden" role="status"></p>') +
+      '<button type="button" class="btn admin-save-btn" data-save-gite="' +
+      index +
+      '">Enregistrer</button>' +
+      "</div>" +
       "</div>";
 
     gitesAccordion.appendChild(article);
@@ -698,6 +708,13 @@ function renderGites() {
         giteState[index].pdfUrl = "";
         giteState[index].pendingPdfUrl = "";
         renderGites();
+      });
+    }
+
+    const saveGiteBtn = article.querySelector("[data-save-gite]");
+    if (saveGiteBtn) {
+      saveGiteBtn.addEventListener("click", function () {
+        saveGite(index);
       });
     }
   });
@@ -958,65 +975,63 @@ async function loadHistory() {
   });
 }
 
-async function saveAll() {
-  saveFeedback.classList.add("hidden");
-  saveBtn.disabled = true;
+async function saveGite(index) {
+  const gite = giteState[index];
+  if (!gite) return;
+
+  const saveBtnEl = document.querySelector('[data-save-gite="' + index + '"]');
+  gite.saveFeedback = "";
+  gite.saveFeedbackType = "";
+  if (saveBtnEl) saveBtnEl.disabled = true;
 
   try {
-    const localPayload = {};
+    const pdfUrl =
+      gite.pendingPdfUrl !== null && gite.pendingPdfUrl !== undefined
+        ? gite.pendingPdfUrl
+        : gite.pdfUrl;
 
-    for (const gite of giteState) {
-      const pdfUrl =
-        gite.pendingPdfUrl !== null && gite.pendingPdfUrl !== undefined
-          ? gite.pendingPdfUrl
-          : gite.pdfUrl;
+    const payload = {
+      name: gite.name,
+      price: gite.price,
+      periods: clonePeriodsForSave(gite.periods),
+      pdfUrl: pdfUrl || "",
+      dernierEditeur: currentUser,
+    };
 
-      const payload = {
-        name: gite.name,
-        price: gite.price,
-        periods: clonePeriodsForSave(gite.periods),
-        pdfUrl: pdfUrl || "",
-        dernierEditeur: currentUser,
-      };
+    const localTarifs = loadLocalTarifs();
+    localTarifs[gite.id] = payload;
+    saveLocalTarifs(localTarifs);
 
-      localPayload[gite.id] = payload;
-
-      if (db) {
-        await setDoc(
-          doc(db, FIRESTORE_COLLECTION, gite.id),
-          Object.assign({}, payload, { dateModification: serverTimestamp() }),
-          { merge: true }
-        );
-      }
-
-      gite.pdfUrl = pdfUrl || "";
-      gite.pendingPdfUrl = null;
+    if (db) {
+      await setDoc(
+        doc(db, FIRESTORE_COLLECTION, gite.id),
+        Object.assign({}, payload, { dateModification: serverTimestamp() }),
+        { merge: true }
+      );
     }
 
-    saveLocalTarifs(localPayload);
-    await logHistory("Tarifs enregistrés");
+    gite.pdfUrl = pdfUrl || "";
+    gite.pendingPdfUrl = null;
+    await logHistory("Tarifs " + gite.name + " enregistrés");
 
-    saveFeedback.textContent =
-      "Tarifs enregistrés — modifié par " +
+    gite.saveFeedback =
+      "Enregistré — modifié par " +
       currentUser +
       " le " +
       formatFrenchDate(new Date()) +
-      (db ? " Les fiches gîte du site sont synchronisées." : ". Rechargez la fiche gîte pour voir les changements.");
-    saveFeedback.className = "admin-save-feedback is-success";
-    saveFeedback.classList.remove("hidden");
+      (db ? " · Fiche gîte synchronisée." : ".");
+    gite.saveFeedbackType = "is-success";
     renderGites();
   } catch (error) {
     console.error("Save error:", error);
-    if (error && error.code === "permission-denied") {
-      saveFeedback.textContent =
-        "Accès Firestore refusé. Vérifiez la connexion admin et les règles Firestore.";
-    } else {
-      saveFeedback.textContent = "Une erreur est survenue. Réessayez.";
-    }
-    saveFeedback.className = "admin-save-feedback is-error";
-    saveFeedback.classList.remove("hidden");
+    gite.saveFeedback =
+      error && error.code === "permission-denied"
+        ? "Accès Firestore refusé. Vérifiez la connexion admin."
+        : "Une erreur est survenue. Réessayez.";
+    gite.saveFeedbackType = "is-error";
+    renderGites();
   } finally {
-    saveBtn.disabled = false;
+    if (saveBtnEl) saveBtnEl.disabled = false;
   }
 }
 
@@ -1151,8 +1166,6 @@ passwordForm.addEventListener("submit", async function (event) {
   await logHistory("Mot de passe modifié");
   showPasswordFeedback("Mot de passe mis à jour.", "is-success");
 });
-
-saveBtn.addEventListener("click", saveAll);
 
 async function boot() {
   await initFirebase();
