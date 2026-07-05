@@ -234,7 +234,7 @@ body.admin-page {
 .admin-tarif-table__head,
 .admin-tarif-row {
   display: grid;
-  grid-template-columns: 1fr minmax(7.5rem, 120px);
+  grid-template-columns: 1fr minmax(7.5rem, 120px) 2rem;
   gap: 1rem;
   align-items: center;
 }
@@ -257,9 +257,50 @@ body.admin-page {
   border-bottom: 1px solid #e3f0fa;
 }
 
-.admin-period-label {
+.admin-period-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.admin-period-text {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--forest);
+}
+
+.admin-period-edit,
+.admin-period-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #5a7a9a;
+  cursor: pointer;
+}
+
+.admin-period-edit:hover,
+.admin-period-delete:hover {
+  color: var(--terracotta);
+  background: rgba(247, 153, 119, 0.12);
+}
+
+.admin-period-delete:hover {
+  color: var(--peach-deep);
+}
+
+.admin-period-input {
+  display: none;
   width: 100%;
   border: none;
+  border-bottom: 1px solid var(--terracotta);
   background: transparent;
   font-family: inherit;
   font-size: 1rem;
@@ -267,10 +308,17 @@ body.admin-page {
   padding: 0.25rem 0;
 }
 
-.admin-period-label:focus {
+.admin-period-input:focus {
   outline: none;
-  text-decoration: underline;
-  text-decoration-color: var(--terracotta);
+}
+
+.admin-period-cell.is-editing .admin-period-text,
+.admin-period-cell.is-editing .admin-period-edit {
+  display: none;
+}
+
+.admin-period-cell.is-editing .admin-period-input {
+  display: block;
 }
 
 .admin-price-input {
@@ -280,15 +328,24 @@ body.admin-page {
   padding: 0 0.75rem;
   border: none;
   border-radius: 10px;
-  background: #e3f0fa;
+  background: transparent;
   font-family: inherit;
   font-size: 1rem;
+  color: var(--forest);
+}
+
+.admin-price-input.is-modified {
+  background: #e3f0fa;
   color: var(--terracotta);
 }
 
 .admin-price-input::placeholder {
   color: var(--terracotta);
   opacity: 0.85;
+}
+
+.admin-price-input.is-modified::placeholder {
+  color: var(--terracotta);
 }
 
 .admin-price-input:focus {

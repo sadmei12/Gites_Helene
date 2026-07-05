@@ -71,6 +71,22 @@ let orderBy;
 let limit;
 let serverTimestamp;
 
+let labelEditTarget = null;
+
+const PERIOD_PENCIL_ICON =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">' +
+  '<path d="M12 20h9"/>' +
+  '<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>' +
+  "</svg>";
+
+const PERIOD_DELETE_ICON =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">' +
+  '<path d="M3 6h18"/>' +
+  '<path d="M8 6V4h8v2"/>' +
+  '<path d="M19 6l-1 14H6L5 6"/>' +
+  '<path d="M10 11v6M14 11v6"/>' +
+  "</svg>";
+
 async function initFirebase() {
   if (!isFirebaseConfigured()) return;
   try {
@@ -173,17 +189,65 @@ function saveLocalHistory(entries) {
   localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(entries.slice(0, 100)));
 }
 
-function clonePeriods(periods) {
+function clonePeriodsForSave(periods) {
   return periods.map(function (p) {
     return { label: p.label, price: p.price };
   });
 }
 
+function createPeriodFromDefault(period) {
+  return {
+    label: period.label,
+    price: period.price,
+    defaultLabel: period.label,
+    defaultPrice: period.price,
+  };
+}
+
+function enrichPeriod(period, giteId) {
+  const defaults = DEFAULT_PERIODS[giteId] || [];
+  const def = defaults.find(function (d) {
+    return d.label === period.label;
+  });
+  return {
+    label: period.label,
+    price: period.price,
+    defaultLabel: def ? def.label : period.defaultLabel || null,
+    defaultPrice: def ? def.price : period.defaultPrice ?? null,
+  };
+}
+
+function clonePeriods(periods, giteId) {
+  return periods.map(function (p) {
+    if (p.defaultPrice !== undefined || p.defaultLabel !== undefined) {
+      return {
+        label: p.label,
+        price: p.price,
+        defaultLabel: p.defaultLabel ?? null,
+        defaultPrice: p.defaultPrice ?? null,
+      };
+    }
+    return enrichPeriod(p, giteId);
+  });
+}
+
+function isPriceModified(period) {
+  if (period.defaultPrice !== null && period.defaultPrice !== undefined) {
+    return period.price !== period.defaultPrice;
+  }
+  return period.price !== "";
+}
+
+function updatePriceFieldAppearance(input, period) {
+  input.classList.toggle("is-modified", isPriceModified(period));
+}
+
 function defaultGiteData(gite) {
+  const defaults = DEFAULT_PERIODS[gite.id] || [];
   return {
     id: gite.id,
     name: gite.name,
-    periods: clonePeriods(DEFAULT_PERIODS[gite.id] || []),
+    periods: defaults.map(createPeriodFromDefault),
     pdfUrl: "",
     price: gite.defaultPrice,
   };
@@ -388,7 +452,7 @@ async function loadGites() {
 
     if (localTarifs[gite.id]) {
       const local = localTarifs[gite.id];
-      data.periods = clonePeriods(local.periods || data.periods);
+      data.periods = clonePeriods(local.periods || data.periods, gite.id);
       data.pdfUrl = local.pdfUrl || "";
       data.price = local.price || gite.defaultPrice;
     }
@@ -399,7 +463,7 @@ async function loadGites() {
         if (snap.exists()) {
           const remote = snap.data();
           if (Array.isArray(remote.periods) && remote.periods.length) {
-            data.periods = clonePeriods(remote.periods);
+            data.periods = clonePeriods(remote.periods, gite.id);
           }
           data.pdfUrl = remote.pdfUrl || data.pdfUrl;
           data.price = remote.price || data.price;
@@ -499,7 +563,14 @@ function renderGites() {
     });
 
     article.querySelector("[data-add-period]").addEventListener("click", function () {
-      giteState[index].periods.push({ label: "Nouvelle période", price: "" });
+      const periodIndex = giteState[index].periods.length;
+      giteState[index].periods.push({
+        label: "Nouvelle période",
+        price: "",
+        defaultLabel: null,
+        defaultPrice: null,
+      });
+      labelEditTarget = { giteIndex: index, periodIndex: periodIndex };
       renderGites();
     });
 
@@ -525,24 +596,96 @@ function renderGites() {
   });
 }
 
+function finishLabelEdit(giteIndex, periodIndex, input, cell) {
+  const value = input.value.trim();
+  if (value) giteState[giteIndex].periods[periodIndex].label = value;
+  else input.value = giteState[giteIndex].periods[periodIndex].label;
+  cell.classList.remove("is-editing");
+}
+
 function createPeriodRow(giteIndex, periodIndex, period) {
   const row = document.createElement("div");
   row.className = "admin-tarif-row";
   row.innerHTML =
-    '<input type="text" class="admin-period-label" value="' +
+    '<div class="admin-period-cell">' +
+    '<span class="admin-period-text">' +
+    escapeHtml(period.label) +
+    "</span>" +
+    '<button type="button" class="admin-period-edit" aria-label="Modifier le nom de la période">' +
+    PERIOD_PENCIL_ICON +
+    "</button>" +
+    '<input type="text" class="admin-period-input" value="' +
     escapeAttr(period.label) +
     '" aria-label="Nom de la période">' +
+    "</div>" +
     '<input type="text" class="admin-price-input" value="' +
     escapeAttr(period.price) +
-    '" placeholder="Prix" aria-label="Prix par semaine">';
+    '" placeholder="Prix" aria-label="Prix par semaine">' +
+    '<button type="button" class="admin-period-delete" aria-label="Supprimer la période">' +
+    PERIOD_DELETE_ICON +
+    "</button>";
 
-  row.querySelector(".admin-period-label").addEventListener("input", function (event) {
-    giteState[giteIndex].periods[periodIndex].label = event.target.value;
+  const cell = row.querySelector(".admin-period-cell");
+  const textEl = row.querySelector(".admin-period-text");
+  const editBtn = row.querySelector(".admin-period-edit");
+  const labelInput = row.querySelector(".admin-period-input");
+  const priceInput = row.querySelector(".admin-price-input");
+  const deleteBtn = row.querySelector(".admin-period-delete");
+
+  function syncLabelText() {
+    textEl.textContent = giteState[giteIndex].periods[periodIndex].label;
+    labelInput.value = giteState[giteIndex].periods[periodIndex].label;
+  }
+
+  function startLabelEdit() {
+    cell.classList.add("is-editing");
+    labelInput.value = giteState[giteIndex].periods[periodIndex].label;
+    labelInput.focus();
+    labelInput.select();
+  }
+
+  editBtn.addEventListener("click", startLabelEdit);
+
+  labelInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      giteState[giteIndex].periods[periodIndex].label = labelInput.value.trim() || period.label;
+      finishLabelEdit(giteIndex, periodIndex, labelInput, cell);
+      syncLabelText();
+    }
+    if (event.key === "Escape") {
+      labelInput.value = giteState[giteIndex].periods[periodIndex].label;
+      finishLabelEdit(giteIndex, periodIndex, labelInput, cell);
+    }
   });
 
-  row.querySelector(".admin-price-input").addEventListener("input", function (event) {
+  labelInput.addEventListener("blur", function () {
+    if (!cell.classList.contains("is-editing")) return;
+    giteState[giteIndex].periods[periodIndex].label = labelInput.value.trim() || period.label;
+    finishLabelEdit(giteIndex, periodIndex, labelInput, cell);
+    syncLabelText();
+  });
+
+  priceInput.addEventListener("input", function (event) {
     giteState[giteIndex].periods[periodIndex].price = event.target.value;
+    updatePriceFieldAppearance(priceInput, giteState[giteIndex].periods[periodIndex]);
   });
+
+  deleteBtn.addEventListener("click", function () {
+    giteState[giteIndex].periods.splice(periodIndex, 1);
+    renderGites();
+  });
+
+  updatePriceFieldAppearance(priceInput, period);
+
+  if (
+    labelEditTarget &&
+    labelEditTarget.giteIndex === giteIndex &&
+    labelEditTarget.periodIndex === periodIndex
+  ) {
+    startLabelEdit();
+    labelEditTarget = null;
+  }
 
   return row;
 }
@@ -653,7 +796,7 @@ async function saveAll() {
       const payload = {
         name: gite.name,
         price: gite.price,
-        periods: clonePeriods(gite.periods),
+        periods: clonePeriodsForSave(gite.periods),
         pdfUrl: pdfUrl || "",
         dernierEditeur: currentUser,
       };
