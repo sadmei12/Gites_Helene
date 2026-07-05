@@ -237,7 +237,7 @@ body.admin-page {
 .admin-tarif-table__head,
 .admin-tarif-row {
   display: grid;
-  grid-template-columns: 1fr minmax(7.5rem, 120px) 2rem;
+  grid-template-columns: 1fr minmax(8.75rem, 132px) 2rem;
   gap: 1rem;
   align-items: center;
 }
@@ -249,6 +249,10 @@ body.admin-page {
   font-weight: 500;
   color: var(--forest);
   margin-bottom: 0.35rem;
+}
+
+.admin-tarif-table__head span {
+  white-space: nowrap;
 }
 
 .admin-tarif-table__head span:last-child {
