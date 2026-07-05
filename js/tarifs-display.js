@@ -52,7 +52,9 @@
       const firestoreModule = await import(
         "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"
       );
-      const app = appModule.initializeApp(firebaseConfig);
+      const app = appModule.getApps().length
+        ? appModule.getApp()
+        : appModule.initializeApp(firebaseConfig);
       const db = firestoreModule.getFirestore(app);
       const snap = await firestoreModule.getDocs(
         firestoreModule.collection(db, FIRESTORE_COLLECTION)
@@ -84,11 +86,11 @@
   }
 
   async function loadAllTarifs() {
-    const local = loadFromLocalStorage();
-    if (local && Object.keys(local).length) return local;
-
     const remote = await loadFromFirestore();
     if (remote && Object.keys(remote).length) return remote;
+
+    const local = loadFromLocalStorage();
+    if (local && Object.keys(local).length) return local;
 
     const file = await loadFromJsonFile();
     if (file && Object.keys(file).length) return file;

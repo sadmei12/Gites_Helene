@@ -1,0 +1,11 @@
+{
+  "name": "gites-helene",
+  "private": true,
+  "scripts": {
+    "firebase:login": "firebase login",
+    "firebase:deploy-rules": "firebase deploy --only firestore:rules"
+  },
+  "devDependencies": {
+    "firebase-tools": "^14.0.0"
+  }
+}

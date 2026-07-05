@@ -61,6 +61,7 @@ let currentUser = null;
 let giteState = [];
 let expandedGiteId = null;
 let db = null;
+let auth = null;
 let doc;
 let getDoc;
 let setDoc;
@@ -71,6 +72,12 @@ let query;
 let orderBy;
 let limit;
 let serverTimestamp;
+let signInWithEmailAndPassword;
+let signOut;
+let onAuthStateChanged;
+let updatePassword;
+let reauthenticateWithCredential;
+let EmailAuthProvider;
 
 let labelEditTarget = null;
 
@@ -97,8 +104,12 @@ async function initFirebase() {
     const firestoreModule = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"
     );
+    const authModule = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"
+    );
     const app = appModule.initializeApp(firebaseConfig);
     db = firestoreModule.getFirestore(app);
+    auth = authModule.getAuth(app);
     ({
       doc,
       getDoc,
@@ -111,8 +122,50 @@ async function initFirebase() {
       limit,
       serverTimestamp,
     } = firestoreModule);
+    ({
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updatePassword,
+      reauthenticateWithCredential,
+      EmailAuthProvider,
+    } = authModule);
   } catch (error) {
     console.error("Firebase init error:", error);
+  }
+}
+
+function firebaseAuthActive() {
+  return Boolean(isFirebaseConfigured() && auth && signInWithEmailAndPassword);
+}
+
+function resolveAdminUserName(firebaseUser) {
+  if (!firebaseUser || !firebaseUser.email) return null;
+  const email = firebaseUser.email.toLowerCase();
+  for (let i = 0; i < ADMIN_USERS.length; i++) {
+    const name = ADMIN_USERS[i];
+    if (getEmail(name).toLowerCase() === email) return name;
+  }
+  return null;
+}
+
+let loadGitesGeneration = 0;
+
+async function signInAdminUser(userName, password) {
+  if (!firebaseAuthActive()) {
+    return getPassword(userName) === password;
+  }
+  await signInWithEmailAndPassword(auth, getEmail(userName), password);
+  return true;
+}
+
+async function signOutAdminUser() {
+  if (auth && signOut) {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Firebase sign-out error:", error);
+    }
   }
 }
 
@@ -350,6 +403,12 @@ function setActiveView(viewName) {
 }
 
 function showAdmin(userName) {
+  if (
+    currentUser === userName &&
+    !adminApp.classList.contains("hidden")
+  ) {
+    return;
+  }
   currentUser = userName;
   loginScreen.classList.add("hidden");
   adminApp.classList.remove("hidden");
@@ -449,6 +508,7 @@ async function logHistory(label) {
 }
 
 async function loadGites() {
+  const generation = ++loadGitesGeneration;
   giteState = [];
   const localTarifs = loadLocalTarifs();
 
@@ -488,6 +548,8 @@ async function loadGites() {
       uploadStatus: "",
     });
   }
+
+  if (generation !== loadGitesGeneration) return;
 
   if (!expandedGiteId && giteState.length) expandedGiteId = giteState[0].id;
   renderGites();
@@ -858,13 +920,18 @@ async function saveAll() {
       currentUser +
       " le " +
       formatFrenchDate(new Date()) +
-      ". Rechargez la fiche gîte pour voir les changements.";
+      (db ? " Les fiches gîte du site sont synchronisées." : ". Rechargez la fiche gîte pour voir les changements.");
     saveFeedback.className = "admin-save-feedback is-success";
     saveFeedback.classList.remove("hidden");
     renderGites();
   } catch (error) {
     console.error("Save error:", error);
-    saveFeedback.textContent = "Une erreur est survenue. Réessayez.";
+    if (error && error.code === "permission-denied") {
+      saveFeedback.textContent =
+        "Accès Firestore refusé. Vérifiez la connexion admin et les règles Firestore.";
+    } else {
+      saveFeedback.textContent = "Une erreur est survenue. Réessayez.";
+    }
     saveFeedback.className = "admin-save-feedback is-error";
     saveFeedback.classList.remove("hidden");
   } finally {
@@ -884,19 +951,33 @@ document.querySelectorAll(".user-btn").forEach(function (btn) {
   });
 });
 
-loginForm.addEventListener("submit", function (event) {
+loginForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   if (!selectedUser) return;
-  if (getPassword(selectedUser) !== passwordInput.value) {
+  showLoginError(false);
+
+  try {
+    const ok = await signInAdminUser(selectedUser, passwordInput.value);
+    if (!ok) {
+      showLoginError(true);
+      return;
+    }
+  } catch (error) {
+    console.error("Login error:", error);
     showLoginError(true);
     return;
   }
+
   if (rememberCheckbox.checked) localStorage.setItem(STORAGE_KEY, selectedUser);
   else localStorage.removeItem(STORAGE_KEY);
-  showAdmin(selectedUser);
+
+  if (!firebaseAuthActive()) {
+    showAdmin(selectedUser);
+  }
 });
 
-logoutBtn.addEventListener("click", function () {
+logoutBtn.addEventListener("click", async function () {
+  await signOutAdminUser();
   localStorage.removeItem(STORAGE_KEY);
   selectedUser = null;
   showLogin();
@@ -955,16 +1036,30 @@ passwordForm.addEventListener("submit", async function (event) {
   const newPassword = newPasswordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
-  if (getPassword(currentUser) !== currentPassword) {
-    showPasswordFeedback("Mot de passe actuel incorrect.", "is-error");
-    return;
-  }
   if (newPassword.length < 6) {
     showPasswordFeedback("Minimum 6 caractères.", "is-error");
     return;
   }
   if (newPassword !== confirmPassword) {
     showPasswordFeedback("Les mots de passe ne correspondent pas.", "is-error");
+    return;
+  }
+
+  try {
+    if (firebaseAuthActive() && auth.currentUser) {
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        currentPassword
+      );
+      await reauthenticateWithCredential(auth.currentUser, credential);
+      await updatePassword(auth.currentUser, newPassword);
+    } else if (getPassword(currentUser) !== currentPassword) {
+      showPasswordFeedback("Mot de passe actuel incorrect.", "is-error");
+      return;
+    }
+  } catch (error) {
+    console.error("Firebase password update error:", error);
+    showPasswordFeedback("Mot de passe actuel incorrect.", "is-error");
     return;
   }
 
@@ -980,6 +1075,19 @@ saveBtn.addEventListener("click", saveAll);
 
 async function boot() {
   await initFirebase();
+
+  if (firebaseAuthActive()) {
+    onAuthStateChanged(auth, function (user) {
+      if (user) {
+        const adminName = resolveAdminUserName(user);
+        if (adminName) showAdmin(adminName);
+      } else if (currentUser) {
+        showLogin();
+      }
+    });
+    return;
+  }
+
   const savedUser = localStorage.getItem(STORAGE_KEY);
   if (savedUser && ADMIN_USERS.includes(savedUser)) {
     showAdmin(savedUser);

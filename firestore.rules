@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in [
+          'helenemarseille@orange.fr',
+          'fauconlily05@gmail.com'
+        ];
+    }
+
+    // Tarifs publics — lecture ouverte, écriture réservée aux 2 admins
+    match /gites/{giteId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Historique admin — lecture et création pour les 2 admins uniquement
+    match /historique/{entryId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,18 +1,29 @@
 // Configuration partagée — admin tarifs & page publique
 (function (global) {
-  const firebaseConfig = {
-    apiKey: "VOTRE_API_KEY",
-    authDomain: "VOTRE_PROJECT.firebaseapp.com",
-    projectId: "VOTRE_PROJECT_ID",
-    storageBucket: "VOTRE_PROJECT.appspot.com",
-    messagingSenderId: "VOTRE_SENDER_ID",
-    appId: "VOTRE_APP_ID",
-  };
+  const local =
+    typeof global.GITES_HELENE_LOCAL === "object" && global.GITES_HELENE_LOCAL
+      ? global.GITES_HELENE_LOCAL
+      : {};
 
-  const cloudinaryConfig = {
-    cloudName: "VOTRE_CLOUD_NAME",
-    uploadPreset: "VOTRE_UPLOAD_PRESET",
-  };
+  const firebaseConfig = Object.assign(
+    {
+      apiKey: "AIzaSyBxcu4lfRDOZD4Bc-b9hr7BDa0zrCzx2E0",
+      authDomain: "gite-helene.firebaseapp.com",
+      projectId: "gite-helene",
+      storageBucket: "gite-helene.firebasestorage.app",
+      messagingSenderId: "662222726330",
+      appId: "1:662222726330:web:cabd9ea4c8d361a40cce83",
+    },
+    local.firebaseConfig || {}
+  );
+
+  const cloudinaryConfig = Object.assign(
+    {
+      cloudName: "VOTRE_CLOUD_NAME",
+      uploadPreset: "VOTRE_UPLOAD_PRESET",
+    },
+    local.cloudinaryConfig || {}
+  );
 
   const defaultPasswords = {
     Hélène: "GitesHelene2026!",
