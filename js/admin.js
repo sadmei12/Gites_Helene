@@ -45,13 +45,15 @@ const settingsEmail = document.getElementById("settings-email");
 const settingsEmailBtn = document.getElementById("settings-email-btn");
 const settingsEmailSaveBtn = document.getElementById("settings-email-save-btn");
 const settingsEmailFeedback = document.getElementById("settings-email-feedback");
-const passwordPanel = document.getElementById("password-panel");
+const passwordModal = document.getElementById("password-modal");
+const passwordModalBackdrop = document.getElementById("password-modal-backdrop");
 const passwordToggleBtn = document.getElementById("password-toggle-btn");
 const passwordForm = document.getElementById("password-form");
 const currentPasswordInput = document.getElementById("current-password");
 const newPasswordInput = document.getElementById("new-password");
 const confirmPasswordInput = document.getElementById("confirm-password");
 const passwordFeedback = document.getElementById("password-feedback");
+const passwordSettingsFeedback = document.getElementById("password-settings-feedback");
 const logoutBtn = document.getElementById("logout-btn");
 
 let selectedUser = null;
@@ -395,10 +397,26 @@ function closeSidebar() {
   sidebarToggle.setAttribute("aria-expanded", "false");
 }
 
+function closePasswordModal() {
+  if (!passwordModal) return;
+  passwordModal.classList.add("hidden");
+  passwordForm.reset();
+  resetPasswordVisibility();
+  hidePasswordFeedback();
+}
+
+function openPasswordModal() {
+  if (!passwordModal) return;
+  passwordModal.classList.remove("hidden");
+  hidePasswordFeedback();
+  currentPasswordInput.focus();
+}
+
 function setActiveView(viewName) {
   if (viewName !== "parametres" && currentUser) {
     resetEmailField(currentUser);
   }
+  closePasswordModal();
   navLinks.forEach(function (link) {
     const isActive = link.dataset.adminView === viewName;
     link.classList.toggle("is-active", isActive);
@@ -423,10 +441,7 @@ function showAdmin(userName) {
   adminApp.classList.remove("hidden");
   closeSidebar();
   resetEmailField(userName);
-  passwordPanel.classList.add("hidden");
-  passwordForm.reset();
-  resetPasswordVisibility();
-  hidePasswordFeedback();
+  closePasswordModal();
   setActiveView("tarifs");
   loadGites();
   loadHistory();
@@ -482,12 +497,24 @@ function hidePasswordFeedback() {
   passwordFeedback.classList.add("hidden");
   passwordFeedback.textContent = "";
   passwordFeedback.classList.remove("is-success", "is-error");
+  if (passwordSettingsFeedback) {
+    passwordSettingsFeedback.classList.add("hidden");
+    passwordSettingsFeedback.textContent = "";
+    passwordSettingsFeedback.classList.remove("is-success", "is-error");
+  }
 }
 
 function showPasswordFeedback(message, type) {
   passwordFeedback.textContent = message;
   passwordFeedback.className = "admin-inline-feedback " + type;
   passwordFeedback.classList.remove("hidden");
+}
+
+function showPasswordSettingsFeedback(message, type) {
+  if (!passwordSettingsFeedback) return;
+  passwordSettingsFeedback.textContent = message;
+  passwordSettingsFeedback.className = "admin-inline-feedback " + type;
+  passwordSettingsFeedback.classList.remove("hidden");
 }
 
 async function logHistory(label) {
@@ -1108,9 +1135,13 @@ settingsEmailSaveBtn.addEventListener("click", async function () {
 });
 
 passwordToggleBtn.addEventListener("click", function () {
-  passwordPanel.classList.toggle("hidden");
-  hidePasswordFeedback();
+  if (passwordModal.classList.contains("hidden")) openPasswordModal();
+  else closePasswordModal();
 });
+
+if (passwordModalBackdrop) {
+  passwordModalBackdrop.addEventListener("click", closePasswordModal);
+}
 
 passwordForm.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -1148,11 +1179,9 @@ passwordForm.addEventListener("submit", async function (event) {
   }
 
   savePasswordForUser(currentUser, newPassword);
-  passwordForm.reset();
-  resetPasswordVisibility();
-  passwordPanel.classList.add("hidden");
+  closePasswordModal();
   await logHistory("Mot de passe modifié");
-  showPasswordFeedback("Mot de passe mis à jour.", "is-success");
+  showPasswordSettingsFeedback("Mot de passe mis à jour.", "is-success");
 });
 
 async function boot() {
