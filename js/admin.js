@@ -813,7 +813,7 @@ async function uploadPdfToCloudinary(giteId, file) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", cloudinaryConfig.uploadPreset);
-  formData.append("public_id", "gites-helene/tarifs/" + giteId);
+  formData.append("public_id", "gites-helene/tarifs/" + giteId + ".pdf");
 
   const response = await fetch(
     "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
@@ -825,7 +825,18 @@ async function uploadPdfToCloudinary(giteId, file) {
   if (!response.ok) {
     throw new Error(result.error && result.error.message ? result.error.message : "Cloudinary upload failed");
   }
-  return result.secure_url;
+  const url = result.secure_url || "";
+  try {
+    const check = await fetch(url, { method: "HEAD" });
+    if (!check.ok) {
+      throw new Error(
+        "PDF envoyé mais inaccessible publiquement. Cloudinary → Settings → Security → autorisez la diffusion des PDF."
+      );
+    }
+  } catch (error) {
+    if (error.message && error.message.includes("inaccessible")) throw error;
+  }
+  return url;
 }
 
 async function uploadPdf(index, file, fileInput) {

@@ -33,6 +33,16 @@ Cloudinary héberge les PDF importés depuis l’admin. Le forfait **gratuit** s
 
 ---
 
+## 2 bis. Autoriser la lecture des PDF (obligatoire)
+
+Sans cette étape, le PDF s’envoie mais le navigateur affiche *« Échec de chargement du document PDF »*.
+
+1. [Console Cloudinary → Settings → Security](https://console.cloudinary.com/settings/security)
+2. Activez **Allow delivery of PDF and ZIP files** (ou équivalent en français)
+3. **Save**
+
+---
+
 ## 3. Configurer Vercel
 
 Vercel → **Settings → Environment Variables** → ajoutez (Production + Preview) :

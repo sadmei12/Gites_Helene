@@ -98,6 +98,33 @@
     return buildFromDefaults();
   }
 
+  async function resolvePdfUrl(giteId, pdfUrl) {
+    const fallback = DEFAULT_PDF_URLS[giteId] || pdfUrl || "";
+    if (!pdfUrl || pdfUrl.indexOf("res.cloudinary.com") === -1) {
+      return pdfUrl || fallback;
+    }
+    try {
+      const response = await fetch(pdfUrl, { method: "HEAD" });
+      if (response.ok) return pdfUrl;
+    } catch (error) {
+      console.warn("PDF Cloudinary inaccessible pour " + giteId + ":", error);
+    }
+    return fallback;
+  }
+
+  async function resolveAllPdfUrls(allTarifs) {
+    const giteIds = Object.keys(allTarifs);
+    await Promise.all(
+      giteIds.map(async function (giteId) {
+        allTarifs[giteId].pdfUrl = await resolvePdfUrl(
+          giteId,
+          allTarifs[giteId].pdfUrl
+        );
+      })
+    );
+    return allTarifs;
+  }
+
   function renderGiteTarifs(giteId, allTarifs) {
     const wrap = document.querySelector('[data-tarifs-gite="' + giteId + '"]');
     if (!wrap) return;
@@ -140,7 +167,8 @@
   }
 
   async function init() {
-    const allTarifs = await loadAllTarifs();
+    let allTarifs = await loadAllTarifs();
+    allTarifs = await resolveAllPdfUrls(allTarifs);
     renderAll(allTarifs);
 
     window.addEventListener("storage", function (event) {
