@@ -814,8 +814,6 @@ async function uploadPdfToCloudinary(giteId, file) {
   formData.append("file", file);
   formData.append("upload_preset", cloudinaryConfig.uploadPreset);
   formData.append("public_id", "gites-helene/tarifs/" + giteId);
-  formData.append("overwrite", "true");
-  formData.append("resource_type", "raw");
 
   const response = await fetch(
     "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
