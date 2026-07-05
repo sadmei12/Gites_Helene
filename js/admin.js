@@ -254,7 +254,6 @@ function openSidebar() {
   sidebarBackdrop.classList.add("is-visible");
   sidebarBackdrop.setAttribute("aria-hidden", "false");
   sidebarToggle.setAttribute("aria-expanded", "true");
-  sidebarToggle.setAttribute("aria-label", "Fermer le menu");
 }
 
 function closeSidebar() {
@@ -262,7 +261,6 @@ function closeSidebar() {
   sidebarBackdrop.classList.remove("is-visible");
   sidebarBackdrop.setAttribute("aria-hidden", "true");
   sidebarToggle.setAttribute("aria-expanded", "false");
-  sidebarToggle.setAttribute("aria-label", "Ouvrir le menu");
 }
 
 function setActiveView(viewName) {
