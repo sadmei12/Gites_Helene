@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const OUT = path.join(ROOT, "config.local.js");
+const OUT = path.join(ROOT, "config.runtime.js");
 
 const ENV_KEYS = [
   "FIREBASE_API_KEY",
@@ -40,7 +40,7 @@ if (missing.length) {
     process.exit(1);
   }
   console.log(
-    "[generate-config] Variables absentes — config.local.js local conservé (dev)."
+    "[generate-config] Variables absentes — config.runtime.js / config.local.js local conservés (dev)."
   );
   process.exit(0);
 }
@@ -63,7 +63,7 @@ const cloudinaryConfig = {
 };
 
 const lines = [
-  "// Généré au build Vercel — ne pas éditer ni versionner.",
+  "// Généré au build Vercel — ne pas éditer.",
   "window.GITES_HELENE_LOCAL = {",
   "  firebaseConfig: " + JSON.stringify(firebaseConfig, null, 2).replace(/\n/g, "\n  ") + ",",
   "  cloudinaryConfig: " + JSON.stringify(cloudinaryConfig, null, 2).replace(/\n/g, "\n  ") + ",",
@@ -72,4 +72,4 @@ const lines = [
 ];
 
 fs.writeFileSync(OUT, lines.join("\n"), "utf8");
-console.log("[generate-config] config.local.js généré pour " + values.FIREBASE_PROJECT_ID);
+console.log("[generate-config] config.runtime.js généré pour " + values.FIREBASE_PROJECT_ID);
