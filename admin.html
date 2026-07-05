@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
   <title>Administration tarifs — Gîtes Hélène</title>
 </head>
 <body class="pricing-page admin-page">
@@ -98,6 +98,61 @@
           <button type="button" id="password-toggle-btn" class="btn btn-primary admin-settings-btn">Modifier</button>
         </div>
         <p id="password-settings-feedback" class="admin-inline-feedback hidden" role="status"></p>
+
+        <div id="password-panel" class="admin-password-panel hidden">
+          <form id="password-form" class="admin-password-form" novalidate>
+            <label class="field-label" for="current-password">Mot de passe actuel</label>
+            <div class="password-field">
+              <input id="current-password" class="field-input password-field__input" type="password" autocomplete="current-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="current-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
+            <label class="field-label" for="new-password">Nouveau mot de passe</label>
+            <div class="password-field">
+              <input id="new-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="new-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
+            <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
+            <div class="password-field">
+              <input id="confirm-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="confirm-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
+          </form>
+          <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
+        </div>
         </div>
       </section>
 
@@ -122,70 +177,11 @@
         </div>
       </section>
     </main>
-
-    <div id="password-modal" class="admin-password-modal hidden" role="dialog" aria-modal="true" aria-labelledby="password-modal-title">
-      <button type="button" class="admin-password-modal__backdrop" id="password-modal-backdrop" aria-label="Fermer"></button>
-      <div id="password-panel" class="admin-password-panel">
-        <h2 id="password-modal-title" class="admin-password-panel__title">Modifier le mot de passe</h2>
-        <form id="password-form" class="admin-password-form" novalidate>
-          <label class="field-label" for="current-password">Mot de passe actuel</label>
-          <div class="password-field">
-            <input id="current-password" class="field-input password-field__input" type="password" autocomplete="current-password" required>
-            <button type="button" class="password-field__toggle" data-password-toggle aria-controls="current-password" aria-label="Afficher le mot de passe">
-              <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-              <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                <path d="M1 1l22 22"/>
-                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
-              </svg>
-            </button>
-          </div>
-          <label class="field-label" for="new-password">Nouveau mot de passe</label>
-          <div class="password-field">
-            <input id="new-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
-            <button type="button" class="password-field__toggle" data-password-toggle aria-controls="new-password" aria-label="Afficher le mot de passe">
-              <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-              <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                <path d="M1 1l22 22"/>
-                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
-              </svg>
-            </button>
-          </div>
-          <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
-          <div class="password-field">
-            <input id="confirm-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
-            <button type="button" class="password-field__toggle" data-password-toggle aria-controls="confirm-password" aria-label="Afficher le mot de passe">
-              <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-              <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                <path d="M1 1l22 22"/>
-                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
-              </svg>
-            </button>
-          </div>
-          <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
-        </form>
-        <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
-      </div>
-    </div>
   </div>
 
   <script src="config.runtime.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.local.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.js"></script>
-  <script src="js/admin.js?v=11" defer></script>
+  <script src="js/admin.js?v=12" defer></script>
 </body>
 </html>

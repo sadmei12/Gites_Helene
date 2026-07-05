@@ -45,8 +45,7 @@ const settingsEmail = document.getElementById("settings-email");
 const settingsEmailBtn = document.getElementById("settings-email-btn");
 const settingsEmailSaveBtn = document.getElementById("settings-email-save-btn");
 const settingsEmailFeedback = document.getElementById("settings-email-feedback");
-const passwordModal = document.getElementById("password-modal");
-const passwordModalBackdrop = document.getElementById("password-modal-backdrop");
+const passwordPanel = document.getElementById("password-panel");
 const passwordToggleBtn = document.getElementById("password-toggle-btn");
 const passwordForm = document.getElementById("password-form");
 const currentPasswordInput = document.getElementById("current-password");
@@ -397,26 +396,19 @@ function closeSidebar() {
   sidebarToggle.setAttribute("aria-expanded", "false");
 }
 
-function closePasswordModal() {
-  if (!passwordModal) return;
-  passwordModal.classList.add("hidden");
+function closePasswordPanel() {
+  if (!passwordPanel) return;
+  passwordPanel.classList.add("hidden");
   passwordForm.reset();
   resetPasswordVisibility();
   hidePasswordFeedback();
-}
-
-function openPasswordModal() {
-  if (!passwordModal) return;
-  passwordModal.classList.remove("hidden");
-  hidePasswordFeedback();
-  currentPasswordInput.focus();
 }
 
 function setActiveView(viewName) {
   if (viewName !== "parametres" && currentUser) {
     resetEmailField(currentUser);
   }
-  closePasswordModal();
+  closePasswordPanel();
   navLinks.forEach(function (link) {
     const isActive = link.dataset.adminView === viewName;
     link.classList.toggle("is-active", isActive);
@@ -441,7 +433,7 @@ function showAdmin(userName) {
   adminApp.classList.remove("hidden");
   closeSidebar();
   resetEmailField(userName);
-  closePasswordModal();
+  closePasswordPanel();
   setActiveView("tarifs");
   loadGites();
   loadHistory();
@@ -1135,13 +1127,12 @@ settingsEmailSaveBtn.addEventListener("click", async function () {
 });
 
 passwordToggleBtn.addEventListener("click", function () {
-  if (passwordModal.classList.contains("hidden")) openPasswordModal();
-  else closePasswordModal();
+  passwordPanel.classList.toggle("hidden");
+  hidePasswordFeedback();
+  if (!passwordPanel.classList.contains("hidden")) {
+    currentPasswordInput.focus();
+  }
 });
-
-if (passwordModalBackdrop) {
-  passwordModalBackdrop.addEventListener("click", closePasswordModal);
-}
 
 passwordForm.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -1179,7 +1170,7 @@ passwordForm.addEventListener("submit", async function (event) {
   }
 
   savePasswordForUser(currentUser, newPassword);
-  closePasswordModal();
+  closePasswordPanel();
   await logHistory("Mot de passe modifié");
   showPasswordSettingsFeedback("Mot de passe mis à jour.", "is-success");
 });

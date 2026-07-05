@@ -620,52 +620,17 @@ body.admin-page {
   max-width: 62rem;
 }
 
-.admin-password-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
-
-.admin-password-modal.hidden {
-  display: none;
-}
-
-.admin-password-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  border: none;
-  padding: 0;
-  background: rgba(26, 46, 35, 0.35);
-  cursor: pointer;
-}
-
 .admin-password-panel {
-  position: relative;
-  z-index: 1;
   width: min(100%, 28rem);
-  margin: 0;
-  padding: 1.5rem;
-  background: var(--white);
+  margin: 1.5rem auto 0;
+  padding: 1.25rem;
+  background: #fafcfe;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
 }
 
-.admin-password-panel__title {
-  margin: 0 0 1.25rem;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #5a7a9a;
-}
-
-.admin-password-form .btn-primary {
-  width: 100%;
-  margin-top: 0.5rem;
+.admin-password-panel.hidden {
+  display: none;
 }
 
 .admin-inline-feedback {
