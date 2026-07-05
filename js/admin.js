@@ -1,34 +1,30 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  orderBy,
-  limit,
-  serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import {
-  firebaseConfig,
-  cloudinaryConfig,
-  defaultPasswords,
-  defaultEmails,
-  DEFAULT_PERIODS,
-  GITES,
-  STORAGE_KEY,
-  PASSWORDS_STORAGE_KEY,
-  EMAILS_STORAGE_KEY,
-  TARIFS_STORAGE_KEY,
-  HISTORY_STORAGE_KEY,
-  FIRESTORE_COLLECTION,
-  HISTORY_COLLECTION,
-  isFirebaseConfigured,
-  isCloudinaryConfigured,
-} from "../config.js";
+(function () {
+  "use strict";
+
+  const cfg = window.GITES_HELENE_CONFIG;
+  if (!cfg) {
+    console.error("Configuration admin introuvable — chargez config.js avant admin.js.");
+    return;
+  }
+
+  const {
+    firebaseConfig,
+    cloudinaryConfig,
+    defaultPasswords,
+    defaultEmails,
+    DEFAULT_PERIODS,
+    GITES,
+    ADMIN_USERS,
+    STORAGE_KEY,
+    PASSWORDS_STORAGE_KEY,
+    EMAILS_STORAGE_KEY,
+    TARIFS_STORAGE_KEY,
+    HISTORY_STORAGE_KEY,
+    FIRESTORE_COLLECTION,
+    HISTORY_COLLECTION,
+    isFirebaseConfigured,
+    isCloudinaryConfigured,
+  } = cfg;
 
 const loginScreen = document.getElementById("login-screen");
 const adminApp = document.getElementById("admin-app");
@@ -62,10 +58,43 @@ let currentUser = null;
 let giteState = [];
 let expandedGiteId = null;
 let db = null;
+let doc;
+let getDoc;
+let setDoc;
+let collection;
+let getDocs;
+let addDoc;
+let query;
+let orderBy;
+let limit;
+let serverTimestamp;
 
-if (isFirebaseConfigured()) {
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
+async function initFirebase() {
+  if (!isFirebaseConfigured()) return;
+  try {
+    const appModule = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"
+    );
+    const firestoreModule = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"
+    );
+    const app = appModule.initializeApp(firebaseConfig);
+    db = firestoreModule.getFirestore(app);
+    ({
+      doc,
+      getDoc,
+      setDoc,
+      collection,
+      getDocs,
+      addDoc,
+      query,
+      orderBy,
+      limit,
+      serverTimestamp,
+    } = firestoreModule);
+  } catch (error) {
+    console.error("Firebase init error:", error);
+  }
 }
 
 function loadPasswords() {
@@ -686,7 +715,13 @@ passwordForm.addEventListener("submit", async function (event) {
 
 saveBtn.addEventListener("click", saveAll);
 
-const savedUser = localStorage.getItem(STORAGE_KEY);
-if (savedUser && defaultPasswords[savedUser]) {
-  showAdmin(savedUser);
+async function boot() {
+  await initFirebase();
+  const savedUser = localStorage.getItem(STORAGE_KEY);
+  if (savedUser && ADMIN_USERS.includes(savedUser)) {
+    showAdmin(savedUser);
+  }
 }
+
+boot();
+})();
