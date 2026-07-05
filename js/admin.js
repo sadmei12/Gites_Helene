@@ -35,6 +35,7 @@ const rememberCheckbox = document.getElementById("remember-me");
 const sidebar = document.getElementById("admin-sidebar");
 const sidebarToggle = document.getElementById("sidebar-toggle");
 const sidebarClose = document.getElementById("sidebar-close");
+const sidebarBackdrop = document.getElementById("sidebar-backdrop");
 const navLinks = document.querySelectorAll("[data-admin-view]");
 const adminViews = document.querySelectorAll(".admin-view");
 const gitesAccordion = document.getElementById("gites-accordion");
@@ -224,6 +225,46 @@ function showLoginError(show) {
   loginError.classList.toggle("hidden", !show);
 }
 
+function setPasswordFieldVisible(input, visible) {
+  input.type = visible ? "text" : "password";
+  const toggle = document.querySelector('[data-password-toggle][aria-controls="' + input.id + '"]');
+  if (!toggle) return;
+  toggle.classList.toggle("is-visible", visible);
+  toggle.setAttribute("aria-label", visible ? "Masquer le mot de passe" : "Afficher le mot de passe");
+}
+
+function resetPasswordVisibility() {
+  document.querySelectorAll(".password-field__input").forEach(function (input) {
+    setPasswordFieldVisible(input, false);
+  });
+}
+
+function initPasswordToggles() {
+  document.querySelectorAll("[data-password-toggle]").forEach(function (toggle) {
+    toggle.addEventListener("click", function () {
+      const input = document.getElementById(toggle.getAttribute("aria-controls"));
+      if (!input) return;
+      setPasswordFieldVisible(input, input.type === "password");
+    });
+  });
+}
+
+function openSidebar() {
+  sidebar.classList.add("is-open");
+  sidebarBackdrop.classList.add("is-visible");
+  sidebarBackdrop.setAttribute("aria-hidden", "false");
+  sidebarToggle.setAttribute("aria-expanded", "true");
+  sidebarToggle.setAttribute("aria-label", "Fermer le menu");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("is-open");
+  sidebarBackdrop.classList.remove("is-visible");
+  sidebarBackdrop.setAttribute("aria-hidden", "true");
+  sidebarToggle.setAttribute("aria-expanded", "false");
+  sidebarToggle.setAttribute("aria-label", "Ouvrir le menu");
+}
+
 function setActiveView(viewName) {
   navLinks.forEach(function (link) {
     const isActive = link.dataset.adminView === viewName;
@@ -234,16 +275,18 @@ function setActiveView(viewName) {
   adminViews.forEach(function (view) {
     view.classList.toggle("hidden", view.dataset.adminView !== viewName);
   });
-  if (window.innerWidth < 900) sidebar.classList.remove("is-open");
+  closeSidebar();
 }
 
 function showAdmin(userName) {
   currentUser = userName;
   loginScreen.classList.add("hidden");
   adminApp.classList.remove("hidden");
+  closeSidebar();
   settingsEmail.value = getEmail(userName);
   passwordPanel.classList.add("hidden");
   passwordForm.reset();
+  resetPasswordVisibility();
   hidePasswordFeedback();
   hideEmailFeedback();
   setActiveView("tarifs");
@@ -255,7 +298,9 @@ function showLogin() {
   currentUser = null;
   adminApp.classList.add("hidden");
   loginScreen.classList.remove("hidden");
+  closeSidebar();
   passwordInput.value = "";
+  resetPasswordVisibility();
   showLoginError(false);
 }
 
@@ -661,12 +706,18 @@ navLinks.forEach(function (link) {
 });
 
 sidebarToggle.addEventListener("click", function () {
-  sidebar.classList.add("is-open");
+  if (sidebar.classList.contains("is-open")) closeSidebar();
+  else openSidebar();
 });
 
-sidebarClose.addEventListener("click", function () {
-  sidebar.classList.remove("is-open");
+sidebarClose.addEventListener("click", closeSidebar);
+sidebarBackdrop.addEventListener("click", closeSidebar);
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && sidebar.classList.contains("is-open")) closeSidebar();
 });
+
+initPasswordToggles();
 
 settingsEmailBtn.addEventListener("click", async function () {
   hideEmailFeedback();
@@ -708,6 +759,7 @@ passwordForm.addEventListener("submit", async function (event) {
 
   savePasswordForUser(currentUser, newPassword);
   passwordForm.reset();
+  resetPasswordVisibility();
   passwordPanel.classList.add("hidden");
   await logHistory("Mot de passe modifié");
   showPasswordFeedback("Mot de passe mis à jour.", "is-success");

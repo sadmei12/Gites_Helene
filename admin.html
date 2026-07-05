@@ -21,7 +21,21 @@
     </div>
     <form id="login-form" class="login-form hidden" novalidate>
       <label class="field-label" for="password">Mot de passe</label>
-      <input id="password" class="field-input" type="password" autocomplete="current-password" required>
+      <div class="password-field">
+        <input id="password" class="field-input password-field__input" type="password" autocomplete="current-password" required>
+        <button type="button" class="password-field__toggle" data-password-toggle aria-controls="password" aria-label="Afficher le mot de passe">
+          <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+            <path d="M1 1l22 22"/>
+            <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+          </svg>
+        </button>
+      </div>
       <label class="checkbox-row">
         <input id="remember-me" type="checkbox">
         Se souvenir de moi
@@ -33,9 +47,11 @@
 
   <!-- Application admin -->
   <div id="admin-app" class="admin-shell hidden">
-    <button type="button" id="sidebar-toggle" class="admin-menu-btn" aria-label="Ouvrir le menu">
+    <button type="button" id="sidebar-toggle" class="admin-menu-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="admin-sidebar">
       <span></span><span></span><span></span>
     </button>
+
+    <div id="sidebar-backdrop" class="admin-sidebar-backdrop" aria-hidden="true"></div>
 
     <aside id="admin-sidebar" class="admin-sidebar">
       <button type="button" id="sidebar-close" class="admin-sidebar__close" aria-label="Fermer le menu">&times;</button>
@@ -85,11 +101,53 @@
         <div id="password-panel" class="admin-password-panel hidden">
           <form id="password-form" class="admin-password-form" novalidate>
             <label class="field-label" for="current-password">Mot de passe actuel</label>
-            <input id="current-password" class="field-input" type="password" autocomplete="current-password" required>
+            <div class="password-field">
+              <input id="current-password" class="field-input password-field__input" type="password" autocomplete="current-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="current-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
             <label class="field-label" for="new-password">Nouveau mot de passe</label>
-            <input id="new-password" class="field-input" type="password" autocomplete="new-password" required>
+            <div class="password-field">
+              <input id="new-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="new-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
             <label class="field-label" for="confirm-password">Confirmer le nouveau mot de passe</label>
-            <input id="confirm-password" class="field-input" type="password" autocomplete="new-password" required>
+            <div class="password-field">
+              <input id="confirm-password" class="field-input password-field__input" type="password" autocomplete="new-password" required>
+              <button type="button" class="password-field__toggle" data-password-toggle aria-controls="confirm-password" aria-label="Afficher le mot de passe">
+                <svg class="password-field__icon password-field__icon--show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="password-field__icon password-field__icon--hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
             <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
           </form>
           <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
