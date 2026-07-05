@@ -2,6 +2,8 @@
 
 Site web statique pour les locations de vacances Gîtes Hélène à Embrun (Hautes-Alpes).
 
+**Site en production :** [gite-embrun.fr](https://gite-embrun.fr)
+
 Compatible avec l'hébergement **o2switch** — aucune compilation nécessaire.
 
 ## Structure
@@ -55,6 +57,12 @@ Aucune installation Node.js ou build n'est requise.
 Portail général (accueil, contact) : [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx)
 
 Liens directs Open Pro par gîte : voir `BOOKING_URLS` dans `config.js`.
+
+## SEO
+
+- Domaine canonique : `https://gite-embrun.fr` (`SITE_URL` dans `config.js`)
+- `robots.txt` et `sitemap.xml` à la racine
+- Balises Open Graph, Twitter Card et JSON-LD sur les pages publiques
 
 ## Prochaines étapes
 

@@ -29,6 +29,8 @@ Site vitrine pour **Gîtes Hélène**, locations de vacances aux **Gaillards** (
 
 Site de référence (contenu source) : [gite-embrun-les-orres.com](https://www.gite-embrun-les-orres.com/)
 
+**Domaine définitif :** [gite-embrun.fr](https://gite-embrun.fr) — canonical, sitemap et Open Graph configurés dans le code (`SITE_URL` dans `config.js`).
+
 Ton éditorial : chaleureux, authentique, accueillant — comme un séjour chez Hélène, pas comme une plateforme de réservation impersonnelle.
 
 ---

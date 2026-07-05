@@ -92,6 +92,8 @@
   const BOOKING_URL_DEFAULT =
     "https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx";
 
+  const SITE_URL = "https://gite-embrun.fr";
+
   const BOOKING_URLS = {
     "valeur-sure":
       "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-3-pieces-st-sauveur-valeur-sure.aspx?Param/CodeOs=OSMB-133618-1&Globales/ListeIdFournisseur=133618",
@@ -135,6 +137,7 @@
     DEFAULT_PDF_URLS,
     BOOKING_URL_DEFAULT,
     BOOKING_URLS,
+    SITE_URL,
     ADMIN_USERS,
     STORAGE_KEY: "gitesHeleneCurrentUser",
     PASSWORDS_STORAGE_KEY: "gitesHelenePasswords",

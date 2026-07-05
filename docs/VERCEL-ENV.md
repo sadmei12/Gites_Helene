@@ -36,7 +36,8 @@ Si GitHub a signalé la clé API :
 1. [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials?project=gite-helene)
 2. **Créez une nouvelle clé API** avec restriction **HTTP referrers** :
    - `https://*.vercel.app/*`
-   - `https://votre-domaine.fr/*`
+   - `https://gite-embrun.fr/*`
+   - `https://www.gite-embrun.fr/*`
    - `http://localhost/*`
 3. Mettez la **nouvelle** clé dans Vercel (`FIREBASE_API_KEY`)
 4. **Supprimez l'ancienne clé** dans Google Cloud
