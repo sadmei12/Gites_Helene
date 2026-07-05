@@ -7,6 +7,7 @@
   const {
     DEFAULT_PERIODS,
     DEFAULT_PDF_URLS,
+    BOOKING_URLS,
     TARIFS_STORAGE_KEY,
     FIRESTORE_COLLECTION,
     isFirebaseConfigured,
@@ -131,6 +132,7 @@
 
     const tbody = wrap.querySelector("[data-tarifs-body]");
     const pdfLink = wrap.querySelector("[data-tarifs-pdf]");
+    const bookingLink = wrap.querySelector("[data-booking-link]");
     const giteData = allTarifs[giteId];
 
     if (!tbody || !giteData) return;
@@ -157,6 +159,10 @@
     if (pdfLink) {
       const pdfUrl = giteData.pdfUrl || DEFAULT_PDF_URLS[giteId] || pdfLink.getAttribute("href");
       if (pdfUrl) pdfLink.setAttribute("href", pdfUrl);
+    }
+
+    if (bookingLink && BOOKING_URLS[giteId]) {
+      bookingLink.setAttribute("href", BOOKING_URLS[giteId]);
     }
   }
 

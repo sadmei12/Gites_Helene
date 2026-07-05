@@ -113,7 +113,7 @@ Chaque fiche gîte contient : photo hero, métadonnées, description, specs, bou
 | SIRET | 387 140 924 00045 |
 | Email | [helenemarseille@orange.fr](mailto:helenemarseille@orange.fr) |
 | Téléphone | [06 82 21 29 00](tel:+33682212900) |
-| Réservation en ligne | [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx) |
+| Réservation en ligne | Portail général : [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx) — liens directs par gîte dans `config.js` (`BOOKING_URLS`) |
 | Facebook | [facebook.com/gitehelene.faure](https://www.facebook.com/gitehelene.faure) |
 | Instagram | [instagram.com/helene_marseille_](https://www.instagram.com/helene_marseille_/) |
 

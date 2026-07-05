@@ -52,7 +52,9 @@ Aucune installation Node.js ou build n'est requise.
 
 ## Réservation en ligne
 
-[https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx)
+Portail général (accueil, contact) : [for-system.com/f133618](https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx)
+
+Liens directs Open Pro par gîte : voir `BOOKING_URLS` dans `config.js`.
 
 ## Prochaines étapes
 

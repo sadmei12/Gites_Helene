@@ -89,6 +89,22 @@
     "coup-de-coeur": "assets/documents/tarifs/tarifs-coup-de-coeur.pdf",
   };
 
+  const BOOKING_URL_DEFAULT =
+    "https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx";
+
+  const BOOKING_URLS = {
+    "valeur-sure":
+      "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-3-pieces-st-sauveur-valeur-sure.aspx?Param/CodeOs=OSMB-133618-1&Globales/ListeIdFournisseur=133618",
+    "chal-heureux":
+      "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-2-pieces-st-sauveur-chal-heureux.aspx?Param/CodeOs=OSMB-133618-5&Globales/ListeIdFournisseur=133618",
+    "coup-de-coeur":
+      "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-3-pieces-st-sauveur-coup-de-coeur.aspx?Param/CodeOs=OSMB-133618-2&Globales/ListeIdFournisseur=133618",
+    calin:
+      "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-2-pieces-st-sauveur-calin.aspx?Param/CodeOs=OSMB-133618-4&Globales/ListeIdFournisseur=133618",
+    "cocon-confort":
+      "https://hautes-alpes-mb-prestataire.for-system.com/z8515e3_fr-appartement-3-pieces-st-sauveur-cocon-confort.aspx?Param/CodeOs=OSMB-133618-3&Globales/ListeIdFournisseur=133618",
+  };
+
   const ADMIN_USERS = ["Hélène", "Lily"];
 
   function isFirebaseConfigured() {
@@ -117,6 +133,8 @@
     DEFAULT_PERIODS,
     GITES,
     DEFAULT_PDF_URLS,
+    BOOKING_URL_DEFAULT,
+    BOOKING_URLS,
     ADMIN_USERS,
     STORAGE_KEY: "gitesHeleneCurrentUser",
     PASSWORDS_STORAGE_KEY: "gitesHelenePasswords",
