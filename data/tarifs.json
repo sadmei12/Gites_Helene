@@ -1,0 +1,52 @@
+{
+  "calin": {
+    "periods": [
+      { "label": "Avril – juin", "price": "380 €" },
+      { "label": "Juillet", "price": "462 €" },
+      { "label": "Août", "price": "510 €" },
+      { "label": "Septembre", "price": "420 – 435 €" },
+      { "label": "Octobre – novembre", "price": "420 €" }
+    ],
+    "pdfUrl": "assets/documents/tarifs/tarifs-calin.pdf"
+  },
+  "chal-heureux": {
+    "periods": [
+      { "label": "Avril – juin", "price": "380 €" },
+      { "label": "Juillet", "price": "462 €" },
+      { "label": "Août", "price": "510 €" },
+      { "label": "Septembre", "price": "400 – 420 €" },
+      { "label": "Octobre – novembre", "price": "400 €" }
+    ],
+    "pdfUrl": "assets/documents/tarifs/tarifs-chal-heureux.pdf"
+  },
+  "cocon-confort": {
+    "periods": [
+      { "label": "Avril – juin", "price": "450 €" },
+      { "label": "Juillet", "price": "450 – 610 €" },
+      { "label": "Août", "price": "610 €" },
+      { "label": "Septembre", "price": "480 – 557 €" },
+      { "label": "Octobre – novembre", "price": "480 €" }
+    ],
+    "pdfUrl": "assets/documents/tarifs/tarifs-cocon-confort.pdf"
+  },
+  "valeur-sure": {
+    "periods": [
+      { "label": "Avril – juin", "price": "599 €" },
+      { "label": "Juillet", "price": "599 – 699 €" },
+      { "label": "Août", "price": "735 €" },
+      { "label": "Septembre", "price": "599 – 699 €" },
+      { "label": "Octobre – novembre", "price": "599 €" }
+    ],
+    "pdfUrl": "assets/documents/tarifs/tarifs-valeur-sure.pdf"
+  },
+  "coup-de-coeur": {
+    "periods": [
+      { "label": "Avril – juin", "price": "599 €" },
+      { "label": "Juillet", "price": "599 – 699 €" },
+      { "label": "Août", "price": "735 €" },
+      { "label": "Septembre", "price": "599 – 699 €" },
+      { "label": "Octobre – novembre", "price": "599 €" }
+    ],
+    "pdfUrl": "assets/documents/tarifs/tarifs-coup-de-coeur.pdf"
+  }
+}

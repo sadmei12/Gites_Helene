@@ -140,15 +140,15 @@
 
             <p class="gite-lead"><strong>Un gîte chaleureux et douillet pour une petite famille</strong></p>
 
-            <div class="tarif-table-wrap">
+            <div class="tarif-table-wrap" data-tarifs-gite="cocon-confort">
               <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">Tarifs par période (2026)</h2>
               <table class="tarif-table">
                 <thead><tr><th>Période</th><th>Prix / semaine</th></tr></thead>
-                <tbody><tr><td>Avril – juin</td><td>450 €</td></tr><tr><td>Juillet</td><td>450 – 610 €</td></tr><tr><td>Août</td><td>610 €</td></tr><tr><td>Septembre</td><td>480 – 557 €</td></tr><tr><td>Octobre – novembre</td><td>480 €</td></tr></tbody>
+                <tbody data-tarifs-body></tbody>
               </table>
               <p class="note" style="margin-top: 1rem;">Grille semaine par semaine disponible dans le PDF ci-dessous.</p>
               <div class="gite-page-actions">
-                <a href="assets/documents/tarifs/tarifs-cocon-confort.pdf" class="btn btn-outline-dark" target="_blank" rel="noopener">Tarifs détaillés (PDF)</a>
+                <a href="assets/documents/tarifs/tarifs-cocon-confort.pdf" data-tarifs-pdf class="btn btn-outline-dark" target="_blank" rel="noopener">Tarifs détaillés (PDF)</a>
                 <a href="https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Voir les disponibilités</a>
               </div>
             </div>
@@ -246,6 +246,8 @@
   </div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="config.js"></script>
+  <script src="js/tarifs-display.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

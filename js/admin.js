@@ -857,7 +857,8 @@ async function saveAll() {
       "Tarifs enregistrés — modifié par " +
       currentUser +
       " le " +
-      formatFrenchDate(new Date());
+      formatFrenchDate(new Date()) +
+      ". Rechargez la fiche gîte pour voir les changements.";
     saveFeedback.className = "admin-save-feedback is-success";
     saveFeedback.classList.remove("hidden");
     renderGites();
