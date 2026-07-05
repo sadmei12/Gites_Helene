@@ -634,6 +634,13 @@ body.admin-page {
   display: block;
 }
 
+.admin-password-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
 .admin-inline-feedback {
   margin-top: 0.75rem;
   font-size: 0.875rem;

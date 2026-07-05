@@ -424,20 +424,14 @@ function openPasswordPanel() {
   if (passwordToggleBtn) {
     passwordToggleBtn.setAttribute("aria-expanded", "true");
   }
-  panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
   if (currentPasswordInput) currentPasswordInput.focus();
-}
-
-function togglePasswordPanel() {
-  if (isPasswordPanelOpen()) closePasswordPanel();
-  else openPasswordPanel();
 }
 
 function setActiveView(viewName) {
   if (viewName !== "parametres" && currentUser) {
     resetEmailField(currentUser);
+    closePasswordPanel();
   }
-  closePasswordPanel();
   navLinks.forEach(function (link) {
     const isActive = link.dataset.adminView === viewName;
     link.classList.toggle("is-active", isActive);
@@ -1160,11 +1154,17 @@ settingsEmailSaveBtn.addEventListener("click", async function () {
 
 if (adminApp) {
   adminApp.addEventListener("click", function (event) {
+    if (event.target.closest("#password-panel")) return;
     if (event.target.closest("#password-toggle-btn")) {
       event.preventDefault();
-      togglePasswordPanel();
+      if (!isPasswordPanelOpen()) openPasswordPanel();
     }
   });
+}
+
+const passwordCancelBtn = document.getElementById("password-cancel-btn");
+if (passwordCancelBtn) {
+  passwordCancelBtn.addEventListener("click", closePasswordPanel);
 }
 
 if (passwordForm) {

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <title>Administration tarifs — Gîtes Hélène</title>
 </head>
 <body class="pricing-page admin-page">
@@ -149,7 +149,10 @@
                 </svg>
               </button>
             </div>
-            <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
+            <div class="admin-password-form__actions">
+              <button type="submit" class="btn btn-primary">Enregistrer le mot de passe</button>
+              <button type="button" id="password-cancel-btn" class="btn btn-outline-dark">Annuler</button>
+            </div>
           </form>
           <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
         </div>
@@ -182,6 +185,6 @@
   <script src="config.runtime.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.local.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.js"></script>
-  <script src="js/admin.js?v=14" defer></script>
+  <script src="js/admin.js?v=15" defer></script>
 </body>
 </html>
