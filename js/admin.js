@@ -815,6 +815,7 @@ async function uploadPdfToCloudinary(giteId, file) {
   formData.append("upload_preset", cloudinaryConfig.uploadPreset);
   formData.append("public_id", "gites-helene/tarifs/" + giteId);
   formData.append("overwrite", "true");
+  formData.append("resource_type", "raw");
 
   const response = await fetch(
     "https://api.cloudinary.com/v1_1/" + cloudinaryConfig.cloudName + "/raw/upload",
@@ -836,16 +837,28 @@ async function uploadPdf(index, file, fileInput) {
     return;
   }
 
+  if (file.size > 10 * 1024 * 1024) {
+    setUploadStatus(index, "PDF trop volumineux (maximum 10 Mo).", "is-error");
+    if (fileInput) fileInput.value = "";
+    return;
+  }
+
   const giteId = giteState[index].id;
   const sitePdfPath = defaultPdfUrl(giteId);
 
-  if (!firebaseStorageActive() && !isCloudinaryConfigured()) {
+  if (!firebaseAuthActive()) {
+    setUploadStatus(index, "Connectez-vous à l'admin pour importer un PDF.", "is-error");
+    if (fileInput) fileInput.value = "";
+    return;
+  }
+
+  if (!isCloudinaryConfigured() && !firebaseStorageActive()) {
     setUploadStatus(
       index,
-      "Connectez-vous à l'admin pour importer un PDF, ou collez l'URL ci-dessous. " +
-        "Sinon, remplacez le fichier « " +
+      "Import PDF non configuré (Cloudinary). Collez l'URL du PDF ci-dessous, " +
+        "ou remplacez le fichier « " +
         sitePdfPath +
-        " » sur le site (même nom), puis Enregistrer.",
+        " » sur le site, puis Enregistrer.",
       "is-error"
     );
     if (fileInput) fileInput.value = "";
@@ -856,10 +869,10 @@ async function uploadPdf(index, file, fileInput) {
 
   try {
     let url;
-    if (firebaseStorageActive()) {
-      url = await uploadPdfToFirebaseStorage(giteId, file);
-    } else {
+    if (isCloudinaryConfigured()) {
       url = await uploadPdfToCloudinary(giteId, file);
+    } else {
+      url = await uploadPdfToFirebaseStorage(giteId, file);
     }
 
     giteState[index].pendingPdfUrl = url;

@@ -1,44 +1,31 @@
-# Import PDF tarifs — admin
+# Import PDF tarifs — Cloudinary
 
-Les PDF sont envoyés depuis l’admin vers **Firebase Storage**, puis l’URL est enregistrée dans Firestore (comme les tarifs).
+Sans Firebase Storage, les PDF sont envoyés via **Cloudinary** (gratuit pour votre usage), puis l’URL est enregistrée dans Firestore comme les tarifs.
 
----
-
-## 1. Activer Firebase Storage (une seule fois)
-
-1. [Firebase Console → Storage](https://console.firebase.google.com/project/gite-helene/storage)
-2. **Commencer** / **Get started**
-3. Mode **Production**
-4. Région : **europe-west1** (ou la même que Firestore)
-5. **Terminer**
+Guide détaillé Cloudinary : [`CLOUDINARY-SETUP.md`](CLOUDINARY-SETUP.md)
 
 ---
 
-## 2. Déployer les règles Storage
-
-Dans le Terminal :
-
-```bash
-cd "/Users/lil/Documents/Gîte Hélène/gites-helene"
-npx firebase deploy --only storage
-```
-
-Les règles autorisent :
-- **Lecture publique** des PDF (`tarifs/*.pdf`)
-- **Écriture** uniquement pour Hélène et Lily (connectées)
-
----
-
-## 3. Utiliser l’import dans l’admin
+## Utilisation dans l’admin
 
 1. Connectez-vous sur `/admin.html`
-2. Ouvrez un gîte dans l’accordéon
+2. Ouvrez un gîte
 3. **Importer un PDF** ou **Remplacer le PDF**
-4. Choisissez le fichier `.pdf`
-5. Attendez le message *« Nouveau PDF prêt »*
-6. Cliquez **Enregistrer**
+4. Choisissez un fichier `.pdf` (max 10 Mo)
+5. Message *« Nouveau PDF prêt »* → **Enregistrer**
+6. Le bouton « Tarifs détaillés (PDF) » sur la fiche gîte utilise la nouvelle URL
 
-Le lien « Tarifs détaillés (PDF) » sur la fiche gîte pointe alors vers le nouveau fichier.
+---
+
+## Configuration requise
+
+| Où | Quoi |
+|----|------|
+| **Cloudinary** | Compte + preset unsigned `gites-helene-pdf` |
+| **Vercel** | `CLOUDINARY_CLOUD_NAME` + `CLOUDINARY_UPLOAD_PRESET` |
+| **Local** | `config.local.js` → `cloudinaryConfig` |
+
+Puis **Redeploy** Vercel.
 
 ---
 
@@ -46,14 +33,17 @@ Le lien « Tarifs détaillés (PDF) » sur la fiche gîte pointe alors vers le n
 
 | Problème | Solution |
 |----------|----------|
-| « Import en ligne non configuré » | Connectez-vous à l’admin (Firebase Auth requis) |
-| « Échec de l'envoi » / permission denied | Déployez `storage.rules` et reconnectez-vous |
-| PDF invisible sur le site | Cliquez **Enregistrer** après l’import |
-| Storage non activé | Étape 1 ci-dessus |
+| « Import PDF non configuré » | Variables Cloudinary manquantes sur Vercel |
+| « Connectez-vous à l'admin » | Se connecter en Hélène ou Lily |
+| « Échec de l'envoi » | Vérifier le preset (unsigned, format PDF) |
+| PDF inchangé sur le site | Cliquer **Enregistrer** après l’import |
 
 ---
 
-## Cloudinary (optionnel)
+## Alternative sans Cloudinary
 
-L’admin peut aussi utiliser **Cloudinary** si vous configurez `CLOUDINARY_CLOUD_NAME` et `CLOUDINARY_UPLOAD_PRESET` (Vercel ou `config.local.js`).  
-Par défaut, **Firebase Storage** est utilisé en priorité.
+Remplacer manuellement les fichiers sur le serveur :
+
+`assets/documents/tarifs/tarifs-{gite}.pdf`
+
+Ou coller l’URL d’un PDF hébergé ailleurs dans le champ URL de l’admin.
