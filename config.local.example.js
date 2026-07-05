@@ -1,5 +1,5 @@
-// Copiez ce fichier en config.local.js et remplissez vos clés Firebase / Cloudinary.
-// config.local.js est ignoré par Git — ne commitez jamais vos clés secrètes.
+// Copiez en config.local.js pour le développement local (non versionné).
+// Sur Vercel, les clés viennent des variables d'environnement (voir docs/VERCEL-ENV.md).
 
 window.GITES_HELENE_LOCAL = {
   firebaseConfig: {

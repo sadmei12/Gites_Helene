@@ -2,6 +2,7 @@
   "name": "gites-helene",
   "private": true,
   "scripts": {
+    "build": "node scripts/generate-config.js",
     "firebase:login": "firebase login",
     "firebase:deploy-rules": "firebase deploy --only firestore:rules"
   },

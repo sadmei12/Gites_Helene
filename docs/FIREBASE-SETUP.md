@@ -85,7 +85,7 @@ Mettez à jour `.firebaserc` avec votre `projectId` :
 }
 ```
 
-> `config.local.js` est versionné pour le déploiement Vercel. Les clés Firebase web sont publiques par nature ; protégez l’accès via les règles Firestore et les domaines autorisés dans Firebase Console.
+> Sur **Vercel**, configurez les variables d'environnement (voir [`docs/VERCEL-ENV.md`](VERCEL-ENV.md)). En local, copiez `config.local.example.js` → `config.local.js`.
 
 ---
 
