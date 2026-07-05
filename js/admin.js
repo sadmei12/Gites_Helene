@@ -615,25 +615,10 @@ function renderGites() {
       '<button type="button" class="admin-add-period" data-add-period="' +
       index +
       '">+ Ajouter une période</button>' +
-      '<div class="admin-pdf-row">' +
-      (hasPdf
-        ? '<p class="admin-pdf-current">' +
-          (hasPendingReplace
-            ? '<span class="admin-pdf-current__label">Nouveau PDF (remplace l\'ancien après enregistrement)</span>'
-            : '<span class="admin-pdf-current__label">PDF actuel</span>') +
-          ' — <a class="admin-pdf-current__link" href="' +
-          escapeAttr(pdfUrl) +
-          '" target="_blank" rel="noopener noreferrer">Voir le PDF</a>' +
-          "</p>"
-        : "") +
-      '<label class="admin-pdf-upload">' +
-      (hasPdf ? "Remplacer le PDF" : "Importer un PDF") +
-      '<input type="file" accept="application/pdf,.pdf" data-pdf-index="' +
-      index +
-      '">' +
-      "</label>" +
+      '<div class="admin-pdf-section">' +
+      '<div class="admin-pdf-top">' +
       '<div class="admin-pdf-url-wrap">' +
-      '<input type="url" class="admin-pdf-url" placeholder="URL PDF" value="' +
+      '<input type="url" class="admin-pdf-url" placeholder="URL du PDF" value="' +
       escapeAttr(pdfUrl) +
       '" data-pdf-url="' +
       index +
@@ -644,12 +629,30 @@ function renderGites() {
           '" aria-label="Effacer l\'URL PDF">&times;</button>'
         : "") +
       "</div>" +
+      (hasPdf
+        ? '<p class="admin-pdf-view">' +
+          '<span class="admin-pdf-current__label">' +
+          (hasPendingReplace ? "Nouveau PDF" : "PDF actuel") +
+          "</span>" +
+          ' <span class="admin-pdf-view__sep" aria-hidden="true">—</span> ' +
+          '<a class="admin-pdf-current__link" href="' +
+          escapeAttr(pdfUrl) +
+          '" target="_blank" rel="noopener noreferrer">Voir le PDF</a>' +
+          "</p>"
+        : "") +
       "</div>" +
+      '<label class="admin-pdf-upload">' +
+      (hasPdf ? "Remplacer le PDF" : "Importer un pdf") +
+      '<input type="file" accept="application/pdf,.pdf" data-pdf-index="' +
+      index +
+      '">' +
+      "</label>" +
       '<p class="admin-pdf-status" data-status="' +
       index +
       '">' +
       escapeHtml(gite.uploadStatus) +
       "</p>" +
+      "</div>" +
       "</div>";
 
     gitesAccordion.appendChild(article);

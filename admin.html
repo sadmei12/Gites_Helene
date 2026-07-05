@@ -65,16 +65,16 @@
 
     <main class="admin-main">
       <!-- Tarifs -->
-      <section class="admin-view" data-admin-view="tarifs">
+      <section class="admin-view admin-view--tarifs" data-admin-view="tarifs">
         <div class="admin-content-panel">
           <header class="admin-page-header">
             <h1 class="admin-page-title">Tarifs par période</h1>
           </header>
           <div id="gites-accordion" class="admin-gites-list" aria-live="polite"></div>
-          <div class="admin-save-row">
-            <button type="button" id="save-btn" class="btn admin-save-btn">Enregistrer</button>
-            <p id="save-feedback" class="admin-save-feedback hidden" role="status"></p>
-          </div>
+        </div>
+        <div class="admin-save-row">
+          <p id="save-feedback" class="admin-save-feedback hidden" role="status"></p>
+          <button type="button" id="save-btn" class="btn admin-save-btn">Enregistrer</button>
         </div>
       </section>
 
@@ -187,6 +187,6 @@
   <script src="config.runtime.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.local.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.js"></script>
-  <script src="js/admin.js?v=5" defer></script>
+  <script src="js/admin.js?v=6" defer></script>
 </body>
 </html>
