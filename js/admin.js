@@ -14,6 +14,7 @@
     defaultEmails,
     DEFAULT_PERIODS,
     GITES,
+    DEFAULT_PDF_URLS,
     ADMIN_USERS,
     STORAGE_KEY,
     PASSWORDS_STORAGE_KEY,
@@ -242,13 +243,17 @@ function updatePriceFieldAppearance(input, period) {
   input.classList.toggle("is-modified", isPriceModified(period));
 }
 
+function defaultPdfUrl(giteId) {
+  return DEFAULT_PDF_URLS[giteId] || "";
+}
+
 function defaultGiteData(gite) {
   const defaults = DEFAULT_PERIODS[gite.id] || [];
   return {
     id: gite.id,
     name: gite.name,
     periods: defaults.map(createPeriodFromDefault),
-    pdfUrl: "",
+    pdfUrl: defaultPdfUrl(gite.id),
     price: gite.defaultPrice,
   };
 }
@@ -453,7 +458,7 @@ async function loadGites() {
     if (localTarifs[gite.id]) {
       const local = localTarifs[gite.id];
       data.periods = clonePeriods(local.periods || data.periods, gite.id);
-      data.pdfUrl = local.pdfUrl || "";
+      data.pdfUrl = local.pdfUrl || data.pdfUrl || defaultPdfUrl(gite.id);
       data.price = local.price || gite.defaultPrice;
     }
 
@@ -497,6 +502,9 @@ function renderGites() {
     article.className = "admin-gite" + (isOpen ? " is-open" : "");
 
     const pdfUrl = gite.pendingPdfUrl || gite.pdfUrl;
+    const hasPdf = Boolean(pdfUrl);
+    const hasPendingReplace =
+      gite.pendingPdfUrl && gite.pendingPdfUrl !== gite.pdfUrl;
 
     article.innerHTML =
       '<button type="button" class="admin-gite__toggle" aria-expanded="' +
@@ -524,8 +532,18 @@ function renderGites() {
       index +
       '">+ Ajouter une période</button>' +
       '<div class="admin-pdf-row">' +
+      (hasPdf
+        ? '<p class="admin-pdf-current">' +
+          (hasPendingReplace
+            ? '<span class="admin-pdf-current__label">Nouveau PDF (remplace l\'ancien après enregistrement)</span>'
+            : '<span class="admin-pdf-current__label">PDF actuel</span>') +
+          ' — <a class="admin-pdf-current__link" href="' +
+          escapeAttr(pdfUrl) +
+          '" target="_blank" rel="noopener noreferrer">Voir le PDF</a>' +
+          "</p>"
+        : "") +
       '<label class="admin-pdf-upload">' +
-      "Importer un pdf" +
+      (hasPdf ? "Remplacer le PDF" : "Importer un PDF") +
       '<input type="file" accept="application/pdf,.pdf" data-pdf-index="' +
       index +
       '">' +
@@ -576,7 +594,9 @@ function renderGites() {
 
     const fileInput = article.querySelector('input[type="file"]');
     fileInput.addEventListener("change", function () {
-      if (fileInput.files && fileInput.files[0]) uploadPdf(index, fileInput.files[0]);
+      if (fileInput.files && fileInput.files[0]) {
+        uploadPdf(index, fileInput.files[0], fileInput);
+      }
     });
 
     const pdfUrlInput = article.querySelector(".admin-pdf-url");
@@ -699,18 +719,25 @@ function setUploadStatus(index, message, type) {
   if (type) statusEl.classList.add(type);
 }
 
-async function uploadPdf(index, file) {
+async function uploadPdf(index, file, fileInput) {
   if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
     setUploadStatus(index, "Veuillez sélectionner un fichier PDF.", "is-error");
+    if (fileInput) fileInput.value = "";
     return;
   }
+
+  const giteId = giteState[index].id;
+  const sitePdfPath = defaultPdfUrl(giteId);
 
   if (!isCloudinaryConfigured()) {
     setUploadStatus(
       index,
-      "Cloudinary non configuré — collez l'URL du PDF dans le champ prévu.",
+      "Import en ligne non configuré. Collez l'URL du nouveau PDF ci-dessous, ou remplacez le fichier « " +
+        sitePdfPath +
+        " » sur le site (même nom), puis cliquez Enregistrer.",
       "is-error"
     );
+    if (fileInput) fileInput.value = "";
     return;
   }
 
@@ -719,6 +746,8 @@ async function uploadPdf(index, file) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", cloudinaryConfig.uploadPreset);
+  formData.append("public_id", "gites-helene/tarifs/" + giteId);
+  formData.append("overwrite", "true");
 
   try {
     const response = await fetch(
@@ -728,11 +757,17 @@ async function uploadPdf(index, file) {
     if (!response.ok) throw new Error("Cloudinary upload failed");
     const result = await response.json();
     giteState[index].pendingPdfUrl = result.secure_url;
-    setUploadStatus(index, "PDF prêt à enregistrer.", "is-success");
+    setUploadStatus(
+      index,
+      "Nouveau PDF prêt — cliquez « Enregistrer » pour remplacer l'ancien.",
+      "is-success"
+    );
     renderGites();
   } catch (error) {
     console.error("Cloudinary upload error:", error);
     setUploadStatus(index, "Échec de l'envoi du PDF. Réessayez.", "is-error");
+  } finally {
+    if (fileInput) fileInput.value = "";
   }
 }
 

@@ -70,6 +70,14 @@
     { id: "coup-de-coeur", name: "Gîte Coup de Cœur", defaultPrice: "À partir de 420 € / semaine" },
   ];
 
+  const DEFAULT_PDF_URLS = {
+    calin: "assets/documents/tarifs/tarifs-calin.pdf",
+    "chal-heureux": "assets/documents/tarifs/tarifs-chal-heureux.pdf",
+    "cocon-confort": "assets/documents/tarifs/tarifs-cocon-confort.pdf",
+    "valeur-sure": "assets/documents/tarifs/tarifs-valeur-sure.pdf",
+    "coup-de-coeur": "assets/documents/tarifs/tarifs-coup-de-coeur.pdf",
+  };
+
   const ADMIN_USERS = ["Hélène", "Lily"];
 
   function isFirebaseConfigured() {
@@ -97,6 +105,7 @@
     defaultEmails,
     DEFAULT_PERIODS,
     GITES,
+    DEFAULT_PDF_URLS,
     ADMIN_USERS,
     STORAGE_KEY: "gitesHeleneCurrentUser",
     PASSWORDS_STORAGE_KEY: "gitesHelenePasswords",

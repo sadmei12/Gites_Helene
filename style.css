@@ -372,10 +372,36 @@ body.admin-page {
 
 .admin-pdf-row {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-left: 1rem;
+}
+
+.admin-pdf-current {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--forest);
+}
+
+.admin-pdf-current__label {
+  font-weight: 500;
+}
+
+.admin-pdf-current__link {
+  color: #5a7a9a;
+}
+
+.admin-pdf-current__link:hover {
+  color: var(--terracotta);
+}
+
+.admin-pdf-actions {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  padding-left: 1rem;
+  width: 100%;
 }
 
 .admin-pdf-upload {
