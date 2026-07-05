@@ -66,7 +66,7 @@
     <main class="admin-main">
       <!-- Tarifs -->
       <section class="admin-view" data-admin-view="tarifs">
-        <div class="admin-tarifs-panel">
+        <div class="admin-content-panel">
           <header class="admin-page-header">
             <h1 class="admin-page-title">Tarifs par période</h1>
           </header>
@@ -78,11 +78,12 @@
 
       <!-- Paramètres -->
       <section class="admin-view hidden" data-admin-view="parametres">
-        <header class="admin-page-header">
-          <h1 class="admin-page-title">Paramètres</h1>
-        </header>
+        <div class="admin-content-panel">
+          <header class="admin-page-header">
+            <h1 class="admin-page-title">Paramètres</h1>
+          </header>
 
-        <div class="admin-settings-row">
+          <div class="admin-settings-row">
           <label class="admin-settings-label" for="settings-email">Adresse email</label>
           <div class="admin-settings-field">
             <input id="settings-email" class="admin-settings-input" type="email" autocomplete="email" readonly>
@@ -155,14 +156,16 @@
           </form>
           <p id="password-feedback" class="admin-inline-feedback hidden" role="status"></p>
         </div>
+        </div>
       </section>
 
       <!-- Historique -->
       <section class="admin-view hidden" data-admin-view="historique">
-        <header class="admin-page-header">
-          <h1 class="admin-page-title">Historique</h1>
-        </header>
-        <div class="admin-history-wrap">
+        <div class="admin-content-panel">
+          <header class="admin-page-header">
+            <h1 class="admin-page-title">Historique</h1>
+          </header>
+          <div class="admin-history-wrap">
           <table class="admin-history-table">
             <thead>
               <tr>
@@ -173,6 +176,7 @@
             </thead>
             <tbody id="history-body"></tbody>
           </table>
+        </div>
         </div>
       </section>
     </main>

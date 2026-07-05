@@ -20,6 +20,8 @@ body.pricing-page {
 
 body.admin-page {
   background: var(--white);
+  --admin-page-gutter: clamp(1.5rem, 17.1vw, 259px);
+  --admin-content-width: 994px;
 }
 
 /* ── Admin : shell & sidebar ── */
@@ -142,8 +144,8 @@ body.admin-page {
   flex: 1;
   min-width: 0;
   width: 100%;
-  margin-left: 259px;
-  padding: 4.5rem 1.5rem 3rem 0;
+  box-sizing: border-box;
+  padding: 4.5rem var(--admin-page-gutter) 3rem;
   background: var(--white);
 }
 
@@ -155,16 +157,22 @@ body.admin-page {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 700;
-  color: var(--forest);
+  color: #5a7a9a;
   margin: 0;
   line-height: 1.2;
 }
 
-.admin-tarifs-panel {
+@media (min-width: 900px) {
+  .admin-page-title {
+    font-size: 2.5rem;
+    line-height: 1.6;
+  }
+}
+
+.admin-content-panel {
   width: 100%;
-  max-width: 62rem;
+  max-width: var(--admin-content-width);
   margin-inline: auto;
-  padding-inline: 2rem;
 }
 
 /* ── Admin : accordéon tarifs ── */
@@ -184,7 +192,7 @@ body.admin-page {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1rem 0;
+  padding: 1rem 11px;
   border: none;
   background: none;
   cursor: pointer;
@@ -193,7 +201,7 @@ body.admin-page {
 
 .admin-gite__name {
   font-size: 1.25rem;
-  color: var(--forest);
+  color: #5a7a9a;
 }
 
 .admin-gite__chevron {
@@ -212,7 +220,7 @@ body.admin-page {
 
 .admin-gite__panel {
   display: none;
-  padding-bottom: 1.5rem;
+  padding: 0 11px 1.5rem;
 }
 
 .admin-gite.is-open .admin-gite__panel {
@@ -403,7 +411,6 @@ body.admin-page {
 
 /* ── Admin : paramètres ── */
 .admin-settings-row {
-  max-width: 62rem;
   padding: 1.25rem 0;
 }
 
@@ -534,20 +541,15 @@ body.admin-page {
     width: 198px;
     padding: 6rem 1.875rem 2rem;
   }
-
-  .admin-main {
-    padding: 4.5rem 2.5rem 3rem 0;
-  }
 }
 
 @media (max-width: 899px) {
-  .admin-main {
-    margin-left: 0;
-    padding: 4.5rem 0 3rem;
+  body.admin-page {
+    --admin-page-gutter: 1.5rem;
   }
 
-  .admin-tarifs-panel {
-    padding-inline: 1.5rem;
+  .admin-main {
+    padding: 4.5rem 1.5rem 3rem 4.5rem;
   }
 }
 
