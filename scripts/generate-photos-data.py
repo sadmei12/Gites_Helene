@@ -65,6 +65,17 @@ GALLERY_EXCLUDED_FILES = {
     "editorial/lac-serre-poncon-panorama-embrun.jpg",
 }
 
+# Photos des fiches gîtes incluses manuellement dans la galerie
+GALLERY_INCLUDED_FILES = [
+    "gites/calin/location-gite-calin-hautes-alpes-12.jpg",
+    "gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-12.jpg",
+    "gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-10.jpg",
+    "gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-12.jpg",
+    "gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-08.jpg",
+    "gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-10.jpg",
+    "gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-11.jpg",
+]
+
 
 def alt_from_path(relative: Path) -> str:
     stem = relative.stem
@@ -117,6 +128,8 @@ def is_gallery_photo(relative: Path) -> bool:
         return False
     if relative.as_posix() in GALLERY_EXCLUDED_FILES:
         return False
+    if relative.as_posix() in GALLERY_INCLUDED_FILES:
+        return True
     return parts[0] not in GALLERY_EXCLUDED_FOLDERS
 
 

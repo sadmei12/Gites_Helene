@@ -52,6 +52,30 @@ window.GITES_PHOTOS = [
     "alt": "Vue printanière sur le village et le lac de Serre-Ponçon"
   },
   {
+    "src": "assets/photos/gites/calin/location-gite-calin-hautes-alpes-12.jpg",
+    "alt": "Gîte Câlin — barbecue extérieur aux Gaillards"
+  },
+  {
+    "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-12.jpg",
+    "alt": "Gîte Valeur Sûre — jardin et vue sur le lac de Serre-Ponçon"
+  },
+  {
+    "src": "assets/photos/gites/valeur-sure/location-gite-valeur-sure-hautes-alpes-10.jpg",
+    "alt": "Gîte Valeur Sûre — détente au jardin avec vue sur le lac"
+  },
+  {
+    "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-12.jpg",
+    "alt": "Gîte Cocon Confort — trampoline et vue sur le village"
+  },
+  {
+    "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-08.jpg",
+    "alt": "Gîte Cocon Confort — jardin fleuri aux Gaillards"
+  },
+  {
+    "src": "assets/photos/gites/cocon-confort/location-gite-cocon-confort-hautes-alpes-10.jpg",
+    "alt": "Gîte Cocon Confort — façade avec jardin fleuri"
+  },
+  {
     "src": "assets/photos/editorial/canoe-plan-eau-embrun-hautes-alpes.jpg",
     "alt": "Canoë sur le plan d'eau d'Embrun"
   },
