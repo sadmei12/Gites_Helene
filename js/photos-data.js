@@ -56,8 +56,8 @@ window.GITES_PHOTOS = [
     "alt": "Canoë sur le plan d'eau d'Embrun"
   },
   {
-    "src": "assets/photos/editorial/lac-serre-poncon-panorama-embrun.jpg",
-    "alt": "Panorama du lac de Serre-Ponçon près d'Embrun"
+    "src": "assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-11.jpg",
+    "alt": "Lac de Serre-Ponçon vu depuis les gîtes"
   },
   {
     "src": "assets/photos/editorial/randonnee-embrun-hautes-alpes.jpg",

@@ -62,6 +62,7 @@ GALLERY_EXCLUDED_FOLDERS = {"gites", "cards"}
 
 GALLERY_EXCLUDED_FILES = {
     "editorial/gites-helene-gaillards-facade-balcons.jpg",
+    "editorial/lac-serre-poncon-panorama-embrun.jpg",
 }
 
 
