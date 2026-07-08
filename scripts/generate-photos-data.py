@@ -60,6 +60,10 @@ FOLDER_ORDER = {
 # ni les vignettes de liste (souvent des doublons).
 GALLERY_EXCLUDED_FOLDERS = {"gites", "cards"}
 
+GALLERY_EXCLUDED_FILES = {
+    "editorial/gites-helene-gaillards-facade-balcons.jpg",
+}
+
 
 def alt_from_path(relative: Path) -> str:
     stem = relative.stem
@@ -109,6 +113,8 @@ def file_hash(path: Path) -> str:
 def is_gallery_photo(relative: Path) -> bool:
     parts = relative.parts
     if not parts:
+        return False
+    if relative.as_posix() in GALLERY_EXCLUDED_FILES:
         return False
     return parts[0] not in GALLERY_EXCLUDED_FOLDERS
 

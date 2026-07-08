@@ -56,10 +56,6 @@ window.GITES_PHOTOS = [
     "alt": "Canoë sur le plan d'eau d'Embrun"
   },
   {
-    "src": "assets/photos/editorial/gites-helene-gaillards-facade-balcons.jpg",
-    "alt": "Façade des Gîtes Hélène aux Gaillards avec balcons fleuris"
-  },
-  {
     "src": "assets/photos/editorial/lac-serre-poncon-panorama-embrun.jpg",
     "alt": "Panorama du lac de Serre-Ponçon près d'Embrun"
   },
