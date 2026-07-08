@@ -29,18 +29,20 @@ cp config.local.example.js config.local.js
 # Remplissez config.local.js avec vos clés
 ```
 
-## Sécurité — clé exposée sur GitHub
+## Sécurité — restrictions de la clé API
 
-Si GitHub a signalé la clé API :
+Dans [Google Cloud → Credentials (gite-helene)](https://console.cloud.google.com/apis/credentials?project=gite-helene), éditez la clé API web et ajoutez ces **HTTP referrers** :
 
-1. [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials?project=gite-helene)
-2. **Créez une nouvelle clé API** avec restriction **HTTP referrers** :
-   - `https://*.vercel.app/*`
-   - `https://gite-embrun.fr/*`
-   - `https://www.gite-embrun.fr/*`
-   - `http://localhost/*`
-3. Mettez la **nouvelle** clé dans Vercel (`FIREBASE_API_KEY`)
-4. **Supprimez l'ancienne clé** dans Google Cloud
-5. Sur GitHub → **Security → Secret scanning** → marquez l'alerte comme résolue
+- `https://gite-embrun.fr/*`
+- `https://www.gite-embrun.fr/*`
+- `https://*.vercel.app/*`
+- `http://localhost/*`
+- `http://127.0.0.1/*`
+
+Ajoutez aussi `gite-embrun.fr` et `www.gite-embrun.fr` dans Firebase → **Authentication → Authorized domains**.
+
+Guide complet : [`docs/FIREBASE-DOMAINE.md`](FIREBASE-DOMAINE.md)
+
+Si vous **rotatiez** la clé API :
 
 Les mots de passe admin ne sont plus dans le code : connexion **uniquement via Firebase Authentication**.

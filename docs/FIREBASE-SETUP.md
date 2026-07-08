@@ -122,6 +122,19 @@ Les règles (`firestore.rules`) autorisent :
 
 ---
 
+## 8. Domaine de production (gite-embrun.fr)
+
+Avant la mise en ligne sur le domaine définitif, configurez **domaines autorisés** et **referrers HTTP** :
+
+→ Guide détaillé : [`docs/FIREBASE-DOMAINE.md`](FIREBASE-DOMAINE.md)
+
+Résumé :
+
+1. Firebase → Authentication → **Authorized domains** → ajouter `gite-embrun.fr` et `www.gite-embrun.fr`
+2. Google Cloud → Credentials → clé API → **HTTP referrers** → inclure `https://gite-embrun.fr/*` et `https://www.gite-embrun.fr/*`
+
+---
+
 ## Dépannage
 
 | Problème | Solution |
