@@ -11,11 +11,11 @@
   <meta property="og:title" content="Gîtes Hélène — Locations Serre-Ponçon, Embrun, Les Orres">
   <meta property="og:description" content="Locations de gîtes dans les Hautes-Alpes — Gîtes Hélène surplombant le lac de Serre-Ponçon, aux Gaillards près d'Embrun et des Orres.">
   <meta property="og:url" content="https://gite-embrun.fr/">
-  <meta property="og:image" content="https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png">
+  <meta property="og:image" content="https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gîtes Hélène — Locations Serre-Ponçon, Embrun, Les Orres">
   <meta name="twitter:description" content="Locations de gîtes dans les Hautes-Alpes — Gîtes Hélène surplombant le lac de Serre-Ponçon, aux Gaillards près d'Embrun et des Orres.">
-  <meta name="twitter:image" content="https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png">
+  <meta name="twitter:image" content="https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.jpg">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -25,7 +25,7 @@
         "@id": "https://gite-embrun.fr/#lodging",
         "name": "Gîtes Hélène",
         "url": "https://gite-embrun.fr/",
-        "image": "https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png",
+        "image": "https://gite-embrun.fr/assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.jpg",
         "telephone": "+33682212900",
         "email": "helenemarseille@orange.fr",
         "address": {
@@ -57,6 +57,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/style.css">
   <title>Gîtes Hélène — Locations Serre-Ponçon, Embrun, Les Orres</title>
 </head>
@@ -156,7 +157,10 @@
 
     <main class="main-content">
       <section class="hero">
-        <img src="assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.png" alt="Vue sur le lac de Serre-Ponçon depuis les gîtes" class="hero-bg">
+        <picture>
+          <source srcset="assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.webp" type="image/webp">
+          <img src="assets/photos/hero/location-gite-vue-lac-serre-poncon-gaillards.jpg" alt="Vue sur le lac de Serre-Ponçon depuis les gîtes" class="hero-bg" width="1024" height="768" fetchpriority="high" decoding="async">
+        </picture>
         <div class="hero-overlay"></div>
         <div class="hero-content">
           <img src="assets/brand/logo-gites-helene.png" alt="Gîtes Hélène" class="hero-logo">
@@ -180,22 +184,6 @@
             </div>
             <div class="rounded-image">
               <img src="assets/photos/editorial/gites-helene-gaillards-facade-balcons.jpg" alt="Gîtes Hélène aux Gaillards — façade avec balcons fleuris, St-Sauveur, Hautes-Alpes">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="two-col">
-            <div class="rounded-image">
-              <img src="assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-11.jpg" alt="Lac de Serre-Ponçon vu depuis les gîtes">
-            </div>
-            <div>
-              <h2 class="section-title">Lac de Serre-Ponçon & Embrun</h2>
-              <p class="text-light" style="margin-bottom: 1rem;">Le bleu azur du ciel se marie avec celui du lac à l'infini. Baignade, voile, paddle, randonnée… les couchers de soleil y sont des moments de pur bonheur.</p>
-              <p class="text-light">Depuis les Gaillards, Embrun et le lac de Serre-Ponçon sont à portée de main pour des journées nature et détente.</p>
-              <a href="activites.html" class="btn btn-primary" style="margin-top: 1.5rem;">Découvrir les activités</a>
             </div>
           </div>
         </div>
@@ -253,6 +241,22 @@
 
       <section class="section">
         <div class="container">
+          <div class="two-col">
+            <div class="rounded-image">
+              <img src="assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-11.jpg" alt="Lac de Serre-Ponçon vu depuis les gîtes">
+            </div>
+            <div>
+              <h2 class="section-title">Lac de Serre-Ponçon & Embrun</h2>
+              <p class="text-light" style="margin-bottom: 1rem;">Le bleu azur du ciel se marie avec celui du lac à l'infini. Baignade, voile, paddle, randonnée… les couchers de soleil y sont des moments de pur bonheur.</p>
+              <p class="text-light">Depuis les Gaillards, Embrun et le lac de Serre-Ponçon sont à portée de main pour des journées nature et détente.</p>
+              <a href="activites.html" class="btn btn-primary" style="margin-top: 1.5rem;">Découvrir les activités</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
           <div class="section-header">
             <h2 class="section-title">Gîtes et accueil de groupes</h2>
             <p>Gîtes confortables et tous indépendants pouvant accueillir les groupes jusqu'à 20 / 22 personnes. Base idéale pour associations, vététistes, cyclistes, randonneurs, skieurs de rando, motards, parapentistes…</p>
@@ -304,20 +308,104 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="avis">
         <div class="container">
-          <div class="cta-block">
-            <div class="cta-grid">
-              <div class="cta-text">
-                <h2>Au Gîte Hélène, vous serez reçu en ami</h2>
-                <p>Embrun et la région de Serre-Ponçon sont réputés pour y passer de formidables vacances — ensoleillement, lac classé n°1, 80 km de rives, randonnées des Orres à Crévoux… On y vient pour découvrir, on y revient pour le plaisir.</p>
-                <a href="activites.html" class="btn btn-primary">Les activités</a>
+          <div class="section-header">
+            <h2 class="section-title">Ce que disent nos vacanciers</h2>
+            <div class="google-rating-summary" aria-label="Note moyenne : 4,8 sur 5 sur Google">
+              <div class="review-stars review-stars-lg" aria-hidden="true">
+                <span class="review-star review-star-filled"></span>
+                <span class="review-star review-star-filled"></span>
+                <span class="review-star review-star-filled"></span>
+                <span class="review-star review-star-filled"></span>
+                <span class="review-star review-star-partial"></span>
               </div>
-              <div class="cta-image">
-                <img src="assets/photos/gites/coup-de-coeur/location-gite-coup-de-coeur-hautes-alpes-11.jpg" alt="Lac de Serre-Ponçon vu depuis les gîtes">
-              </div>
+              <p class="google-rating-meta"><strong>4,8</strong> / 5 · <span>39 avis sur Google</span></p>
             </div>
           </div>
+          <div class="reviews-wrap">
+            <div class="reviews-grid reviews-grid-mobile">
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Accueil chaleureux des propriétaires. Le gîte est conforme à la description&nbsp;: il ne manque rien. Merci à Hélène et Albert pour leurs cadeaux de bienvenue. La vue sur le lac d'Embrun est magnifique.&nbsp;»</p>
+                <footer><cite>Sylvie</cite></footer>
+              </blockquote>
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Super accueil, c'est simple mais très accueillant. Hélène et Albert sont très sympathiques, notre séjour a été bienfaisant. C'est à retenir.&nbsp;»</p>
+                <footer><cite>Guy</cite></footer>
+              </blockquote>
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Très bon séjour dans un des gîtes d'Hélène et Albert. Pizzas cuites au feu de bois du lundi, délicieuses pour rencontrer les autres locataires. Très discrets mais toujours disponibles.&nbsp;»</p>
+                <footer><cite>Christine</cite></footer>
+              </blockquote>
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Ma famille et moi y allons depuis 12&nbsp;ans — un endroit charmant, accueillant, rempli de bienveillance. Des propriétaires forts sympathiques, à l'écoute des vacanciers.&nbsp;»</p>
+                <footer><cite>Isabelle</cite></footer>
+              </blockquote>
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Séjour très agréable, les propriétaires sont chaleureux, bienveillants, à l'écoute, tout est fait pour passer un séjour agréable et sans soucis. Nous y retournerons les yeux fermés.&nbsp;»</p>
+                <footer><cite>Thérèse</cite></footer>
+              </blockquote>
+              <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 étoiles sur 5">
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                  <span class="review-star review-star-filled"></span>
+                </div>
+                <p>«&nbsp;Vue magnifique, accueil adorable, une excellente adresse. Gîte très confortable dans un cadre calme et reposant, des propriétaires fort sympathiques. Nous y retournerons&nbsp;!&nbsp;»</p>
+                <footer><cite>Sébastien</cite></footer>
+              </blockquote>
+            </div>
+
+            <div class="reviews-carousel-desktop" data-reviews-carousel aria-roledescription="carousel" aria-label="Avis Google">
+              <button type="button" class="reviews-carousel-btn reviews-carousel-prev" aria-label="Avis précédent">&#8249;</button>
+              <div class="reviews-carousel-stage">
+                <blockquote class="review-card review-card-side" data-slot="prev" tabindex="0" aria-hidden="true"></blockquote>
+                <blockquote class="review-card review-card-active" data-slot="active" aria-live="polite"></blockquote>
+                <blockquote class="review-card review-card-side" data-slot="next" tabindex="0" aria-hidden="true"></blockquote>
+              </div>
+              <button type="button" class="reviews-carousel-btn reviews-carousel-next" aria-label="Avis suivant">&#8250;</button>
+            </div>
+          </div>
+          <p class="reviews-cta">
+            <a href="https://share.google/HBBO1JMShNJtGebgl" class="btn btn-google-reviews" target="_blank" rel="noopener noreferrer">Voir tous les avis sur Google</a>
+          </p>
         </div>
       </section>
     </main>
@@ -370,6 +458,6 @@
   </div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

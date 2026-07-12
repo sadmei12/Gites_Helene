@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=18">
-  <title>Administration tarifs — Gîtes Hélène</title>
+  <link rel="stylesheet" href="style.css?v=23">
+  <title>Administration — Gîtes Hélène</title>
 </head>
 <body class="pricing-page admin-page">
   <!-- Connexion -->
@@ -60,6 +60,7 @@
       <button type="button" id="sidebar-close" class="admin-sidebar__close" aria-label="Fermer le menu">&times;</button>
       <nav class="admin-nav" aria-label="Administration">
         <button type="button" class="admin-nav__link is-active" data-admin-view="tarifs" aria-current="page">Tarifs</button>
+        <button type="button" class="admin-nav__link" data-admin-view="photos">Photos</button>
         <button type="button" class="admin-nav__link" data-admin-view="parametres">Paramètres</button>
         <button type="button" class="admin-nav__link" data-admin-view="historique">Historique</button>
         <button type="button" id="logout-btn" class="admin-nav__link admin-nav__link--logout">Déconnexion</button>
@@ -74,6 +75,30 @@
             <h1 class="admin-page-title">Tarifs par période</h1>
           </header>
           <div id="gites-accordion" class="admin-gites-list" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Photos -->
+      <section class="admin-view hidden" data-admin-view="photos">
+        <div class="admin-content-panel admin-content-panel--wide">
+          <header class="admin-page-header">
+            <h1 class="admin-page-title">Galerie photos</h1>
+            <p class="admin-page-lead">Même galerie que la page <a href="photos.html" target="_blank" rel="noopener noreferrer">Photos</a> du site. Au premier chargement, les photos existantes sont copiées automatiquement. Toute modification (ordre, description, ajout, suppression) est enregistrée et visible sur le site après rechargement de la page Photos.</p>
+          </header>
+
+          <div id="admin-photos-toolbar" class="admin-photos-toolbar">
+            <button type="button" id="admin-photos-select-btn" class="btn btn-outline admin-photos-toolbar__btn">Sélectionner</button>
+            <button type="button" id="admin-photos-delete-btn" class="btn btn-outline admin-photos-toolbar__btn admin-photos-toolbar__btn--danger hidden" disabled>Supprimer la sélection</button>
+            <button type="button" id="admin-photos-cancel-select-btn" class="btn btn-outline admin-photos-toolbar__btn hidden">Annuler</button>
+            <span id="admin-photos-count" class="admin-photos-toolbar__count"></span>
+          </div>
+
+          <p id="admin-photos-feedback" class="admin-inline-feedback hidden" role="status"></p>
+          <p id="admin-photos-empty" class="admin-photos-empty hidden"></p>
+
+          <div id="admin-photos-grid" class="admin-photos-grid admin-photos-grid--masonry" aria-live="polite"></div>
+
+          <input type="file" id="admin-photos-file-input" class="visually-hidden" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
         </div>
       </section>
 
@@ -185,9 +210,12 @@
     </main>
   </div>
 
+  <script src="js/photos-data.js"></script>
   <script src="config.runtime.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.local.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
   <script src="config.js"></script>
-  <script src="js/admin.js?v=15" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
+  <script src="js/admin-photos.js?v=5" defer></script>
+  <script src="js/admin.js?v=16" defer></script>
 </body>
 </html>

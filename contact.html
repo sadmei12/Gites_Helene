@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="css/style.css">
   <title>Contact — Gîtes Hélène</title>
 </head>
-<body>
+<body class="page-contact">
   <svg xmlns="http://www.w3.org/2000/svg" id="svg-sprite" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="icon-utensils" viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 3v8a4 4 0 0 0 8 0V3"/>
@@ -132,53 +132,77 @@
         <div class="container">
           <div class="contact-grid">
             <div class="contact-info">
-              <h2 class="section-title" style="font-size: 1.5rem;">Nous trouver</h2>
-              <p><strong>Gîtes Hélène</strong><br>541 Route des Gaillards<br>05200 St-Sauveur<br>Hautes-Alpes</p>
-              <p><strong>Email</strong><br><a href="mailto:helenemarseille@orange.fr">helenemarseille@orange.fr</a></p>
-              <p><strong>Téléphone</strong><br><a href="tel:+33682212900">06 82 21 29 00</a><br><span class="note">Si Hélène ne répond pas, vous pouvez joindre Béatrice Marseille au <a href="tel:+33607308952">06&nbsp;07&nbsp;30&nbsp;89&nbsp;52</a>.</span></p>
-              <p><strong>Réseaux sociaux</strong></p>
-              <div class="social-links social-links-contact" aria-label="Réseaux sociaux">
-                <a href="https://www.facebook.com/gitehelene.faure" target="_blank" rel="noopener noreferrer" aria-label="Suivre les Gîtes Hélène sur Facebook">
-                  <svg class="icon icon-lg" aria-hidden="true" viewBox="0 0 24 24"><use href="#icon-facebook"/></svg>
-                </a>
-                <a href="https://www.instagram.com/helene_marseille_/" target="_blank" rel="noopener noreferrer" aria-label="Suivre les Gîtes Hélène sur Instagram">
-                  <svg class="icon icon-lg" aria-hidden="true" viewBox="0 0 24 24"><use href="#icon-instagram"/></svg>
-                </a>
+              <div class="contact-info__aside">
+                <figure class="contact-host">
+                  <picture>
+                    <source srcset="assets/photos/editorial/helene-marseille-gites-helene-contact.webp" type="image/webp">
+                    <img
+                      src="assets/photos/editorial/helene-marseille-gites-helene-contact.png"
+                      alt="Hélène Marseille — Gîtes Hélène"
+                      class="contact-host__photo"
+                      width="336"
+                      height="546"
+                      loading="lazy"
+                      decoding="async">
+                  </picture>
+                </figure>
+                <div class="contact-info__social">
+                  <p class="contact-info__social-label">Réseaux sociaux</p>
+                  <div class="social-links social-links-contact" aria-label="Réseaux sociaux">
+                    <a href="https://www.facebook.com/gitehelene.faure" target="_blank" rel="noopener noreferrer" aria-label="Suivre les Gîtes Hélène sur Facebook">
+                      <svg class="icon icon-lg" aria-hidden="true" viewBox="0 0 24 24"><use href="#icon-facebook"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/helene_marseille_/" target="_blank" rel="noopener noreferrer" aria-label="Suivre les Gîtes Hélène sur Instagram">
+                      <svg class="icon icon-lg" aria-hidden="true" viewBox="0 0 24 24"><use href="#icon-instagram"/></svg>
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p style="margin-top: 1.5rem;"><a href="https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Réserver en ligne</a></p>
-              <p class="note" style="margin-top: 1.5rem;">Nous consulter pour les tarifs nuitée à partir de 18 personnes.</p>
-              <div class="map-embed-wrap map-embed-compact contact-map">
-                <iframe
-                  class="map-embed"
-                  title="Carte — Gîtes Hélène, 541 Route des Gaillards, St-Sauveur"
-                  src="https://www.google.com/maps?q=541+Route+des+Gaillards,+05200+St-Sauveur,+France&hl=fr&z=15&output=embed"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  allowfullscreen>
-                </iframe>
+
+              <div class="contact-info__main">
+                <h2 class="contact-info__title">Nous trouver</h2>
+                <div class="contact-info__address">
+                  <p><strong>Gîtes Hélène</strong><br>541 Route des Gaillards<br>05200 St-Sauveur<br>Hautes-Alpes</p>
+                </div>
+                <div class="contact-info__field">
+                  <p class="contact-info__label">Email</p>
+                  <p class="contact-info__value"><a href="mailto:helenemarseille@orange.fr">helenemarseille@orange.fr</a></p>
+                </div>
+                <div class="contact-info__field">
+                  <p class="contact-info__label">Téléphone</p>
+                  <p class="contact-info__value"><a href="tel:+33682212900">06 82 21 29 00</a></p>
+                  <p class="contact-info__hint">Si Hélène ne répond pas, vous pouvez joindre Béatrice Marseille au <a href="tel:+33607308952">06&nbsp;07&nbsp;30&nbsp;89&nbsp;52</a>.</p>
+                </div>
+                <p class="contact-info__reserve">
+                  <a href="https://hautes-alpes-mb-prestataire.for-system.com/f133618_fr-.aspx" class="btn btn-primary btn-reserve-pill" target="_blank" rel="noopener noreferrer">Réserver en ligne</a>
+                </p>
+                <p class="contact-info__note">Nous consulter pour les tarifs nuitée à partir de 18 personnes.</p>
               </div>
-              <p class="note contact-map-link">
-                <a href="https://www.google.com/maps?q=541+Route+des+Gaillards,+05200+St-Sauveur,+France" target="_blank" rel="noopener noreferrer">Ouvrir dans Google Maps</a>
-              </p>
             </div>
 
             <div class="contact-form-wrapper">
               <div class="contact-form" id="contact-form-panel">
-                <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">Envoyez-nous un message</h2>
-                <form id="contact-form" action="#" method="post">
+                <h2 class="section-title contact-form__title">Envoyez-nous un message</h2>
+                <form id="contact-form" action="contact.php" method="post" novalidate>
+                  <div class="form-honeypot" aria-hidden="true">
+                    <label for="website">Site web</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                  </div>
                   <div class="form-group">
                     <label for="name">Nom</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required autocomplete="name" maxlength="100">
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required autocomplete="email" maxlength="254">
                   </div>
                   <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" required></textarea>
+                    <textarea id="message" name="message" required rows="6" maxlength="5000"></textarea>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">Envoyer</button>
+                  <p class="form-error hidden" id="form-error" role="alert"></p>
+                  <button type="submit" class="btn btn-primary btn-block" id="contact-submit">Envoyer</button>
+                  <p class="note form-privacy-note">Vos données servent uniquement à répondre à votre demande. Voir nos <a href="mentions-legales.html">mentions légales</a>.</p>
                 </form>
               </div>
 
@@ -186,6 +210,23 @@
                 <span class="icon" aria-hidden="true"><svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#icon-check-circle"/></svg></span>
                 <h3>Message envoyé !</h3>
                 <p>Nous vous répondrons dans les plus brefs délais.</p>
+                <p class="note" style="margin-top: 1rem;"><a href="contact.html">Envoyer un autre message</a></p>
+              </div>
+
+              <div class="contact-map-section">
+                <div class="map-embed-wrap map-embed-compact contact-map">
+                  <iframe
+                    class="map-embed"
+                    title="Carte — Gîtes Hélène, 541 Route des Gaillards, St-Sauveur"
+                    src="https://www.google.com/maps?q=541+Route+des+Gaillards,+05200+St-Sauveur,+France&hl=fr&z=15&output=embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+                <p class="note contact-map-link">
+                  <a href="https://www.google.com/maps?q=541+Route+des+Gaillards,+05200+St-Sauveur,+France" target="_blank" rel="noopener noreferrer">Ouvrir dans Google Maps</a>
+                </p>
               </div>
             </div>
           </div>
@@ -241,6 +282,6 @@
   </div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

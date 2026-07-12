@@ -1,4 +1,10 @@
 config.local.js
+contact.config.php
+deploy-o2switch/
+gites-helene-o2switch-*.zip
+deploy-contact-update.zip
+.DS_Store
+lighthouse-*.json
 .env
 .env.local
 .firebase/

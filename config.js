@@ -21,6 +21,7 @@
     {
       cloudName: "VOTRE_CLOUD_NAME",
       uploadPreset: "VOTRE_UPLOAD_PRESET",
+      imageUploadPreset: "VOTRE_IMAGE_UPLOAD_PRESET",
     },
     local.cloudinaryConfig || {}
   );
@@ -127,6 +128,15 @@
     );
   }
 
+  function isCloudinaryImagesConfigured() {
+    return Boolean(
+      cloudinaryConfig.cloudName &&
+        !cloudinaryConfig.cloudName.includes("VOTRE") &&
+        cloudinaryConfig.imageUploadPreset &&
+        !cloudinaryConfig.imageUploadPreset.includes("VOTRE")
+    );
+  }
+
   global.GITES_HELENE_CONFIG = {
     firebaseConfig,
     cloudinaryConfig,
@@ -146,7 +156,9 @@
     HISTORY_STORAGE_KEY: "gitesHeleneHistory",
     FIRESTORE_COLLECTION: "gites",
     HISTORY_COLLECTION: "historique",
+    GALLERY_COLLECTION: "galerie",
     isFirebaseConfigured,
     isCloudinaryConfigured,
+    isCloudinaryImagesConfigured,
   };
 })(typeof window !== "undefined" ? window : globalThis);

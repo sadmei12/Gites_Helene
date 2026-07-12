@@ -13,5 +13,6 @@ window.GITES_HELENE_LOCAL = {
   cloudinaryConfig: {
     cloudName: "VOTRE_CLOUD_NAME",
     uploadPreset: "VOTRE_UPLOAD_PRESET",
+    imageUploadPreset: "gites-helene-gallery",
   },
 };

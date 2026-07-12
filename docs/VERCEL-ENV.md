@@ -19,6 +19,7 @@ Les clés Firebase ne sont **plus dans Git**. Elles sont injectées au déploiem
 | `FIREBASE_MEASUREMENT_ID` | optionnel |
 | `CLOUDINARY_CLOUD_NAME` | Cloud name Cloudinary (import PDF admin) |
 | `CLOUDINARY_UPLOAD_PRESET` | ex. `gites-helene-pdf` — voir [`docs/CLOUDINARY-SETUP.md`](CLOUDINARY-SETUP.md) |
+| `CLOUDINARY_IMAGE_UPLOAD_PRESET` | ex. `gites-helene-gallery` — galerie photos admin |
 
 4. **Redeploy** le site (Deployments → ⋯ → Redeploy)
 

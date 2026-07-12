@@ -22,5 +22,11 @@ service cloud.firestore {
       allow create: if isAdmin();
       allow update, delete: if false;
     }
+
+    // Galerie photos — lecture publique, gestion réservée aux admins
+    match /galerie/{photoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

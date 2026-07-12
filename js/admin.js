@@ -23,6 +23,7 @@
     HISTORY_STORAGE_KEY,
     FIRESTORE_COLLECTION,
     HISTORY_COLLECTION,
+    GALLERY_COLLECTION,
     isFirebaseConfigured,
     isCloudinaryConfigured,
   } = cfg;
@@ -67,6 +68,9 @@ let setDoc;
 let collection;
 let getDocs;
 let addDoc;
+let updateDoc;
+let deleteDoc;
+let writeBatch;
 let query;
 let orderBy;
 let limit;
@@ -80,6 +84,7 @@ let EmailAuthProvider;
 let storageRefFn;
 let uploadBytes;
 let getDownloadURL;
+let deleteObject;
 
 let labelEditTarget = null;
 
@@ -125,6 +130,9 @@ async function initFirebase() {
       collection,
       getDocs,
       addDoc,
+      updateDoc,
+      deleteDoc,
+      writeBatch,
       query,
       orderBy,
       limit,
@@ -138,7 +146,7 @@ async function initFirebase() {
       reauthenticateWithCredential,
       EmailAuthProvider,
     } = authModule);
-    ({ ref: storageRefFn, uploadBytes, getDownloadURL } = storageModule);
+    ({ ref: storageRefFn, uploadBytes, getDownloadURL, deleteObject } = storageModule);
   } catch (error) {
     console.error("Firebase init error:", error);
   }
@@ -441,6 +449,9 @@ function setActiveView(viewName) {
   adminViews.forEach(function (view) {
     view.classList.toggle("hidden", view.dataset.adminView !== viewName);
   });
+  if (viewName === "photos" && window.GitesAdminPhotos) {
+    window.GitesAdminPhotos.onActivate();
+  }
   closeSidebar();
 }
 
@@ -1212,6 +1223,36 @@ if (passwordForm) {
 
 async function boot() {
   await initFirebase();
+
+  if (window.GitesAdminPhotos) {
+    window.GitesAdminPhotos.configure({
+      db: db,
+      auth: auth,
+      storage: storage,
+      getCurrentUser: function () {
+        return currentUser;
+      },
+      logHistory: logHistory,
+      collection: collection,
+      doc: doc,
+      getDocs: getDocs,
+      addDoc: addDoc,
+      updateDoc: updateDoc,
+      deleteDoc: deleteDoc,
+      writeBatch: writeBatch,
+      query: query,
+      orderBy: orderBy,
+      serverTimestamp: serverTimestamp,
+      storageRef: storageRefFn,
+      uploadBytes: uploadBytes,
+      getDownloadURL: getDownloadURL,
+      deleteObject: deleteObject,
+      firebaseStorageActive: firebaseStorageActive,
+      isCloudinaryConfigured: isCloudinaryConfigured,
+      isCloudinaryImagesConfigured: cfg.isCloudinaryImagesConfigured,
+      cloudinaryConfig: cloudinaryConfig,
+    });
+  }
 
   if (firebaseAuthActive()) {
     onAuthStateChanged(auth, function (user) {

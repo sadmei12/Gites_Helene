@@ -131,7 +131,11 @@
   </div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="config.runtime.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
+  <script src="config.local.js" onerror="window.GITES_HELENE_LOCAL=window.GITES_HELENE_LOCAL||{}"></script>
+  <script src="config.js"></script>
   <script src="js/photos-data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/photos-loader.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

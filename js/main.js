@@ -1,9 +1,18 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+  if (window.GITES_PHOTOS_PROMISE) {
+    try {
+      await window.GITES_PHOTOS_PROMISE;
+    } catch (error) {
+      console.error('Photos load error:', error);
+    }
+  }
   initSvgSprite();
   initMobileMenu();
+  initImagePerformance();
   initContactForm();
   initGiteLightbox();
   initGiteCarousels();
+  initReviewsCarousel();
   initPhotosPageGallery();
   initPhotoGalleries();
   syncPhotoMasonryHeights();
@@ -57,17 +66,112 @@ function initMobileMenu() {
   });
 }
 
+function initImagePerformance() {
+  document.querySelectorAll('img').forEach(function (img) {
+    if (img.classList.contains('hero-bg')) {
+      img.setAttribute('fetchpriority', 'high');
+      img.decoding = 'async';
+      return;
+    }
+
+    if (
+      img.closest('.site-header') ||
+      img.classList.contains('hero-logo') ||
+      img.classList.contains('footer-logo')
+    ) {
+      img.decoding = 'async';
+      return;
+    }
+
+    if (img.closest('.gite-carousel')) {
+      var slide = img.closest('.gite-carousel-slide');
+      var firstSlide = slide && slide.parentElement
+        ? slide.parentElement.querySelector('.gite-carousel-slide')
+        : null;
+      if (slide && firstSlide && slide !== firstSlide && !img.hasAttribute('loading')) {
+        img.loading = 'lazy';
+      }
+      img.decoding = 'async';
+      return;
+    }
+
+    if (!img.hasAttribute('loading')) {
+      img.loading = 'lazy';
+    }
+    img.decoding = 'async';
+  });
+}
+
 function initContactForm() {
   var form = document.getElementById('contact-form');
   var panel = document.getElementById('contact-form-panel');
   var success = document.getElementById('form-success');
+  var errorEl = document.getElementById('form-error');
+  var submitBtn = document.getElementById('contact-submit');
 
   if (!form || !success) return;
 
+  function showError(message) {
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.remove('hidden');
+  }
+
+  function clearError() {
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.add('hidden');
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    if (panel) panel.classList.add('hidden');
-    success.classList.remove('hidden');
+    clearError();
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours…';
+    }
+
+    fetch('contact.php', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (response) {
+        return response.text().then(function (text) {
+          var data = { ok: false };
+          try {
+            data = JSON.parse(text);
+          } catch (err) {
+            data = { ok: false };
+          }
+          return { response: response, data: data };
+        });
+      })
+      .then(function (result) {
+        if (result.data && result.data.ok) {
+          if (panel) panel.classList.add('hidden');
+          success.classList.remove('hidden');
+          form.reset();
+          return;
+        }
+
+        var message =
+          (result.data && result.data.error) ||
+          'L’envoi a échoué. Réessayez ou écrivez-nous à helenemarseille@orange.fr.';
+        showError(message);
+      })
+      .catch(function () {
+        showError(
+          'Le formulaire sera actif sur gite-embrun.fr. En attendant, écrivez-nous à helenemarseille@orange.fr.'
+        );
+      })
+      .finally(function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Envoyer';
+        }
+      });
   });
 }
 
@@ -329,6 +433,108 @@ function initGiteCarousels() {
     layout();
     requestAnimationFrame(layout);
   });
+}
+
+function initReviewsCarousel() {
+  var carousel = document.querySelector('[data-reviews-carousel]');
+  var source = document.querySelector('.reviews-grid-mobile');
+  if (!carousel || !source) return;
+
+  var items = Array.from(source.querySelectorAll('.review-card'));
+  if (!items.length) return;
+
+  var prevSlot = carousel.querySelector('[data-slot="prev"]');
+  var activeSlot = carousel.querySelector('[data-slot="active"]');
+  var nextSlot = carousel.querySelector('[data-slot="next"]');
+  var prevBtn = carousel.querySelector('.reviews-carousel-prev');
+  var nextBtn = carousel.querySelector('.reviews-carousel-next');
+  var stage = carousel.querySelector('.reviews-carousel-stage');
+  var current = 0;
+
+  function mod(index, total) {
+    return ((index % total) + total) % total;
+  }
+
+  function fillSlot(slot, index, role) {
+    if (!slot) return;
+
+    var item = items[index];
+    slot.innerHTML = item.innerHTML;
+
+    var cite = item.querySelector('cite');
+    var author = cite ? cite.textContent.trim() : '';
+
+    if (role === 'active') {
+      slot.removeAttribute('aria-hidden');
+      slot.setAttribute('aria-label', author ? 'Avis de ' + author : 'Avis client');
+    } else {
+      slot.setAttribute('aria-hidden', 'true');
+      slot.setAttribute('aria-label', author ? 'Voir l\'avis de ' + author : 'Voir cet avis');
+    }
+  }
+
+  function applyRender(index) {
+    current = mod(index, items.length);
+    var prevIndex = mod(current - 1, items.length);
+    var nextIndex = mod(current + 1, items.length);
+
+    fillSlot(prevSlot, prevIndex, 'prev');
+    fillSlot(activeSlot, current, 'active');
+    fillSlot(nextSlot, nextIndex, 'next');
+  }
+
+  function go(delta) {
+    if (!delta) return;
+    applyRender(current + delta);
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      go(-1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      go(1);
+    });
+  }
+
+  if (prevSlot) {
+    prevSlot.addEventListener('click', function () {
+      go(-1);
+    });
+    prevSlot.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        go(-1);
+      }
+    });
+  }
+
+  if (nextSlot) {
+    nextSlot.addEventListener('click', function () {
+      go(1);
+    });
+    nextSlot.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        go(1);
+      }
+    });
+  }
+
+  carousel.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      go(-1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      go(1);
+    }
+  });
+
+  applyRender(0);
 }
 
 function initPhotosPageGallery() {

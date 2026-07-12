@@ -24,7 +24,7 @@ ALT_OVERRIDES = {
     "gites-helene-gaillards-facade-balcons": "Façade des Gîtes Hélène aux Gaillards avec balcons fleuris",
     "lac-serre-poncon-panorama-embrun": "Panorama du lac de Serre-Ponçon près d'Embrun",
     "randonnee-embrun-hautes-alpes": "Randonnée à Embrun dans les Hautes-Alpes",
-    "randonnee-hautes-alpes-gaillards": "Randonnée aux Gaillards dans les Hautes-Alpes",
+    "randonnee-hautes-alpes-gaillards": "Entrée des Gîtes Hélène aux Gaillards avec panneau Gîtes de France",
     "ski-rando-station-les-orres-hautes-alpes": "Ski de randonnée à la station des Orres",
     "canoe-plan-eau-embrun-hautes-alpes": "Canoë sur le plan d'eau d'Embrun",
     "location-gite-vue-lac-serre-poncon-gaillards": "Vue sur le lac de Serre-Ponçon depuis les Gaillards",

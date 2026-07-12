@@ -16,7 +16,12 @@ const ENV_KEYS = [
   "FIREBASE_APP_ID",
 ];
 
-const optionalKeys = ["FIREBASE_MEASUREMENT_ID", "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_UPLOAD_PRESET"];
+const optionalKeys = [
+  "FIREBASE_MEASUREMENT_ID",
+  "CLOUDINARY_CLOUD_NAME",
+  "CLOUDINARY_UPLOAD_PRESET",
+  "CLOUDINARY_IMAGE_UPLOAD_PRESET",
+];
 
 function env(name) {
   return (process.env[name] || "").trim();
@@ -60,6 +65,7 @@ if (measurementId) firebaseConfig.measurementId = measurementId;
 const cloudinaryConfig = {
   cloudName: env("CLOUDINARY_CLOUD_NAME") || "VOTRE_CLOUD_NAME",
   uploadPreset: env("CLOUDINARY_UPLOAD_PRESET") || "VOTRE_UPLOAD_PRESET",
+  imageUploadPreset: env("CLOUDINARY_IMAGE_UPLOAD_PRESET") || "gites-helene-gallery",
 };
 
 const lines = [
